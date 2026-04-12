@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 05 — Implementation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --c-bg: #ffffff; --c-ink: #0e0e0e; --c-mid: #787876; --c-muted: #b4b4b2;
+    --c-rule: #dcdcda; --c-elv: #f4f4f2; --c-surf: #fcfcfa;
+    --f-display: 'Cormorant Garamond', serif; --f-body: 'Inter', sans-serif;
+  }
+  body { font-family: var(--f-body); background: #fff; color: var(--c-ink); }
+  .stagebar {
+    background: var(--c-ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .stagebar span { color: #666; font-weight: 300; }
+  .page { padding: 64px 80px; display: flex; flex-direction: column; gap: 64px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: var(--f-display); font-weight: 300; font-size: 36px;
+    line-height: 1.1; margin-bottom: 32px;
+  }
+  .rule { border: none; border-top: 1px solid var(--c-rule); }
+
+  /* ── Before / After ─────────────────────────── */
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--c-rule);
+  }
+  .ba-col { border-right: 1px solid var(--c-rule); }
+  .ba-col:last-child { border-right: none; }
+
+  .ba-header {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--c-rule);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .ba-tag {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; padding: 4px 10px;
+  }
+  .ba-tag.before { border: 1px solid #d4a0a0; color: #a06060; }
+  .ba-tag.after  { border: 1px solid #a0c4a0; color: #406040; }
+  .ba-subtitle { font-size: 11px; font-weight: 300; color: var(--c-muted); }
+
+  .ba-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--c-rule);
+  }
+  .ba-row:last-child { border-bottom: none; }
+
+  .ba-cell {
+    padding: 24px 28px;
+    border-right: 1px solid var(--c-rule);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .ba-cell:last-child { border-right: none; }
+
+  .ba-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 4px;
+  }
+  .ba-main { line-height: 1.3; }
+  .ba-note { font-size: 11px; font-weight: 300; color: var(--c-muted); }
+
+  .ba-cell.before .ba-main { color: #a06060; }
+  .ba-cell.after  .ba-main { color: var(--c-ink); }
+  .ba-cell.after  .ba-note { color: #4a8050; }
+
+  /* ── Fixes table ─────────────────────────────── */
+  .fixes-table { border: 1px solid var(--c-rule); overflow: hidden; }
+  .fixes-header {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr 180px;
+    background: var(--c-ink); color: #fff;
+  }
+  .fixes-header-cell {
+    padding: 14px 20px;
+    font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    border-right: 1px solid #333;
+  }
+  .fixes-header-cell:last-child { border-right: none; }
+
+  .fixes-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr 180px;
+    border-bottom: 1px solid var(--c-rule);
+  }
+  .fixes-row:last-child { border-bottom: none; }
+  .fixes-row:nth-child(even) .fixes-cell { background: var(--c-surf); }
+
+  .fixes-cell {
+    padding: 18px 20px;
+    font-size: 12px; font-weight: 300; color: var(--c-mid);
+    border-right: 1px solid var(--c-rule);
+    line-height: 1.5;
+  }
+  .fixes-cell:last-child { border-right: none; }
+  .fixes-cell.what { font-weight: 500; color: var(--c-ink); }
+  .fixes-cell.result { color: #4a8050; }
+</style>
+</head>
+<body>
+
+<div class="stagebar">
+  Stage 05  /  Implementation
+  <span>What Was Built, What Changed, Why</span>
+</div>
+
+<div class="page">
+
+  <!-- BEFORE / AFTER -->
+  <div>
+    <span class="section-label">Visual direction</span>
+    <h2 class="section-title">Every iteration moved closer to the reference.</h2>
+
+    <div class="before-after">
+
+      <!-- Headers -->
+      <div class="ba-col">
+        <div class="ba-header">
+          <span class="ba-tag before">Before</span>
+          <span class="ba-subtitle">First build — system fonts, default weights</span>
+        </div>
+      </div>
+      <div class="ba-col">
+        <div class="ba-header">
+          <span class="ba-tag after">After</span>
+          <span class="ba-subtitle">After — Cormorant 300, tokens, refined spacing</span>
+        </div>
+      </div>
+
+      <!-- Row: Display heading -->
+      <div class="ba-cell before">
+        <span class="ba-label">Display heading</span>
+        <div class="ba-main" style="font-family:'Inter',sans-serif;font-weight:400;font-size:36px;line-height:1.1">
+          Where Fashion Trusts Talent
+        </div>
+        <span class="ba-note">Inter Regular — generic, no personality</span>
+      </div>
+      <div class="ba-cell after">
+        <span class="ba-label">Display heading</span>
+        <div class="ba-main" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:48px;line-height:1.05;letter-spacing:0.01em">
+          Where Fashion Trusts Talent
+        </div>
+        <span class="ba-note">Cormorant 300 Light — editorial, quiet</span>
+      </div>
+
+      <!-- Row: Section heading -->
+      <div class="ba-cell before" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">Section heading</span>
+        <div class="ba-main" style="font-family:'Inter',sans-serif;font-weight:500;font-size:24px">
+          How It Works
+        </div>
+        <span class="ba-note">Inter 500 Medium — too corporate</span>
+      </div>
+      <div class="ba-cell after" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">Section heading</span>
+        <div class="ba-main" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:30px">
+          How It Works
+        </div>
+        <span class="ba-note">Cormorant 300 italic — restrained</span>
+      </div>
+
+      <!-- Row: CTA -->
+      <div class="ba-cell before" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">CTA button</span>
+        <div class="ba-main" style="display:inline-block;background:#0e0e0e;color:#fff;padding:12px 24px;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase">
+          APPLY FOR ACCESS
+        </div>
+        <span class="ba-note">Filled black button — too loud, app-like</span>
+      </div>
+      <div class="ba-cell after" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">CTA button</span>
+        <div class="ba-main" style="font-family:'Inter',sans-serif;font-weight:300;font-size:14px;letter-spacing:0.04em;border-bottom:1px solid #0e0e0e;display:inline-block;padding-bottom:2px">
+          Apply for access  →
+        </div>
+        <span class="ba-note">Hairline style — underline only, stays quiet</span>
+      </div>
+
+      <!-- Row: body -->
+      <div class="ba-cell before" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">Body text</span>
+        <div class="ba-main" style="font-family:'Inter',sans-serif;font-weight:400;font-size:15px;line-height:1.4;color:#555">
+          Join a private network of vetted creatives and the brands that hire them.
+        </div>
+        <span class="ba-note">Regular weight, tight line height — reads like a tech product</span>
+      </div>
+      <div class="ba-cell after" style="border-top:1px solid var(--c-rule)">
+        <span class="ba-label">Body text</span>
+        <div class="ba-main" style="font-family:'Inter',sans-serif;font-weight:300;font-size:15px;line-height:1.75;color:#787876">
+          Join a private network of vetted creatives and the brands that hire them.
+        </div>
+        <span class="ba-note">Inter 300 Light, line-height 1.75 — considered, quiet</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FIXES TABLE -->
+  <div>
+    <span class="section-label">What changed</span>
+    <h2 class="section-title">Problems found during build. Each one fixed.</h2>
+
+    <div class="fixes-table">
+      <div class="fixes-header">
+        <div class="fixes-header-cell">What</div>
+        <div class="fixes-header-cell">The problem</div>
+        <div class="fixes-header-cell">The fix</div>
+        <div class="fixes-header-cell">Result</div>
+      </div>
+
+      <div class="fixes-row">
+        <div class="fixes-cell what">Heading fonts</div>
+        <div class="fixes-cell">Default system font — wrong feel, no personality</div>
+        <div class="fixes-cell">Switched to Cormorant Garamond 300 Light</div>
+        <div class="fixes-cell result">Matched The Row aesthetic</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Font weight</div>
+        <div class="fixes-cell">Weight 400 too heavy — loud not quiet</div>
+        <div class="fixes-cell">Locked to 300 Light only. No bold anywhere.</div>
+        <div class="fixes-cell result">Restrained, editorial</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Hero heading size</div>
+        <div class="fixes-cell">Sizes too large — screaming, not whispering</div>
+        <div class="fixes-cell">Scaled down: 4.5rem display, 2.5rem section</div>
+        <div class="fixes-cell result">Correct hierarchy</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Colour system</div>
+        <div class="fixes-cell">Colours hardcoded — dark mode broke everything</div>
+        <div class="fixes-cell">All colours moved to CSS custom properties in globals.css</div>
+        <div class="fixes-cell result">Theme switching in one attribute</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Hero section</div>
+        <div class="fixes-cell">Too many elements — icons, cards, shapes. Busy.</div>
+        <div class="fixes-cell">Stripped to headline + single hairline CTA only</div>
+        <div class="fixes-cell result">Clean, editorial, The Row</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Section spacing</div>
+        <div class="fixes-cell">Sections merged — no breathing room, no rhythm</div>
+        <div class="fixes-cell">Consistent py-24 applied via Section component</div>
+        <div class="fixes-cell result">Vertical rhythm throughout</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Mobile navigation</div>
+        <div class="fixes-cell">Desktop nav broken below 768px</div>
+        <div class="fixes-cell">Responsive hamburger menu, links stack vertically</div>
+        <div class="fixes-cell result">Works at all breakpoints</div>
+      </div>
+      <div class="fixes-row">
+        <div class="fixes-cell what">Apply form</div>
+        <div class="fixes-cell">12 fields — too much friction, high drop-off</div>
+        <div class="fixes-cell">Reduced to 4: name, email, role, portfolio link</div>
+        <div class="fixes-cell result">Conversion-optimised</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

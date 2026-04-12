@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 02 — Site Structure & Layout</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --c-bg: #ffffff; --c-ink: #0e0e0e; --c-mid: #787876; --c-muted: #b4b4b2;
+    --c-rule: #dcdcda; --c-elv: #f4f4f2; --c-surf: #fcfcfa;
+    --f-display: 'Cormorant Garamond', serif; --f-body: 'Inter', sans-serif;
+  }
+  body { font-family: var(--f-body); background: #fff; color: var(--c-ink); }
+  .stagebar {
+    background: var(--c-ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .stagebar span { color: #666; font-weight: 300; }
+  .page { padding: 64px 80px; }
+
+  /* ── Section A: Pages ─────────────────────── */
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--f-display); font-weight: 300; font-size: 40px;
+    margin-bottom: 40px; line-height: 1.1;
+  }
+
+  /* Nav mockup */
+  .nav-mock {
+    background: var(--c-elv); border: 1px solid var(--c-rule);
+    display: flex; align-items: center; gap: 48px;
+    padding: 0 28px; height: 52px; margin-bottom: 2px;
+  }
+  .nav-wordmark { font-family: var(--f-display); font-size: 22px; font-weight: 300; }
+  .nav-links { display: flex; gap: 36px; font-size: 13px; font-weight: 300; color: var(--c-mid); }
+  .nav-links .cta { color: var(--c-ink); }
+  .nav-spacer { flex: 1; }
+
+  /* Pages row */
+  .pages-tree {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--c-rule);
+    border-top: none;
+    margin-bottom: 2px;
+  }
+  .page-node {
+    border-right: 1px solid var(--c-rule);
+    padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .page-node:last-child { border-right: none; }
+  .page-node.home { background: var(--c-ink); }
+  .page-node.home .page-name { color: #fff; }
+  .page-node.home .page-slug { color: #666; }
+  .page-name { font-size: 13px; font-weight: 500; }
+  .page-slug { font-size: 11px; font-weight: 300; color: var(--c-muted); font-family: 'Courier New', monospace; }
+
+  /* Sub-sections row */
+  .subsections {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid var(--c-rule);
+    border-top: none;
+    margin-bottom: 56px;
+  }
+  .sub-node {
+    border-right: 1px solid var(--c-rule);
+    background: var(--c-surf);
+    padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .sub-node:last-child { border-right: none; }
+  .sub-node:nth-child(7) { background: var(--c-elv); }
+  .sub-item { font-size: 11px; font-weight: 300; color: var(--c-mid); line-height: 1.5; }
+
+  /* ── Section B: Homepage Layout ───────────── */
+  .divider { border: none; border-top: 1px solid var(--c-rule); margin: 0 0 48px; }
+
+  .layout-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .sidebar-note {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--c-mid);
+    line-height: 1.7;
+    padding-top: 8px;
+  }
+  .sidebar-note strong {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--c-muted);
+    display: block; margin-bottom: 6px;
+  }
+
+  .wireframe {
+    border: 1px solid var(--c-rule);
+    overflow: hidden;
+  }
+
+  .wf-section {
+    border-bottom: 1px solid var(--c-rule);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .wf-section:last-child { border-bottom: none; }
+  .wf-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--c-muted);
+  }
+
+  .wf-nav    { height: 40px;  background: var(--c-elv); }
+  .wf-hero   { height: 160px; background: #fff; flex-direction: column; gap: 8px; }
+  .wf-pillars     { height: 80px;  background: var(--c-elv); }
+  .wf-disciplines { height: 80px;  background: #fff; }
+  .wf-membership  { height: 100px; background: var(--c-elv); }
+  .wf-quote       { height: 60px;  background: #fff; }
+  .wf-cta         { height: 60px;  background: var(--c-elv); }
+  .wf-footer      { height: 40px;  background: #f0f0ee; }
+
+  /* Placeholder lines in hero */
+  .placeholder-lines {
+    display: flex; flex-direction: column; gap: 8px; align-items: center; width: 100%;
+    padding: 0 40px;
+  }
+  .pl { background: var(--c-rule); border-radius: 1px; }
+
+  /* Annotations */
+  .ann-right { padding-top: 8px; }
+  .ann-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--c-rule);
+    font-size: 12px;
+  }
+  .ann-item:last-child { border-bottom: none; }
+  .ann-key {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--c-muted);
+    min-width: 80px; padding-top: 1px;
+  }
+  .ann-val { font-weight: 300; color: var(--c-mid); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="stagebar">
+  Stage 02  /  Wireframe & Page Layout
+  <span>Site Structure</span>
+</div>
+
+<div class="page">
+
+  <span class="section-label">All pages</span>
+  <h2 class="section-title">Mapped before any code was written.</h2>
+
+  <!-- Nav -->
+  <div class="nav-mock">
+    <span class="nav-wordmark">Coterie</span>
+    <div class="nav-spacer"></div>
+    <div class="nav-links">
+      <span>How It Works</span>
+      <span>Pricing</span>
+      <span>FAQ</span>
+      <span>For Brands</span>
+      <span class="cta">Apply →</span>
+    </div>
+  </div>
+
+  <!-- Pages -->
+  <div class="pages-tree">
+    <div class="page-node home">
+      <span class="page-name">Home</span>
+      <span class="page-slug">/</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">How It Works</span>
+      <span class="page-slug">/how-it-works</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">Pricing</span>
+      <span class="page-slug">/pricing</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">FAQ</span>
+      <span class="page-slug">/faq</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">For Brands</span>
+      <span class="page-slug">/brands</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">Apply</span>
+      <span class="page-slug">/apply</span>
+    </div>
+    <div class="page-node">
+      <span class="page-name">404</span>
+      <span class="page-slug">/404</span>
+    </div>
+  </div>
+
+  <!-- Sub-sections -->
+  <div class="subsections">
+    <div class="sub-node">
+      <span class="sub-item">Hero section</span>
+      <span class="sub-item">Pillars</span>
+      <span class="sub-item">Disciplines</span>
+      <span class="sub-item">Membership</span>
+      <span class="sub-item">Editorial quote</span>
+      <span class="sub-item">Final CTA</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">3-step process</span>
+      <span class="sub-item">Stepper component</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">Member tier card</span>
+      <span class="sub-item">Brand tier card</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">Accordion</span>
+      <span class="sub-item">Search / filter</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">Book demo form</span>
+      <span class="sub-item">Testimonials</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">4-field form</span>
+      <span class="sub-item">Name · Email</span>
+      <span class="sub-item">Role · Portfolio</span>
+    </div>
+    <div class="sub-node">
+      <span class="sub-item">—</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <span class="section-label">Homepage</span>
+  <h2 class="section-title" style="margin-bottom: 32px;">Section-by-section layout.</h2>
+
+  <div class="layout-row">
+
+    <!-- Left sidebar: decisions -->
+    <div class="sidebar-note">
+      <strong>Layout decisions</strong>
+      Every section is full page width.<br><br>
+      Content is constrained to a max-width container — centred, same padding on every section.<br><br>
+      This was decided before coding — no section would have its own colour, font, or spacing rules.
+    </div>
+
+    <!-- Centre: wireframe -->
+    <div class="wireframe">
+      <div class="wf-section wf-nav">
+        <span class="wf-label">Nav</span>
+      </div>
+      <div class="wf-section wf-hero">
+        <span class="wf-label" style="position:absolute;top:10px;left:50%;transform:translateX(-50%)">Hero — 100vh</span>
+        <div class="placeholder-lines">
+          <div class="pl" style="width:70%;height:3px;"></div>
+          <div class="pl" style="width:58%;height:3px;"></div>
+          <div class="pl" style="width:26%;height:2px;margin-top:8px;"></div>
+        </div>
+      </div>
+      <div class="wf-section wf-pillars">
+        <span class="wf-label">Pillars — 3 columns</span>
+      </div>
+      <div class="wf-section wf-disciplines">
+        <span class="wf-label">Disciplines — 2-col ruled list</span>
+      </div>
+      <div class="wf-section wf-membership">
+        <span class="wf-label">Membership — tier cards</span>
+      </div>
+      <div class="wf-section wf-quote">
+        <span class="wf-label">Editorial quote — italic serif</span>
+      </div>
+      <div class="wf-section wf-cta">
+        <span class="wf-label">Final CTA — repeat of hero</span>
+      </div>
+      <div class="wf-section wf-footer">
+        <span class="wf-label">Footer</span>
+      </div>
+    </div>
+
+    <!-- Right sidebar: annotations -->
+    <div class="ann-right">
+      <div class="ann-item">
+        <span class="ann-key">Nav</span>
+        <span class="ann-val">Wordmark left · links centre · Apply CTA right</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Hero</span>
+        <span class="ann-val">Full viewport height. Single headline, one CTA. No image.</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Pillars</span>
+        <span class="ann-val">3 value props — no heading above, no background change</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Disciplines</span>
+        <span class="ann-val">All creative roles listed — two columns, ruled rows</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Membership</span>
+        <span class="ann-val">Tier cards — border only, no fills or colour</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Quote</span>
+        <span class="ann-val">Scarcity signal — Cormorant italic, centred</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">CTA</span>
+        <span class="ann-val">Repeat of hero CTA — identical style, same conversion goal</span>
+      </div>
+      <div class="ann-item">
+        <span class="ann-key">Footer</span>
+        <span class="ann-val">Nav links · wordmark · legal</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

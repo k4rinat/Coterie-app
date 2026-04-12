@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 07 — UX Decisions</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #fff; color: #0e0e0e; }
+.bar {
+  background: #0e0e0e; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 8px; }
+.section-heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.1; margin-bottom: 36px; }
+
+/* ── Decision table ── */
+.decision-table { border: 1px solid #dcdcda; }
+.dt-header {
+  display: grid; grid-template-columns: 200px 1fr 1fr;
+  background: #0e0e0e;
+}
+.dt-hcell {
+  padding: 12px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #555;
+  border-right: 1px solid #333;
+}
+.dt-hcell:last-child { border-right: none; }
+.dt-row { display: grid; grid-template-columns: 200px 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.dt-row:last-child { border-bottom: none; }
+.dt-row:nth-child(even) .dt-cell { background: #fcfcfa; }
+.dt-cell {
+  padding: 18px 20px;
+  font-size: 12px; font-weight: 300; color: #787876;
+  border-right: 1px solid #dcdcda;
+  line-height: 1.6;
+}
+.dt-cell:last-child { border-right: none; }
+.dt-cell.area { font-weight: 500; color: #0e0e0e; font-size: 13px; }
+.dt-cell.why  { color: #4a8050; }
+
+/* ── Friction audit ── */
+.friction-list { border: 1px solid #dcdcda; }
+.fl-item {
+  display: grid; grid-template-columns: 48px 1fr 1fr;
+  border-bottom: 1px solid #dcdcda; align-items: stretch;
+}
+.fl-item:last-child { border-bottom: none; }
+.fl-num {
+  display: flex; align-items: center; justify-content: center;
+  background: #f4f4f2;
+  border-right: 1px solid #dcdcda;
+  font-family: 'Courier New', monospace; font-size: 11px; color: #b4b4b2;
+}
+.fl-problem { padding: 18px 20px; border-right: 1px solid #dcdcda; }
+.fl-problem-title { font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+.fl-problem-body { font-size: 11px; font-weight: 300; color: #787876; line-height: 1.6; }
+.fl-solution { padding: 18px 20px; }
+.fl-solution-title { font-size: 11px; font-weight: 500; color: #4a8050; margin-bottom: 6px; }
+.fl-solution-body { font-size: 11px; font-weight: 300; color: #787876; line-height: 1.6; }
+
+/* ── Hierarchy map ── */
+.hierarchy { border: 1px solid #dcdcda; padding: 40px; }
+.h-level { margin-bottom: 24px; }
+.h-level:last-child { margin-bottom: 0; }
+.h-level-label { font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 12px; }
+.h-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.h-item {
+  padding: 8px 16px; border: 1px solid #dcdcda;
+  font-size: 12px; font-weight: 300; color: #787876;
+}
+.h-item.primary { background: #0e0e0e; color: #fff; border-color: #0e0e0e; font-weight: 500; }
+.h-item.secondary { color: #787876; }
+.h-item.tertiary { color: #b4b4b2; }
+.h-note { font-size: 11px; font-weight: 300; color: #b4b4b2; margin-top: 12px; line-height: 1.6; }
+
+/* ── Mobile ── */
+.mobile-section { display: grid; grid-template-columns: 240px 1fr; gap: 48px; align-items: start; }
+.mobile-frame {
+  border: 2px solid #0e0e0e;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+}
+.mf-status { background: #0e0e0e; height: 24px; display: flex; align-items: center; justify-content: center; }
+.mf-status-dot { width: 60px; height: 4px; background: #333; border-radius: 2px; }
+.mf-content { padding: 0; }
+
+.mf-nav { background: #f4f4f2; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid #dcdcda; }
+.mf-wm { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 300; }
+.mf-burger { display: flex; flex-direction: column; gap: 3px; }
+.mf-burger span { display: block; width: 18px; height: 1px; background: #0e0e0e; }
+
+.mf-hero { padding: 20px 14px; display: flex; flex-direction: column; gap: 10px; }
+.mf-h1 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; line-height: 1.1; }
+.mf-cta { font-size: 10px; font-weight: 300; border-bottom: 1px solid #0e0e0e; display: inline-block; padding-bottom: 1px; }
+
+.mf-pillars { background: #f4f4f2; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #dcdcda; }
+.mf-pillar { font-size: 11px; font-weight: 300; color: #787876; padding-bottom: 6px; border-bottom: 1px solid #dcdcda; }
+.mf-pillar:last-child { border-bottom: none; }
+
+.mobile-notes { display: flex; flex-direction: column; gap: 0; }
+.mn-item { padding: 20px 0; border-bottom: 1px solid #dcdcda; }
+.mn-item:last-child { border-bottom: none; }
+.mn-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.mn-body { font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 07  /  UX Decisions
+  <em>Friction, hierarchy, and mobile — thinking through the user experience.</em>
+</div>
+
+<div class="page">
+
+  <!-- UX decision table -->
+  <div>
+    <p class="section-eyebrow">UX Decisions</p>
+    <h2 class="section-heading">Every decision was made for a reason.</h2>
+
+    <div class="decision-table">
+      <div class="dt-header">
+        <div class="dt-hcell">Area</div>
+        <div class="dt-hcell">What was decided</div>
+        <div class="dt-hcell">Why</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">Single CTA</div>
+        <div class="dt-cell">Every page has one action: Apply. Nothing else competes.</div>
+        <div class="dt-cell why">Multiple CTAs cause decision paralysis. One action, one goal, higher conversion.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">No pricing on homepage</div>
+        <div class="dt-cell">Pricing is on its own page. The homepage never mentions cost.</div>
+        <div class="dt-cell why">Introducing price too early filters by budget before the value is established. Value first, price later.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">Application form: 4 fields</div>
+        <div class="dt-cell">Name, email, discipline, portfolio link. That's all we ask.</div>
+        <div class="dt-cell why">Original form had 12 fields. Each additional field increases drop-off. 4 fields is the minimum to qualify an applicant.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">No social proof on homepage</div>
+        <div class="dt-cell">No testimonials, no logos of brands, no member counts.</div>
+        <div class="dt-cell why">Exclusivity is undermined by social proof. A private network doesn't advertise who's in it. The restraint is the signal.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">Separate brand journey</div>
+        <div class="dt-cell">For Brands is a dedicated page, not a tab on the homepage.</div>
+        <div class="dt-cell why">Brands and creatives have different needs and different questions. Mixing them on one page creates a confused experience for both.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">FAQ page</div>
+        <div class="dt-cell">All real objections addressed directly. No sales language.</div>
+        <div class="dt-cell why">People apply when uncertainty is removed. The FAQ page exists to remove every possible reason not to apply.</div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell area">Disciplines section</div>
+        <div class="dt-cell">Every role on the platform listed by name on the homepage.</div>
+        <div class="dt-cell why">Seeing your exact job title on a page is a stronger signal than any headline. It says: this was built for people like you specifically.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Friction audit -->
+  <div>
+    <p class="section-eyebrow">Friction Audit</p>
+    <h2 class="section-heading">Every point of friction identified and removed.</h2>
+
+    <div class="friction-list">
+      <div class="fl-item">
+        <div class="fl-num">01</div>
+        <div class="fl-problem">
+          <p class="fl-problem-title">Too many form fields</p>
+          <p class="fl-problem-body">The first version of the apply form had 12 fields including a cover letter, LinkedIn URL, agency experience, and availability. Most users abandoned it.</p>
+        </div>
+        <div class="fl-solution">
+          <p class="fl-solution-title">→  Reduced to 4 fields</p>
+          <p class="fl-solution-body">Name, email, primary discipline, portfolio link. Enough to assess an application. Everything else can be covered at interview stage.</p>
+        </div>
+      </div>
+      <div class="fl-item">
+        <div class="fl-num">02</div>
+        <div class="fl-problem">
+          <p class="fl-problem-title">Unclear what happens after applying</p>
+          <p class="fl-problem-body">The original form had no confirmation message, no timeline, no next steps. Submitting felt like sending into a void.</p>
+        </div>
+        <div class="fl-solution">
+          <p class="fl-solution-title">→  Success state with timeline</p>
+          <p class="fl-solution-body">After submitting: confirmation message, a 5–7 day review window, and what to expect next. Reduces anxiety, increases trust.</p>
+        </div>
+      </div>
+      <div class="fl-item">
+        <div class="fl-num">03</div>
+        <div class="fl-problem">
+          <p class="fl-problem-title">No way back after reading pricing</p>
+          <p class="fl-problem-body">The pricing page had no CTA at the bottom. Users would read the pricing, then had nowhere to go — no obvious next step.</p>
+        </div>
+        <div class="fl-solution">
+          <p class="fl-solution-title">→  Apply CTA at bottom of every page</p>
+          <p class="fl-solution-body">Every page ends with an Apply CTA. No page is a dead end. The journey always continues.</p>
+        </div>
+      </div>
+      <div class="fl-item">
+        <div class="fl-num">04</div>
+        <div class="fl-problem">
+          <p class="fl-problem-title">Mobile navigation broken</p>
+          <p class="fl-problem-body">The desktop nav didn't adapt at smaller screen sizes. The wordmark and all links collided below 768px.</p>
+        </div>
+        <div class="fl-solution">
+          <p class="fl-solution-title">→  Responsive hamburger menu</p>
+          <p class="fl-solution-body">Below 768px: wordmark + hamburger icon. On open: full-width vertical nav. Clean, no collisions, works at all sizes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual hierarchy -->
+  <div>
+    <p class="section-eyebrow">Visual Hierarchy</p>
+    <h2 class="section-heading">What the eye should see first. Second. Third.</h2>
+
+    <div class="hierarchy">
+      <div class="h-level">
+        <p class="h-level-label">Level 1 — Primary attention</p>
+        <div class="h-row">
+          <div class="h-item primary">Display heading (Cormorant 72px)</div>
+          <div class="h-item primary">Apply CTA</div>
+        </div>
+        <p class="h-note">Largest text on the page. The eye lands here first. Every page has exactly one Level 1 element.</p>
+      </div>
+      <div class="h-level">
+        <p class="h-level-label">Level 2 — Section headings</p>
+        <div class="h-row">
+          <div class="h-item secondary">Section heading (Cormorant 36px)</div>
+          <div class="h-item secondary">Pillar title (Cormorant 22px)</div>
+          <div class="h-item secondary">Tier card name (Cormorant 28px)</div>
+        </div>
+        <p class="h-note">Secondary serif headings. Same typeface as Level 1, smaller scale. Creates continuity without competition.</p>
+      </div>
+      <div class="h-level">
+        <p class="h-level-label">Level 3 — Body and supporting content</p>
+        <div class="h-row">
+          <div class="h-item tertiary">Body copy (Inter Light 16px)</div>
+          <div class="h-item tertiary">Feature list items</div>
+          <div class="h-item tertiary">Nav links</div>
+          <div class="h-item tertiary">Descriptions</div>
+        </div>
+        <p class="h-note">All in Inter 300 at various sizes. Never competes with the serif headings.</p>
+      </div>
+      <div class="h-level">
+        <p class="h-level-label">Level 4 — Labels and metadata</p>
+        <div class="h-row">
+          <div class="h-item" style="color:#b4b4b2">Stage labels (Inter 500, 9px, spaced)</div>
+          <div class="h-item" style="color:#b4b4b2">Tier labels</div>
+          <div class="h-item" style="color:#b4b4b2">Slugs</div>
+          <div class="h-item" style="color:#b4b4b2">Copyright</div>
+        </div>
+        <p class="h-note">All-caps, tracked, 9px. The quietest elements. Provide context without demanding attention.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile -->
+  <div>
+    <p class="section-eyebrow">Mobile Design</p>
+    <h2 class="section-heading">Designed for mobile. Not adapted after the fact.</h2>
+
+    <div class="mobile-section">
+      <div class="mobile-frame">
+        <div class="mf-status"><div class="mf-status-dot"></div></div>
+        <div class="mf-content">
+          <div class="mf-nav">
+            <span class="mf-wm">Coterie</span>
+            <div class="mf-burger">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="mf-hero">
+            <h2 class="mf-h1">Where Fashion<br>Trusts Talent.</h2>
+            <span class="mf-cta">Apply for access  →</span>
+          </div>
+          <div class="mf-pillars">
+            <div class="mf-pillar">Verified — Every member reviewed and approved</div>
+            <div class="mf-pillar">Private — No public profiles, introductions only</div>
+            <div class="mf-pillar">Curated — Fewer than 20% of applications accepted</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-notes">
+        <div class="mn-item">
+          <p class="mn-title">Hamburger at 768px</p>
+          <p class="mn-body">Below 768px, the full nav collapses to a wordmark and a hamburger icon. Tapping it opens a full-width vertical menu overlay. The Apply CTA is the last item, most prominent.</p>
+        </div>
+        <div class="mn-item">
+          <p class="mn-title">Pillars stack vertically</p>
+          <p class="mn-body">The three-column Pillars section becomes a vertical list on mobile. Each pillar gets its own row with a bottom border. The layout adapts but the content doesn't change.</p>
+        </div>
+        <div class="mn-item">
+          <p class="mn-title">Membership cards stack</p>
+          <p class="mn-body">Side-by-side tier cards stack vertically on mobile. Each card is still full width with the same border-only style. No visual hierarchy between them changes.</p>
+        </div>
+        <div class="mn-item">
+          <p class="mn-title">Apply form: full width</p>
+          <p class="mn-body">The four apply fields are each full width on mobile. The submit CTA spans the full width. Minimum tap target sizes respected throughout.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

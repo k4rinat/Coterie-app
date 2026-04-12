@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Coterie",
+    "slug": "coterie-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#0A0A0A",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.coterie.app",
+      "infoPlist": {
+        "UIBackgroundModes": []
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0A0A0A"
+      },
+      "package": "com.coterie.app"
+    },
+    "scheme": "coterie",
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-notifications",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Coterie needs calendar access to save your event RSVPs."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

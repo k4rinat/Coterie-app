@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 06 — Dark Mode Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #fff; color: #0e0e0e; }
+.bar {
+  background: #0e0e0e; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #b4b4b2; margin-bottom: 8px;
+}
+.section-heading {
+  font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 36px;
+}
+
+/* ── Side by side full mockup ── */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid #dcdcda; }
+.mock-panel { display: flex; flex-direction: column; }
+.mock-label {
+  padding: 12px 24px; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border-bottom: 1px solid #dcdcda;
+}
+.mock-panel.light .mock-label { color: #b4b4b2; border-bottom-color: #dcdcda; }
+.mock-panel.dark  { background: #0c0c0c; border-left: 1px solid #333; }
+.mock-panel.dark .mock-label { color: #444; border-bottom-color: #333; }
+
+.mock-page { padding: 16px; display: flex; flex-direction: column; gap: 2px; }
+
+/* Light mock components */
+.light .m-nav    { background: #f4f4f2; border: 1px solid #dcdcda; height: 40px; display: flex; align-items: center; padding: 0 14px; justify-content: space-between; }
+.light .m-nav-wm { font-family: 'Cormorant Garamond',serif; font-size: 17px; font-weight: 300; }
+.light .m-nav-cta { font-size: 10px; font-weight: 300; border-bottom: 1px solid #0e0e0e; padding-bottom: 1px; }
+.light .m-hero   { background: #fff; border: 1px solid #dcdcda; padding: 24px 14px; display: flex; flex-direction: column; gap: 10px; }
+.light .m-hero h2 { font-family: 'Cormorant Garamond',serif; font-weight: 300; font-size: 32px; line-height: 1.05; }
+.light .m-hero p  { font-size: 10px; font-weight: 300; color: #787876; }
+.light .m-pillars { background: #f4f4f2; border: 1px solid #dcdcda; padding: 12px 14px; display: flex; justify-content: space-around; font-size: 11px; font-weight: 300; color: #787876; }
+.light .m-cards   { background: #fff; border: 1px solid #dcdcda; padding: 12px; display: flex; gap: 8px; }
+.light .m-card    { flex: 1; border: 1px solid #dcdcda; padding: 12px; font-size: 10px; font-weight: 300; color: #787876; text-align: center; }
+.light .m-footer  { background: #0e0e0e; color: #fff; font-size: 9px; font-weight: 300; text-align: center; padding: 10px; }
+
+/* Dark mock components */
+.dark .m-nav    { background: #1a1a1c; border: 1px solid #333; height: 40px; display: flex; align-items: center; padding: 0 14px; justify-content: space-between; }
+.dark .m-nav-wm { font-family: 'Cormorant Garamond',serif; font-size: 17px; font-weight: 300; color: #f2f1ef; }
+.dark .m-nav-cta { font-size: 10px; font-weight: 300; color: #f2f1ef; border-bottom: 1px solid #f2f1ef; padding-bottom: 1px; }
+.dark .m-hero   { background: #181818; border: 1px solid #333; padding: 24px 14px; display: flex; flex-direction: column; gap: 10px; }
+.dark .m-hero h2 { font-family: 'Cormorant Garamond',serif; font-weight: 300; font-size: 32px; line-height: 1.05; color: #f2f1ef; }
+.dark .m-hero p  { font-size: 10px; font-weight: 300; color: #8c8c91; }
+.dark .m-pillars { background: #282828; border: 1px solid #333; padding: 12px 14px; display: flex; justify-content: space-around; font-size: 11px; font-weight: 300; color: #bebec3; }
+.dark .m-cards   { background: #181818; border: 1px solid #333; padding: 12px; display: flex; gap: 8px; }
+.dark .m-card    { flex: 1; border: 1px solid #404042; padding: 12px; font-size: 10px; font-weight: 300; color: #8c8c91; text-align: center; }
+.dark .m-footer  { background: #0a0a0a; color: #444; font-size: 9px; font-weight: 300; text-align: center; padding: 10px; }
+
+.split-note {
+  grid-column: 1 / -1;
+  border-top: 1px solid #dcdcda;
+  padding: 16px 24px;
+  font-size: 11px; font-weight: 300; color: #787876;
+  text-align: center; letter-spacing: 0.01em;
+}
+
+/* ── Token mapping ── */
+.token-map { border: 1px solid #dcdcda; }
+.tm-header {
+  display: grid; grid-template-columns: 180px 1fr 1fr;
+  background: #0e0e0e;
+  border-bottom: 1px solid #333;
+}
+.tm-header-cell {
+  padding: 12px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #555;
+  border-right: 1px solid #333;
+}
+.tm-header-cell:last-child { border-right: none; }
+.tm-row {
+  display: grid; grid-template-columns: 180px 1fr 1fr;
+  border-bottom: 1px solid #dcdcda;
+  align-items: center;
+}
+.tm-row:last-child { border-bottom: none; }
+.tm-token { padding: 14px 20px; font-family: 'Courier New', monospace; font-size: 11px; color: #0e0e0e; border-right: 1px solid #dcdcda; }
+.tm-light { padding: 14px 20px; border-right: 1px solid #dcdcda; display: flex; align-items: center; gap: 12px; }
+.tm-dark  { padding: 14px 20px; background: #0c0c0c; display: flex; align-items: center; gap: 12px; }
+.tm-swatch { width: 24px; height: 24px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
+.tm-val-light { font-family: 'Courier New', monospace; font-size: 11px; color: #787876; }
+.tm-val-dark  { font-family: 'Courier New', monospace; font-size: 11px; color: #555; }
+
+/* ── Design intent ── */
+.intent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.intent-card { border: 1px solid #dcdcda; padding: 32px; }
+.intent-title { font-size: 14px; font-weight: 500; margin-bottom: 10px; }
+.intent-body { font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 06  /  Dark Mode Design
+  <em>Same layout. Different atmosphere. One attribute.</em>
+</div>
+
+<div class="page">
+
+  <!-- Side by side -->
+  <div>
+    <p class="section-eyebrow">Side by Side</p>
+    <h2 class="section-heading">The same page. Two moods.</h2>
+
+    <div class="split">
+      <div class="mock-panel light">
+        <div class="mock-label">Light mode</div>
+        <div class="mock-page">
+          <div class="m-nav"><span class="m-nav-wm">Coterie</span><span class="m-nav-cta">Apply →</span></div>
+          <div class="m-hero"><h2>Where Fashion<br>Trusts Talent.</h2><p>Apply for access</p></div>
+          <div class="m-pillars"><span>Verified</span><span>Private</span><span>Curated</span></div>
+          <div class="m-cards">
+            <div class="m-card">Creative Member</div>
+            <div class="m-card">Brand Access</div>
+          </div>
+          <div class="m-footer">© Coterie 2024</div>
+        </div>
+      </div>
+      <div class="mock-panel dark">
+        <div class="mock-label">Dark mode</div>
+        <div class="mock-page">
+          <div class="m-nav"><span class="m-nav-wm">Coterie</span><span class="m-nav-cta">Apply →</span></div>
+          <div class="m-hero"><h2>Where Fashion<br>Trusts Talent.</h2><p>Apply for access</p></div>
+          <div class="m-pillars"><span>Verified</span><span>Private</span><span>Curated</span></div>
+          <div class="m-cards">
+            <div class="m-card">Creative Member</div>
+            <div class="m-card">Brand Access</div>
+          </div>
+          <div class="m-footer">© Coterie 2024</div>
+        </div>
+      </div>
+      <div class="split-note">
+        Zero duplicate stylesheets · Same HTML · Same components · Switching happens by changing one attribute on &lt;html&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- Token mapping -->
+  <div>
+    <p class="section-eyebrow">Token Mapping</p>
+    <h2 class="section-heading">The same token name. A different value in each theme.</h2>
+
+    <div class="token-map">
+      <div class="tm-header">
+        <div class="tm-header-cell">Token</div>
+        <div class="tm-header-cell">Light value</div>
+        <div class="tm-header-cell">Dark value</div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-token">--c-bg</div>
+        <div class="tm-light"><div class="tm-swatch" style="background:#ffffff"></div><span class="tm-val-light">#ffffff  —  pure white background</span></div>
+        <div class="tm-dark"><div class="tm-swatch" style="background:#0c0c0c;border-color:#333"></div><span class="tm-val-dark">#0c0c0c  —  near-black background</span></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-token">--c-elevated</div>
+        <div class="tm-light"><div class="tm-swatch" style="background:#f4f4f2"></div><span class="tm-val-light">#f4f4f2  —  nav, cards, hover</span></div>
+        <div class="tm-dark"><div class="tm-swatch" style="background:#282828;border-color:#444"></div><span class="tm-val-dark">#282828  —  elevated surfaces</span></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-token">--c-rule</div>
+        <div class="tm-light"><div class="tm-swatch" style="background:#dcdcda"></div><span class="tm-val-light">#dcdcda  —  all dividers</span></div>
+        <div class="tm-dark"><div class="tm-swatch" style="background:#404042;border-color:#555"></div><span class="tm-val-dark">#404042  —  all dividers</span></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-token">--c-mid</div>
+        <div class="tm-light"><div class="tm-swatch" style="background:#787876"></div><span class="tm-val-light">#787876  —  body copy, secondary text</span></div>
+        <div class="tm-dark"><div class="tm-swatch" style="background:#bebec3;border-color:#aaa"></div><span class="tm-val-dark">#bebec3  —  body copy, secondary text</span></div>
+      </div>
+      <div class="tm-row">
+        <div class="tm-token">--c-ink</div>
+        <div class="tm-light"><div class="tm-swatch" style="background:#0e0e0e"></div><span class="tm-val-light">#0e0e0e  —  headings, primary text</span></div>
+        <div class="tm-dark"><div class="tm-swatch" style="background:#f2f1ef;border-color:#ddd"></div><span class="tm-val-dark">#f2f1ef  —  headings, primary text</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Design intent -->
+  <div>
+    <p class="section-eyebrow">Design Intent</p>
+    <h2 class="section-heading">Why dark mode was worth designing properly.</h2>
+    <div class="intent-grid">
+      <div class="intent-card">
+        <p class="intent-title">Not an afterthought</p>
+        <p class="intent-body">Dark mode was planned from the very start. The CSS token system was built to support it before a single dark colour was chosen. This meant it wasn't retrofitted — it was designed in from day one.</p>
+      </div>
+      <div class="intent-card">
+        <p class="intent-title">The mood shifts</p>
+        <p class="intent-body">The light version feels editorial — like a magazine. The dark version feels more like a private members' club at night. Both are valid. Both serve the same content. The typography holds in both.</p>
+      </div>
+      <div class="intent-card">
+        <p class="intent-title">Warm not cold</p>
+        <p class="intent-body">The dark backgrounds have a very slight warm undertone — #0c0c0c rather than #000000. Pure black reads as harsh on screen. The slight warmth keeps the page feeling considered, not stark.</p>
+      </div>
+      <div class="intent-card">
+        <p class="intent-title">Same type, different atmosphere</p>
+        <p class="intent-body">Cormorant Garamond at weight 300 works differently in each mode. In light, it reads as crisp and editorial. In dark, it reads as more intimate and considered. The same font does different work.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

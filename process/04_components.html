@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 04 — Component Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0e; --mid: #787876; --muted: #b4b4b2;
+  --rule: #dcdcda; --elv: #f4f4f2; --surf: #fcfcfa;
+  --display: 'Cormorant Garamond', serif; --body: 'Inter', sans-serif;
+}
+body { font-family: var(--body); background: #fff; color: var(--ink); }
+.bar {
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--display); font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 36px;
+}
+
+/* ── Component grid ── */
+.comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.comp-card {
+  border: 1px solid var(--rule);
+  padding: 36px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.comp-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.comp-desc { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; }
+.comp-preview {
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
+}
+.comp-preview-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.comp-decision {
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  font-size: 11px; font-weight: 300; color: var(--muted);
+  line-height: 1.6;
+  border-left: 2px solid var(--rule);
+  padding-left: 14px; border-top: none;
+}
+
+/* Component previews */
+
+/* Nav */
+.preview-nav {
+  background: var(--elv);
+  display: flex; align-items: center;
+  height: 48px; padding: 0 20px;
+  border: 1px solid var(--rule);
+  gap: 24px;
+}
+.pnav-wm { font-family: var(--display); font-size: 18px; font-weight: 300; }
+.pnav-links { display: flex; gap: 20px; font-size: 11px; font-weight: 300; color: var(--mid); flex: 1; justify-content: center; }
+.pnav-cta { font-size: 11px; font-weight: 300; border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
+
+/* Hero */
+.preview-hero {
+  padding: 32px 24px; border: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.preview-hero h2 { font-family: var(--display); font-weight: 300; font-size: 40px; line-height: 1.05; }
+.preview-hero .hero-cta { font-size: 12px; font-weight: 300; border-bottom: 1px solid var(--ink); display: inline-block; padding-bottom: 2px; }
+
+/* Tier card */
+.tier-pair { display: flex; gap: 2px; }
+.tier-card {
+  flex: 1; border: 1px solid var(--rule);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.tier-label { font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.tier-name { font-family: var(--display); font-size: 28px; font-weight: 300; }
+.tier-price { font-size: 13px; font-weight: 300; color: var(--mid); }
+.tier-divider { height: 1px; background: var(--rule); }
+.tier-feature { font-size: 11px; font-weight: 300; color: var(--mid); padding: 4px 0; border-bottom: 1px solid var(--rule); }
+.tier-feature:last-child { border-bottom: none; }
+.tier-cta { font-size: 11px; font-weight: 300; border-bottom: 1px solid var(--ink); display: inline-block; padding-bottom: 1px; margin-top: 4px; }
+
+/* Pillars */
+.pillars-preview { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--rule); }
+.pillar {
+  padding: 20px;
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.pillar:last-child { border-right: none; }
+.pillar-title { font-family: var(--display); font-size: 22px; font-weight: 300; }
+.pillar-body { font-size: 11px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+/* Disciplines list */
+.disciplines-preview {
+  border: 1px solid var(--rule);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+}
+.disc-col { border-right: 1px solid var(--rule); }
+.disc-col:last-child { border-right: none; }
+.disc-item { padding: 8px 16px; border-bottom: 1px solid var(--rule); font-size: 11px; font-weight: 300; color: var(--mid); }
+.disc-item:last-child { border-bottom: none; }
+
+/* Footer */
+.preview-footer {
+  background: var(--ink);
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  padding: 16px 24px; align-items: center;
+}
+.pf-left { font-family: var(--display); font-size: 18px; font-weight: 300; color: #fff; }
+.pf-links { display: flex; gap: 20px; justify-content: center; }
+.pf-link { font-size: 10px; font-weight: 300; color: #666; letter-spacing: 0.02em; }
+.pf-right { font-size: 10px; font-weight: 300; color: #555; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 04  /  Component Design
+  <em>Every UI element planned before it was built.</em>
+</div>
+
+<div class="page">
+
+  <div>
+    <p class="section-eyebrow">UI Components</p>
+    <h2 class="section-heading">Each component designed with one purpose.<br>Nothing more than it needs.</h2>
+
+    <div class="comp-grid">
+
+      <!-- Navigation -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Navigation Bar</p>
+          <p class="comp-desc">The nav is always visible. It never competes with the page. Wordmark left, links floating in the middle, Apply CTA right. No dropdown, no mega-menu.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="preview-nav">
+            <span class="pnav-wm">Coterie</span>
+            <div class="pnav-links">
+              <span>How It Works</span>
+              <span>Pricing</span>
+              <span>FAQ</span>
+            </div>
+            <span class="pnav-cta">Apply →</span>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: No hamburger on desktop. No dropdowns. No mega-menu. The site is small enough that everything fits flat.</p>
+      </div>
+
+      <!-- Hero -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Hero Section</p>
+          <p class="comp-desc">Full viewport height. One headline, one CTA. No supporting image, no subtext, no bullets. The first thing you read is the most important thing on the page.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="preview-hero">
+            <h2>Where Fashion<br>Trusts Talent.</h2>
+            <span class="hero-cta">Apply for access  →</span>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: The original version had three supporting bullet points and a background grid. Both were removed — the headline alone was stronger.</p>
+      </div>
+
+      <!-- Pillars -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Pillars</p>
+          <p class="comp-desc">Three value propositions in a horizontal row. No heading above them, no background change. They appear immediately after the hero with no visual separation — continuous reading.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="pillars-preview">
+            <div class="pillar">
+              <span class="pillar-title">Verified</span>
+              <p class="pillar-body">Every member has been reviewed and approved by the Coterie team.</p>
+            </div>
+            <div class="pillar">
+              <span class="pillar-title">Private</span>
+              <p class="pillar-body">No public profiles. No searchable directory. Introductions only.</p>
+            </div>
+            <div class="pillar">
+              <span class="pillar-title">Curated</span>
+              <p class="pillar-body">We accept fewer than 20% of applications. Quality by design.</p>
+            </div>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: No icons next to each pillar. The words don't need illustration — adding icons would make it look like a feature comparison chart.</p>
+      </div>
+
+      <!-- Disciplines -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Disciplines List</p>
+          <p class="comp-desc">All creative disciplines on the platform listed in two columns with ruled rows. This section does one thing: make visitors see their own job title and feel recognised.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="disciplines-preview">
+            <div class="disc-col">
+              <div class="disc-item">Stylist</div>
+              <div class="disc-item">Photographer</div>
+              <div class="disc-item">Art Director</div>
+              <div class="disc-item">Casting Director</div>
+            </div>
+            <div class="disc-col">
+              <div class="disc-item">Set Designer</div>
+              <div class="disc-item">Hair & Make-up</div>
+              <div class="disc-item">Creative Director</div>
+              <div class="disc-item">Prop Stylist</div>
+            </div>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: Listed alphabetically within category, not by prominence. No creative should feel ranked lower than another.</p>
+      </div>
+
+      <!-- Membership / Tier cards -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Membership Tier Cards</p>
+          <p class="comp-desc">Three tiers for creative members — Emerging, Professional, Elite. All presented equally in a row. No highlighted "recommended" tier. No filled background on any card. Border only.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="tier-pair">
+            <div class="tier-card">
+              <span class="tier-label">Creative Member</span>
+              <span class="tier-name">Emerging</span>
+              <span class="tier-price">£20 / month</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">7-day free trial</span>
+              <span class="tier-feature">Application review</span>
+              <span class="tier-feature">2 introductions / year</span>
+              <a class="tier-cta">Start free trial →</a>
+            </div>
+            <div class="tier-card">
+              <span class="tier-label">Creative Member</span>
+              <span class="tier-name">Professional</span>
+              <span class="tier-price">£50 / month</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">10 introductions / year</span>
+              <span class="tier-feature">Full job board access</span>
+              <span class="tier-feature">Analytics dashboard</span>
+              <a class="tier-cta">Apply — Professional →</a>
+            </div>
+            <div class="tier-card">
+              <span class="tier-label">Creative Member</span>
+              <span class="tier-name">Elite</span>
+              <span class="tier-price">£100 / month</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">Unlimited introductions</span>
+              <span class="tier-feature">VIP event access</span>
+              <span class="tier-feature">Concierge support</span>
+              <a class="tier-cta">Apply — Elite →</a>
+            </div>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: Three tiers — Emerging (£20, with a 7-day free trial), Professional (£50), Elite (£100). Professional is marked "Most Popular" but no card is filled or highlighted above others.</p>
+      </div>
+
+      <!-- Brand Access tiers -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Brand Access Tier Cards</p>
+          <p class="comp-desc">Three annual plans for brands — Starter, Growth, Enterprise. Priced yearly rather than monthly to signal a longer-term partnership. Same border-only treatment as creative cards. No tier highlighted above the others.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="tier-pair">
+            <div class="tier-card">
+              <span class="tier-label">Brand</span>
+              <span class="tier-name">Starter</span>
+              <span class="tier-price">£2,500 / year</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">Boutiques &amp; independents</span>
+              <span class="tier-feature">20 roles / year</span>
+              <span class="tier-feature">Access to vetted creatives</span>
+              <a class="tier-cta">Apply for access →</a>
+            </div>
+            <div class="tier-card">
+              <span class="tier-label">Brand</span>
+              <span class="tier-name">Growth</span>
+              <span class="tier-price">£5,000 / year</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">Mid-size brands</span>
+              <span class="tier-feature">Unlimited roles</span>
+              <span class="tier-feature">Priority introductions</span>
+              <a class="tier-cta">Apply for access →</a>
+            </div>
+            <div class="tier-card">
+              <span class="tier-label">Brand</span>
+              <span class="tier-name">Enterprise</span>
+              <span class="tier-price">£10,000+ / year</span>
+              <div class="tier-divider"></div>
+              <span class="tier-feature">Groups &amp; multi-brand</span>
+              <span class="tier-feature">Unlimited roles</span>
+              <span class="tier-feature">Dedicated account manager</span>
+              <a class="tier-cta">Contact us →</a>
+            </div>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: Annual pricing (not monthly) signals commitment and aligns with how brands budget for talent. Enterprise uses "Contact us" rather than a fixed price — the value scales with the organisation.</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="comp-card">
+        <div>
+          <p class="comp-name">Footer</p>
+          <p class="comp-desc">Full-width black. Wordmark on the left, nav links in the centre, copyright right. Minimal. No second nav, no social links, no newsletter form.</p>
+        </div>
+        <div class="comp-preview">
+          <p class="comp-preview-label">Preview</p>
+          <div class="preview-footer">
+            <span class="pf-left">Coterie</span>
+            <div class="pf-links">
+              <span class="pf-link">How It Works</span>
+              <span class="pf-link">Pricing</span>
+              <span class="pf-link">FAQ</span>
+              <span class="pf-link">Apply</span>
+            </div>
+            <span class="pf-right">© Coterie 2024</span>
+          </div>
+        </div>
+        <p class="comp-decision">Decided: No social media links. Social media presence would undermine the private-network positioning. What's private stays private.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

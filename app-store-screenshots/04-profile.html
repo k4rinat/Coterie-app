@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=430">
+<title>Coterie – Screenshot 4 – Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:430px; height:932px; overflow:hidden; background:#080808; font-family:'Inter',sans-serif; display:flex; flex-direction:column; align-items:center; position:relative; }
+  body::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 500px 400px at 50% -80px, rgba(255,255,255,0.04) 0%, transparent 70%); pointer-events:none; }
+  .copy { padding:72px 40px 0; text-align:center; z-index:2; }
+  .eyebrow { font-family:'Inter'; font-weight:500; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-bottom:16px; }
+  .headline { font-family:'Cormorant Garamond'; font-weight:300; font-size:52px; line-height:1.08; letter-spacing:0.5px; color:#fff; margin-bottom:16px; }
+  .headline em { font-style:italic; }
+  .sub { font-family:'Inter'; font-weight:300; font-size:13px; line-height:1.7; color:rgba(255,255,255,0.45); max-width:300px; margin:0 auto; }
+
+  .phone-wrap { position:absolute; top:272px; left:50%; transform:translateX(-50%); width:262px; }
+  .phone { width:262px; height:567px; background:#1c1c1e; border-radius:42px; padding:3px; box-shadow: 0 0 0 0.5px rgba(255,255,255,0.12), 0 60px 120px rgba(0,0,0,0.9), 0 20px 40px rgba(0,0,0,0.7), inset 0 1.5px 0 rgba(255,255,255,0.18), inset 0 -1.5px 0 rgba(0,0,0,0.9); }
+  .glass { width:100%; height:100%; background:#0d0d0f; border-radius:40px; overflow:hidden; position:relative; }
+  .screen { position:absolute; top:8px; left:8px; right:8px; bottom:8px; border-radius:34px; overflow:hidden; background:#0d0d0f; }
+  .di { position:absolute; top:8px; left:50%; transform:translateX(-50%); width:82px; height:24px; border-radius:12px; background:#000; z-index:10; }
+  .btn-vol1 { position:absolute; left:-5px; top:80px; width:3.5px; height:18px; background:#2a2a2a; border-radius:2px; }
+  .btn-vol2 { position:absolute; left:-5px; top:104px; width:3.5px; height:42px; background:#2a2a2a; border-radius:2px; }
+  .btn-vol3 { position:absolute; left:-5px; top:152px; width:3.5px; height:42px; background:#2a2a2a; border-radius:2px; }
+  .btn-pow  { position:absolute; right:-5px; top:112px; width:3.5px; height:56px; background:#2a2a2a; border-radius:2px; }
+  .btn-cam  { position:absolute; right:-5px; top:310px; width:3.5px; height:24px; background:#2a2a2a; border-radius:2px; }
+
+  .app { width:100%; height:100%; background:#0a0a0a; overflow:hidden; }
+  .status-bar { display:flex; justify-content:space-between; align-items:center; padding:12px 16px 0; height:40px; }
+  .time { font-size:10px; font-weight:600; color:#fff; }
+  .icons { display:flex; gap:4px; align-items:center; }
+
+  .app-header { padding:8px 16px 10px; display:flex; justify-content:space-between; align-items:flex-start; }
+  .screen-title { font-family:'Cormorant Garamond'; font-weight:300; font-size:32px; color:#fff; letter-spacing:0.3px; }
+  .theme-btn { width:28px; height:28px; border-radius:14px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+
+  /* Profile tabs */
+  .tab-row { display:flex; border-bottom:0.5px solid rgba(255,255,255,0.1); margin-bottom:14px; }
+  .tab-item { flex:1; text-align:center; padding:0 0 10px; font-size:9px; font-weight:500; letter-spacing:0.5px; color:rgba(255,255,255,0.3); position:relative; }
+  .tab-item.active { color:#fff; }
+  .tab-item.active::after { content:''; position:absolute; bottom:0; left:20%; right:20%; height:1.5px; background:#fff; border-radius:1px; }
+
+  /* Portfolio entries */
+  .portfolio-item { margin:0 16px 8px; padding:12px 14px; background:#141414; border-radius:10px; border:0.5px solid rgba(255,255,255,0.07); }
+  .portfolio-label { font-size:7px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.3); margin-bottom:4px; }
+  .portfolio-title { font-family:'Cormorant Garamond'; font-weight:300; font-size:15px; color:#fff; line-height:1.2; }
+  .portfolio-meta { font-size:9px; color:rgba(255,255,255,0.4); margin-top:4px; }
+  .portfolio-footer { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+  .credit-pill { background:rgba(255,255,255,0.07); border-radius:8px; padding:3px 8px; font-size:7px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.35); }
+  .verify-badge { display:flex; align-items:center; gap:3px; }
+  .verify-dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.5); }
+  .verify-text { font-size:7px; color:rgba(255,255,255,0.35); }
+
+  /* Stats row */
+  .stats-row { display:flex; gap:0; margin:0 16px 12px; background:#141414; border-radius:10px; border:0.5px solid rgba(255,255,255,0.07); overflow:hidden; }
+  .stat { flex:1; padding:10px 8px; text-align:center; }
+  .stat + .stat { border-left:0.5px solid rgba(255,255,255,0.07); }
+  .stat-num { font-family:'Cormorant Garamond'; font-weight:300; font-size:20px; color:#fff; }
+  .stat-label { font-size:7px; color:rgba(255,255,255,0.3); letter-spacing:0.5px; margin-top:2px; }
+
+  .tab-bar { position:absolute; bottom:0; left:0; right:0; background:rgba(18,18,18,0.95); border-top:0.5px solid rgba(255,255,255,0.1); padding:8px 0 16px; display:flex; }
+  .tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; }
+  .tab-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
+  .tab-label { font-size:8px; color:rgba(255,255,255,0.3); }
+
+  .bottom-brand { position:absolute; bottom:0; left:0; right:0; height:90px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:28px; background:linear-gradient(to top, rgba(8,8,8,1) 50%, transparent); z-index:3; }
+  .bottom-text { font-family:'Inter'; font-weight:300; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<div class="copy">
+  <div class="eyebrow">Verified Members</div>
+  <div class="headline">Your Identity,<br><em>Verified.</em></div>
+  <div class="sub">A portfolio, a record, a reputation — your professional identity in the hands of those who matter.</div>
+</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+    <div class="btn-vol1"></div><div class="btn-vol2"></div><div class="btn-vol3"></div>
+    <div class="btn-pow"></div><div class="btn-cam"></div>
+    <div class="glass">
+      <div class="di"></div>
+      <div class="screen">
+        <div class="app">
+          <div class="status-bar">
+            <span class="time">09:41</span>
+            <div class="icons">
+              <svg width="12" height="9" viewBox="0 0 12 9"><rect x="0" y="5" width="2.2" height="4" rx="0.5" fill="white"/><rect x="3.2" y="3" width="2.2" height="6" rx="0.5" fill="white"/><rect x="6.4" y="1" width="2.2" height="8" rx="0.5" fill="white"/></svg>
+              <svg width="20" height="9" viewBox="0 0 20 9" fill="none"><rect x="0.5" y="0.5" width="16" height="8" rx="2" stroke="white" stroke-opacity="0.5" stroke-width="1"/><rect x="1.8" y="1.8" width="11" height="5.4" rx="1.2" fill="white"/></svg>
+            </div>
+          </div>
+
+          <div class="app-header">
+            <span class="screen-title">Profile</span>
+            <div class="theme-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+          </div>
+
+          <!-- Profile tabs -->
+          <div class="tab-row" style="padding:0 16px">
+            <div class="tab-item active">Portfolio</div>
+            <div class="tab-item">Badges</div>
+            <div class="tab-item">Plan</div>
+            <div class="tab-item">Settings</div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-num">12</div>
+              <div class="stat-label">Credits</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Badges</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">Elite</div>
+              <div class="stat-label">Tier</div>
+            </div>
+          </div>
+
+          <!-- Portfolio items -->
+          <div class="portfolio-item">
+            <div class="portfolio-label">Cover Story · Styling</div>
+            <div class="portfolio-title">Vogue Paris — SS25<br>Cover</div>
+            <div class="portfolio-meta">Vogue Paris · 2025</div>
+            <div class="portfolio-footer">
+              <div class="credit-pill">Styling</div>
+              <div class="verify-badge"><div class="verify-dot"></div><span class="verify-text">Verified</span></div>
+            </div>
+          </div>
+
+          <div class="portfolio-item">
+            <div class="portfolio-label">Campaign · Art Direction</div>
+            <div class="portfolio-title">Bottega Veneta FW24<br>Campaign</div>
+            <div class="portfolio-meta">Bottega Veneta · 2024</div>
+            <div class="portfolio-footer">
+              <div class="credit-pill">Art Direction</div>
+              <div class="verify-badge"><div class="verify-dot"></div><span class="verify-text">Verified</span></div>
+            </div>
+          </div>
+
+          <div class="tab-bar">
+            <div class="tab"><div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><span class="tab-label">Home</span></div>
+            <div class="tab"><div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><span class="tab-label">Roles</span></div>
+            <div class="tab"><div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span class="tab-label">Intros</span></div>
+            <div class="tab"><div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="tab-label">Events</span></div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="tab-label" style="color:rgba(255,255,255,0.9)">Me</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-brand">
+  <span class="bottom-text">Available on the App Store</span>
+</div>
+</body>
+</html>

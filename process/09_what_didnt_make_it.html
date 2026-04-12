@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 09 — What Didn't Make It</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #fff; color: #0e0e0e; }
+.bar {
+  background: #0e0e0e; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 8px; }
+.section-heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.1; margin-bottom: 36px; }
+.section-note { font-size: 13px; font-weight: 300; color: #787876; line-height: 1.7; max-width: 600px; margin-bottom: 36px; margin-top: -24px; }
+
+/* ── Rejected features grid ── */
+.rejected-grid { display: flex; flex-direction: column; gap: 2px; }
+.rejected-card {
+  display: grid;
+  grid-template-columns: 280px 1fr 200px;
+  border: 1px solid #dcdcda;
+}
+.rc-feature {
+  padding: 28px 32px;
+  border-right: 1px solid #dcdcda;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.rc-cross { font-size: 18px; color: #dcdcda; margin-bottom: 4px; }
+.rc-name { font-size: 15px; font-weight: 500; color: #0e0e0e; }
+.rc-desc { font-size: 11px; font-weight: 300; color: #b4b4b2; line-height: 1.6; }
+.rc-reason {
+  padding: 28px 32px;
+  border-right: 1px solid #dcdcda;
+  font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7;
+}
+.rc-reason strong { font-weight: 500; color: #0e0e0e; display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+.rc-stage {
+  padding: 28px 24px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #b4b4b2;
+  display: flex; align-items: flex-start;
+}
+
+/* ── Design directions tested ── */
+.directions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.direction-card { border: 1px solid #dcdcda; padding: 0; overflow: hidden; }
+.dc-preview {
+  background: #f4f4f2;
+  border-bottom: 1px solid #dcdcda;
+  padding: 32px;
+  min-height: 160px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.dc-preview-label {
+  position: absolute; top: 12px; left: 12px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #b4b4b2;
+}
+.dc-rejected-tag {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; background: #b4b4b2; padding: 3px 8px;
+}
+.dc-info { padding: 24px 28px; }
+.dc-name { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.dc-body { font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7; }
+
+/* ── Pages cut ── */
+.pages-cut { border: 1px solid #dcdcda; }
+.pc-header {
+  display: grid; grid-template-columns: 180px 1fr 1fr;
+  background: #0e0e0e;
+}
+.pc-hcell {
+  padding: 12px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #555;
+  border-right: 1px solid #333;
+}
+.pc-hcell:last-child { border-right: none; }
+.pc-row { display: grid; grid-template-columns: 180px 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.pc-row:last-child { border-bottom: none; }
+.pc-cell {
+  padding: 18px 20px;
+  font-size: 12px; font-weight: 300; color: #787876;
+  border-right: 1px solid #dcdcda; line-height: 1.6;
+}
+.pc-cell:last-child { border-right: none; }
+.pc-cell.page-name { font-weight: 500; color: #b4b4b2; text-decoration: line-through; font-size: 13px; }
+.pc-cell.why { color: #c0624a; }
+
+/* ── Form fields cut ── */
+.form-evolution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.fe-col { border: 1px solid #dcdcda; overflow: hidden; }
+.fe-header { padding: 14px 24px; border-bottom: 1px solid #dcdcda; display: flex; align-items: center; justify-content: space-between; }
+.fe-header-title { font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+.fe-header.v1 .fe-header-title { color: #b4b4b2; }
+.fe-header.v2 .fe-header-title { color: #0e0e0e; background: none; }
+.fe-count { font-size: 10px; font-weight: 300; color: #b4b4b2; font-family: 'Courier New', monospace; }
+.fe-fields { padding: 20px 24px; display: flex; flex-direction: column; gap: 0; }
+.fe-field {
+  padding: 10px 0;
+  border-bottom: 1px solid #dcdcda;
+  font-size: 12px; font-weight: 300;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.fe-field:last-child { border-bottom: none; }
+.fe-field.cut { color: #b4b4b2; text-decoration: line-through; }
+.fe-field.kept { color: #0e0e0e; }
+.fe-field-tag { font-size: 9px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+.fe-field-tag.cut { color: #b4b4b2; }
+.fe-field-tag.kept { color: #4a8050; }
+.fe-note { padding: 16px 24px; background: #f4f4f2; font-size: 11px; font-weight: 300; color: #787876; line-height: 1.6; border-top: 1px solid #dcdcda; }
+
+/* ── Timeline of cuts ── */
+.timeline { display: flex; flex-direction: column; gap: 0; border: 1px solid #dcdcda; }
+.tl-item { display: grid; grid-template-columns: 100px 1fr; border-bottom: 1px solid #dcdcda; }
+.tl-item:last-child { border-bottom: none; }
+.tl-version {
+  padding: 20px 24px;
+  background: #f4f4f2;
+  border-right: 1px solid #dcdcda;
+  font-family: 'Courier New', monospace;
+  font-size: 11px; color: #787876;
+  display: flex; align-items: flex-start;
+}
+.tl-content { padding: 20px 28px; }
+.tl-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.tl-cuts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tl-cut-tag {
+  padding: 4px 12px; border: 1px solid #dcdcda;
+  font-size: 10px; font-weight: 300; color: #b4b4b2;
+  text-decoration: line-through;
+}
+.tl-body { font-size: 12px; font-weight: 300; color: #787876; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 09  /  What Didn't Make It
+  <em>Every cut made the site more itself.</em>
+</div>
+
+<div class="page">
+
+  <!-- Intro note -->
+  <div>
+    <p class="section-eyebrow">The Editing Process</p>
+    <h2 class="section-heading">The site was defined as much<br>by what was removed as what stayed.</h2>
+    <p class="section-note">Design is editing. This documents every feature, page, section, and idea that was explored, built, or seriously considered — and the specific reason it was cut. Nothing was removed carelessly.</p>
+  </div>
+
+  <!-- Timeline of cuts -->
+  <div>
+    <p class="section-eyebrow">Evolution by Version</p>
+    <h2 class="section-heading">What changed between<br>each version of the site.</h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-version">V01</div>
+        <div class="tl-content">
+          <p class="tl-title">Structure-only — everything included</p>
+          <p class="tl-body">The first version treated completeness as a goal. Every possible feature was roughed in: onboarding modal, social links, blog, testimonials, portfolio galleries, direct messaging. The page was long, noisy, and unfocused. The site was trying to be everything.</p>
+          <div class="tl-cuts">
+            <span class="tl-cut-tag">Onboarding modal</span>
+            <span class="tl-cut-tag">Blog</span>
+            <span class="tl-cut-tag">Testimonials section</span>
+            <span class="tl-cut-tag">Portfolio galleries</span>
+            <span class="tl-cut-tag">Social media links</span>
+            <span class="tl-cut-tag">Direct messaging</span>
+            <span class="tl-cut-tag">Search bar</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-version">V02</div>
+        <div class="tl-content">
+          <p class="tl-title">Typography and tokens added — still too dense</p>
+          <p class="tl-body">The design system came in — Cormorant Garamond, Inter, the colour tokens. The page looked better but the content problem remained. The hero had three paragraphs. The how-it-works section had six steps. The membership area had a featured/highlighted "recommended" tier. Still too much.</p>
+          <div class="tl-cuts">
+            <span class="tl-cut-tag">Hero bullet points</span>
+            <span class="tl-cut-tag">Background grid pattern</span>
+            <span class="tl-cut-tag">Supporting hero image</span>
+            <span class="tl-cut-tag">"Recommended" tier highlight</span>
+            <span class="tl-cut-tag">6-step how-it-works</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-version">V03</div>
+        <div class="tl-content">
+          <p class="tl-title">Subtraction pass — the rule: if it can go, it goes</p>
+          <p class="tl-body">Every element was questioned: does this help the user understand what Coterie is, and what to do next? If not, it was removed. The hero became two lines of text and one CTA. The apply form went from 12 fields to 4. The membership cards became three equal, unfilled cards. The footer lost everything except links and copyright.</p>
+          <div class="tl-cuts">
+            <span class="tl-cut-tag">8 form fields</span>
+            <span class="tl-cut-tag">Footer newsletter</span>
+            <span class="tl-cut-tag">Footer social icons</span>
+            <span class="tl-cut-tag">Secondary nav</span>
+            <span class="tl-cut-tag">Decorative rule patterns</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-version">Final</div>
+        <div class="tl-content">
+          <p class="tl-title">Only what earned its place</p>
+          <p class="tl-body">Every element on the final site was actively chosen. Nothing is there because it was the default. No element is there because "most sites have this." Each one has a reason.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features rejected -->
+  <div>
+    <p class="section-eyebrow">Features Considered &amp; Rejected</p>
+    <h2 class="section-heading">Ideas that were seriously explored<br>and deliberately cut.</h2>
+
+    <div class="rejected-grid">
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Public member profiles</p>
+          <p class="rc-desc">Searchable portfolio pages visible without logging in</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          Making members publicly searchable removes the core reason to pay for membership. The value of Coterie is that you're not on LinkedIn — you're not publicly indexed. Visibility should be controlled, private, and earned. Public profiles would have made Coterie a free directory.
+        </div>
+        <div class="rc-stage">Research stage</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Testimonials section</p>
+          <p class="rc-desc">Quotes from members or brands about their experience</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          Testimonials signal insecurity. Reference brands like The Row and Lemaire never show customer quotes on their sites. Coterie doesn't need social proof — if the network is genuinely valuable, the word travels privately. Putting testimonials on the homepage would undermine the brand position.
+        </div>
+        <div class="rc-stage">V01 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Blog / editorial section</p>
+          <p class="rc-desc">Industry articles, trend reports, interview series</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          A blog would require constant upkeep and positions Coterie as a media outlet rather than a private network. It would also dilute the clarity of the site's purpose. The site has one job: get creatives and brands to apply. Editorial content is a distraction from that.
+        </div>
+        <div class="rc-stage">V01 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Social media links in footer</p>
+          <p class="rc-desc">Instagram, LinkedIn, and Twitter/X icons in the footer nav</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          A private network that promotes its social media presence contradicts itself. Social media is public by nature. The footer linking to Instagram would undermine the "private, by application only" positioning on every page. What's private stays private.
+        </div>
+        <div class="rc-stage">V02 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Highlighted "recommended" tier</p>
+          <p class="rc-desc">One membership card visually elevated — filled background, "Most Popular" badge</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          Pushing users toward a specific tier feels like upselling, which is the wrong tone for Coterie. The network trusts users to know their own situation. Three equal cards — no fills, no pressure — lets the user choose without being steered. The decision is theirs.
+        </div>
+        <div class="rc-stage">V02 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Onboarding modal / welcome overlay</p>
+          <p class="rc-desc">A pop-up on first visit explaining what Coterie is</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          A modal on arrival signals that the page can't communicate its purpose on its own. If the homepage hero needs a pop-up to clarify itself, the hero isn't working. The modal was removed and the homepage copy was sharpened instead until it stood alone.
+        </div>
+        <div class="rc-stage">V01 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Background grid / texture pattern</p>
+          <p class="rc-desc">A decorative CSS grid overlay on the hero section</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          The pattern added visual complexity without adding meaning. The reference brands (The Row, Lemaire, Toteme) use pure white or off-white backgrounds with no texture. The decorative grid made the hero feel like a startup template rather than a luxury brand. Cut immediately in V02.
+        </div>
+        <div class="rc-stage">V02 cut</div>
+      </div>
+
+      <div class="rejected-card">
+        <div class="rc-feature">
+          <span class="rc-cross">✕</span>
+          <p class="rc-name">Newsletter sign-up in footer</p>
+          <p class="rc-desc">Email capture with "Stay in the know" or similar prompt</p>
+        </div>
+        <div class="rc-reason">
+          <strong>Why it was cut</strong>
+          Newsletter sign-ups are a mass-market acquisition tool. They imply that Coterie wants as many subscribers as possible. The site's entire logic is the opposite — selective access, application-only, quality over quantity. A newsletter form in the footer was tonally incompatible.
+        </div>
+        <div class="rc-stage">V03 cut</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pages cut -->
+  <div>
+    <p class="section-eyebrow">Pages That Were Planned But Cut</p>
+    <h2 class="section-heading">Not every page made it<br>to the final site map.</h2>
+
+    <div class="pages-cut">
+      <div class="pc-header">
+        <div class="pc-hcell">Page</div>
+        <div class="pc-hcell">What it was meant to do</div>
+        <div class="pc-hcell">Why it was cut</div>
+      </div>
+      <div class="pc-row">
+        <div class="pc-cell page-name">/members</div>
+        <div class="pc-cell">A browse page — filter creatives by discipline, location, availability</div>
+        <div class="pc-cell why">Public member browsing removes the gated nature of the network. Access to member profiles is an inside-the-platform feature, not a marketing page.</div>
+      </div>
+      <div class="pc-row">
+        <div class="pc-cell page-name">/about</div>
+        <div class="pc-cell">The founding story, team, and mission statement</div>
+        <div class="pc-cell why">An "About" page makes Coterie talk about itself. The site is for users, not for the brand. The homepage already positions what Coterie is — an About page would repeat it in a longer, more self-indulgent way.</div>
+      </div>
+      <div class="pc-row">
+        <div class="pc-cell page-name">/journal</div>
+        <div class="pc-cell">Editorial content — industry stories, member spotlights, trend pieces</div>
+        <div class="pc-cell why">Maintaining editorial requires resource. More critically, it dilutes the site's single purpose. Every page should make a user more likely to apply — a journal does not.</div>
+      </div>
+      <div class="pc-row">
+        <div class="pc-cell page-name">/events</div>
+        <div class="pc-cell">A public listing of Coterie-hosted events and showrooms</div>
+        <div class="pc-cell why">Events are a member-only benefit. Listing them publicly reduces the incentive to apply and join. Events stayed as a feature mention, not a public page.</div>
+      </div>
+      <div class="pc-row">
+        <div class="pc-cell page-name">/login</div>
+        <div class="pc-cell">A public-facing login page for existing members</div>
+        <div class="pc-cell why">The marketing site and the member platform are separate products. Login belongs inside the platform, not the marketing site. The site's only job is conversion — once inside, members are in a different environment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply form evolution -->
+  <div>
+    <p class="section-eyebrow">Application Form</p>
+    <h2 class="section-heading">The form went from 12 fields<br>down to 4.</h2>
+
+    <div class="form-evolution">
+      <div class="fe-col">
+        <div class="fe-header v1">
+          <span class="fe-header-title">First version — 12 fields</span>
+          <span class="fe-count">Too much friction</span>
+        </div>
+        <div class="fe-fields">
+          <div class="fe-field kept"><span>Full name</span><span class="fe-field-tag kept">Kept</span></div>
+          <div class="fe-field cut"><span>Date of birth</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field cut"><span>Location / city</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field kept"><span>Email address</span><span class="fe-field-tag kept">Kept</span></div>
+          <div class="fe-field cut"><span>Phone number</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field kept"><span>Primary discipline</span><span class="fe-field-tag kept">Kept</span></div>
+          <div class="fe-field cut"><span>Secondary discipline</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field cut"><span>Years of experience</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field cut"><span>Portfolio URL</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field cut"><span>Instagram handle</span><span class="fe-field-tag cut">Cut</span></div>
+          <div class="fe-field kept"><span>Tell us about yourself</span><span class="fe-field-tag kept">Kept</span></div>
+          <div class="fe-field cut"><span>How did you hear about us?</span><span class="fe-field-tag cut">Cut</span></div>
+        </div>
+        <div class="fe-note">12 fields created unnecessary friction. Users who are a good fit were being put off before completing it.</div>
+      </div>
+      <div class="fe-col">
+        <div class="fe-header v2">
+          <span class="fe-header-title">Final version — 4 fields</span>
+          <span class="fe-count">Right amount</span>
+        </div>
+        <div class="fe-fields">
+          <div class="fe-field kept"><span>Full name</span><span class="fe-field-tag kept">Final</span></div>
+          <div class="fe-field kept"><span>Email address</span><span class="fe-field-tag kept">Final</span></div>
+          <div class="fe-field kept"><span>Primary discipline</span><span class="fe-field-tag kept">Final</span></div>
+          <div class="fe-field kept"><span>Tell us about yourself</span><span class="fe-field-tag kept">Final</span></div>
+        </div>
+        <div class="fe-note">Four fields gather everything needed to make an application decision. Anything else can be collected after acceptance — once the user is already committed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual directions rejected -->
+  <div>
+    <p class="section-eyebrow">Visual Directions Explored</p>
+    <h2 class="section-heading">Design directions that were tested<br>and moved away from.</h2>
+
+    <div class="directions-grid">
+
+      <div class="direction-card">
+        <div class="dc-preview">
+          <span class="dc-preview-label">Explored direction</span>
+          <span class="dc-rejected-tag">Rejected</span>
+          <!-- Dark luxury direction mockup -->
+          <div style="background:#0e0e0e;padding:20px 24px;border-radius:2px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;line-height:1.1;margin-bottom:12px">The Private Network<br>for Fashion Creatives</div>
+            <div style="font-size:10px;font-weight:300;color:#787876;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px">Application only · Est. 2024</div>
+            <div style="display:inline-block;border:1px solid #555;color:#fff;font-size:10px;font-weight:300;padding:8px 20px;letter-spacing:0.1em;text-transform:uppercase">Apply Now</div>
+          </div>
+        </div>
+        <div class="dc-info">
+          <p class="dc-name">All-dark homepage</p>
+          <p class="dc-body">An entirely black homepage — dark background, white text throughout. Tested as a "luxury" direction. Rejected because it felt heavy and exclusionary rather than quiet and selective. The reference brands (The Row, Lemaire) all use white. Dark was reserved for the nav and footer where it provides contrast, not for the full page.</p>
+        </div>
+      </div>
+
+      <div class="direction-card">
+        <div class="dc-preview">
+          <span class="dc-preview-label">Explored direction</span>
+          <span class="dc-rejected-tag">Rejected</span>
+          <!-- Serif-heavy direction -->
+          <div style="background:#faf8f5;padding:20px 24px;border-radius:2px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:#b4b4b2;margin-bottom:8px">COTERIE</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#0e0e0e;line-height:1.1;margin-bottom:8px;font-style:italic">Where fashion's finest<br>come together.</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:#787876;font-style:italic;margin-bottom:14px">An intimate circle. By invitation.</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:300;border-bottom:1px solid #0e0e0e;display:inline-block;padding-bottom:1px;font-style:italic">Request an introduction →</div>
+          </div>
+        </div>
+        <div class="dc-info">
+          <p class="dc-name">All-Cormorant, italic-heavy copy</p>
+          <p class="dc-body">A direction using Cormorant Garamond for body text as well as headings, with italic copy throughout. Felt overwrought — too many serifs made the page feel like a wedding invitation. The italic headline copy ("Where fashion's finest come together") read as aspirational waffle. Replaced with plain, direct language set in Inter for body.</p>
+        </div>
+      </div>
+
+      <div class="direction-card">
+        <div class="dc-preview">
+          <span class="dc-preview-label">Explored direction</span>
+          <span class="dc-rejected-tag">Rejected</span>
+          <!-- Card-based layout -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div style="border:1px solid #dcdcda;padding:12px;background:#fff">
+              <div style="font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#b4b4b2;margin-bottom:6px">Stylists</div>
+              <div style="font-size:11px;font-weight:300;color:#787876;line-height:1.4">24 members available this season</div>
+            </div>
+            <div style="border:1px solid #dcdcda;padding:12px;background:#fff">
+              <div style="font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#b4b4b2;margin-bottom:6px">Photographers</div>
+              <div style="font-size:11px;font-weight:300;color:#787876;line-height:1.4">18 members available this season</div>
+            </div>
+            <div style="border:1px solid #dcdcda;padding:12px;background:#fff">
+              <div style="font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#b4b4b2;margin-bottom:6px">Art Directors</div>
+              <div style="font-size:11px;font-weight:300;color:#787876;line-height:1.4">11 members available this season</div>
+            </div>
+          </div>
+        </div>
+        <div class="dc-info">
+          <p class="dc-name">Discipline cards with member counts</p>
+          <p class="dc-body">An early homepage concept showing each creative discipline as a card with a live member count. Rejected on two grounds: it made membership numbers public (reducing scarcity appeal), and the card grid felt like a marketplace or job board. The final disciplines section uses a simple list — no counts, no cards.</p>
+        </div>
+      </div>
+
+      <div class="direction-card">
+        <div class="dc-preview">
+          <span class="dc-preview-label">Explored direction</span>
+          <span class="dc-rejected-tag">Rejected</span>
+          <!-- Filled button direction -->
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:8px">
+            <div style="background:#0e0e0e;color:#fff;padding:12px 28px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase">Apply Now</div>
+            <div style="background:#0e0e0e;color:#fff;padding:12px 28px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5">Learn More</div>
+            <div style="border:1px solid #dcdcda;color:#0e0e0e;padding:12px 28px;font-size:11px;font-weight:300;letter-spacing:0.1em;text-transform:uppercase">View Pricing</div>
+          </div>
+        </div>
+        <div class="dc-info">
+          <p class="dc-name">Filled button CTAs</p>
+          <p class="dc-body">Solid black filled buttons with white uppercase text — the standard CTA approach. Tested early and rejected quickly. Filled buttons feel mass-market and high-pressure, visually competing with content. The final approach uses a single underlined text link (border-bottom only) as the CTA — less dominant, but more considered.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

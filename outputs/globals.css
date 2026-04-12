@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: "Cormorant Garamond", Georgia, serif;
+    --font-inter: "Inter", system-ui, sans-serif;
+  }
+
+  /* ── Dark theme (default) ─────────────────────────── */
+  :root,
+  [data-theme="dark"] {
+    --c-bg:       8 8 8;           /* #080808 */
+    --c-surface:  14 14 14;        /* #0E0E0E */
+    --c-elevated: 20 20 20;        /* #141414 */
+    --c-border:   32 32 32;        /* #202020 */
+    --c-text:     245 245 245;     /* #F5F5F5 */
+    --c-muted:    130 130 130;     /* #828282 */
+    --c-gold:     245 245 245;
+
+    --scrollbar-track: #080808;
+    --scrollbar-thumb: #202020;
+    --scrollbar-thumb-hover: #2e2e2e;
+    --selection-bg: rgba(245, 245, 245, 0.10);
+  }
+
+  /* ── Light theme ──────────────────────────────────── */
+  [data-theme="light"] {
+    --c-bg:       252 252 252;     /* #FCFCFC */
+    --c-surface:  247 247 247;     /* #F7F7F7 */
+    --c-elevated: 238 238 238;     /* #EEEEEE */
+    --c-border:   220 220 220;     /* #DCDCDC */
+    --c-text:     12 12 12;        /* #0C0C0C */
+    --c-muted:    110 110 110;     /* #6E6E6E */
+    --c-gold:     12 12 12;
+
+    --scrollbar-track: #FCFCFC;
+    --scrollbar-thumb: #DCDCDC;
+    --scrollbar-thumb-hover: #C8C8C8;
+    --selection-bg: rgba(12, 12, 12, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: rgb(var(--c-bg));
+    color: rgb(var(--c-text));
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    transition: background-color 200ms, color 200ms;
+    cursor: none;
+  }
+
+  ::selection {
+    background-color: var(--selection-bg);
+    color: rgb(var(--c-text));
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 0; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+}
+
+@layer components {
+
+  /* Typography */
+  .serif-heading {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.0;
+  }
+
+  /* 10px · 0.2em tracking · weight 500 — per spec */
+  .label-caps {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgb(var(--c-muted));
+  }
+
+  /* Primary CTA — sharp, no radius, filled */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    background-color: rgb(var(--c-text));
+    color: rgb(var(--c-bg));
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: opacity 150ms;
+    cursor: pointer;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+  }
+  .btn-primary:hover { opacity: 0.78; }
+
+  /* Secondary CTA — outlined, sharp */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: rgb(var(--c-text));
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid rgb(var(--c-border));
+    border-radius: 0;
+    text-decoration: none;
+    transition: border-color 150ms, color 150ms;
+    cursor: pointer;
+  }
+  .btn-outline:hover {
+    border-color: rgb(var(--c-muted));
+    color: rgb(var(--c-text));
+  }
+
+  /* Ghost CTA — underlined text, no box */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    color: rgb(var(--c-muted));
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 0.5px;
+    transition: color 150ms;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-ghost:hover { color: rgb(var(--c-text)); }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid rgb(var(--c-border));
+  }
+}

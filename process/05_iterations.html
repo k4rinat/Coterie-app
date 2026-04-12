@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 05 — Design Iterations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0e; --mid: #787876; --muted: #b4b4b2;
+  --rule: #dcdcda; --elv: #f4f4f2; --surf: #fcfcfa;
+  --display: 'Cormorant Garamond', serif; --body: 'Inter', sans-serif;
+}
+body { font-family: var(--body); background: #fff; color: var(--ink); }
+.bar {
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--display); font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 36px;
+}
+
+/* ── Version timeline ── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.version-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-bottom: none;
+}
+.version-row:last-child { border-bottom: 1px solid var(--rule); }
+.v-num {
+  padding: 28px 24px;
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--elv);
+}
+.v-label { font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.v-name { font-family: var(--display); font-size: 26px; font-weight: 300; }
+.v-main { padding: 28px; }
+.v-headline { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.v-body { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; margin-bottom: 16px; max-width: 680px; }
+.v-changes { display: flex; flex-wrap: wrap; gap: 8px; }
+.v-tag {
+  font-size: 10px; font-weight: 300; color: var(--mid);
+  border: 1px solid var(--rule); padding: 4px 12px;
+}
+
+/* ── Before/After visual comparisons ── */
+.ba-grid { display: flex; flex-direction: column; gap: 2px; }
+.ba-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+}
+.ba-header-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  margin-bottom: 2px;
+}
+.ba-header-cell {
+  padding: 12px 28px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #555;
+  border-right: 1px solid #333;
+}
+.ba-header-cell:last-child { border-right: none; }
+.ba-half {
+  padding: 28px;
+  border-right: 1px solid var(--rule);
+}
+.ba-half:last-child { border-right: none; }
+.ba-change-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.ba-content { margin-bottom: 12px; }
+.ba-note { font-size: 11px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+.ba-note.after { color: #4a8050; }
+
+/* ── What stayed the same ── */
+.stable-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.stable-card { border: 1px solid var(--rule); padding: 28px; }
+.stable-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; }
+.stable-body { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 05  /  Design Iterations
+  <em>What changed, what stayed, and why each decision was made.</em>
+</div>
+
+<div class="page">
+
+  <!-- Version history -->
+  <div>
+    <p class="section-eyebrow">Version History</p>
+    <h2 class="section-heading">The design went through three clear phases.</h2>
+
+    <div class="timeline">
+      <div class="version-row">
+        <div class="v-num">
+          <span class="v-label">Version</span>
+          <span class="v-name">01</span>
+        </div>
+        <div class="v-main">
+          <p class="v-headline">First build — structure without style</p>
+          <p class="v-body">The first version was about getting the page structure right. All sections were in place, the navigation worked, the pages existed. But the visual design used system defaults — Inter Regular, standard weights, hardcoded hex colours. It looked like a placeholder, not a product. The layout was right. Everything else needed work.</p>
+          <div class="v-changes">
+            <span class="v-tag">All pages built</span>
+            <span class="v-tag">Navigation functional</span>
+            <span class="v-tag">System fonts (Inter Regular)</span>
+            <span class="v-tag">Colours hardcoded</span>
+            <span class="v-tag">No dark mode</span>
+            <span class="v-tag">No visual rhythm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-row">
+        <div class="v-num">
+          <span class="v-label">Version</span>
+          <span class="v-name">02</span>
+        </div>
+        <div class="v-main">
+          <p class="v-headline">Typography and token overhaul</p>
+          <p class="v-body">The biggest shift. Cormorant Garamond 300 replaced all headings. Inter was locked to weight 300 for body and 500 for labels only. All colours were moved out of components and into CSS custom properties. This was also when the dark mode architecture was designed — not implemented yet, but the token system was built to support it from day one.</p>
+          <div class="v-changes">
+            <span class="v-tag">Cormorant Garamond 300</span>
+            <span class="v-tag">Inter 300 body / 500 labels</span>
+            <span class="v-tag">CSS token system</span>
+            <span class="v-tag">Dark mode architecture</span>
+            <span class="v-tag">Section spacing rhythm</span>
+            <span class="v-tag">Hairline CTAs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-row">
+        <div class="v-num">
+          <span class="v-label">Version</span>
+          <span class="v-name">03</span>
+        </div>
+        <div class="v-main">
+          <p class="v-headline">Refinement — removing what didn't belong</p>
+          <p class="v-body">The third pass was about subtraction. The hero had too many elements — bullet points, a supporting image, a background grid pattern. All removed. The apply form had 12 fields. Reduced to 4. The membership section had a highlighted "recommended" tier — removed. Each removal made the page closer to the reference. The rule became: if you can remove it and the page is still clear, remove it.</p>
+          <div class="v-changes">
+            <span class="v-tag">Hero stripped to headline + CTA only</span>
+            <span class="v-tag">Form: 12 fields → 4</span>
+            <span class="v-tag">Tier cards equalised</span>
+            <span class="v-tag">Mobile nav added</span>
+            <span class="v-tag">Dark mode live</span>
+            <span class="v-tag">Footer simplified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Before/After comparisons -->
+  <div>
+    <p class="section-eyebrow">Key Changes</p>
+    <h2 class="section-heading">Before and after — the decisions that mattered most.</h2>
+
+    <div class="ba-grid">
+      <div class="ba-header-row">
+        <div class="ba-header-cell">Before</div>
+        <div class="ba-header-cell">After</div>
+      </div>
+
+      <!-- Heading -->
+      <div class="ba-row">
+        <div class="ba-half">
+          <p class="ba-change-label">Heading typography</p>
+          <div class="ba-content" style="font-family:'Inter',sans-serif;font-weight:400;font-size:38px;line-height:1.1;color:#a06060">
+            Where Fashion Trusts Talent
+          </div>
+          <p class="ba-note">Inter Regular — reads like a startup. No personality, no register.</p>
+        </div>
+        <div class="ba-half">
+          <p class="ba-change-label">Heading typography</p>
+          <div class="ba-content" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:48px;line-height:1.05;letter-spacing:0.01em">
+            Where Fashion Trusts Talent
+          </div>
+          <p class="ba-note after">Cormorant Garamond 300 — immediately communicates the fashion register.</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="ba-row" style="border-top:none">
+        <div class="ba-half">
+          <p class="ba-change-label">Call to action</p>
+          <div class="ba-content">
+            <div style="display:inline-block;background:#0e0e0e;color:#fff;padding:12px 24px;font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;opacity:0.5">
+              APPLY FOR ACCESS
+            </div>
+          </div>
+          <p class="ba-note">Filled black button — aggressive, looks like a tech product.</p>
+        </div>
+        <div class="ba-half">
+          <p class="ba-change-label">Call to action</p>
+          <div class="ba-content" style="padding: 12px 0">
+            <span style="font-size:14px;font-weight:300;border-bottom:1px solid #0e0e0e;padding-bottom:2px;letter-spacing:0.02em">Apply for access  →</span>
+          </div>
+          <p class="ba-note after">Hairline text link — quiet. The restraint matches the brand.</p>
+        </div>
+      </div>
+
+      <!-- Membership cards -->
+      <div class="ba-row" style="border-top:none">
+        <div class="ba-half">
+          <p class="ba-change-label">Membership section</p>
+          <div class="ba-content" style="display:flex;gap:6px">
+            <div style="flex:1;border:1px solid #dcdcda;padding:12px">
+              <div style="font-size:9px;color:#b4b4b2;margin-bottom:4px">Emerging</div>
+              <div style="font-size:14px;font-weight:500">Creative</div>
+              <div style="font-size:11px;color:#787876">£20/mo</div>
+            </div>
+            <div style="flex:1;border:2px solid #0e0e0e;background:#0e0e0e;color:#fff;padding:12px;position:relative">
+              <div style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#0e0e0e;color:#fff;font-size:8px;padding:2px 7px;white-space:nowrap">Most Popular</div>
+              <div style="font-size:9px;color:#777;margin-bottom:4px">Professional</div>
+              <div style="font-size:14px;font-weight:500">Creative</div>
+              <div style="font-size:11px;color:#aaa">£50/mo</div>
+            </div>
+            <div style="flex:1;border:1px solid #dcdcda;padding:12px">
+              <div style="font-size:9px;color:#b4b4b2;margin-bottom:4px">Elite</div>
+              <div style="font-size:14px;font-weight:500">Creative</div>
+              <div style="font-size:11px;color:#787876">£100/mo</div>
+            </div>
+          </div>
+          <p class="ba-note">Professional card filled black and pushed as "Most Popular" — too product-app, too pushy.</p>
+        </div>
+        <div class="ba-half">
+          <p class="ba-change-label">Membership section</p>
+          <div class="ba-content" style="display:flex;gap:6px">
+            <div style="flex:1;border:1px solid #dcdcda;padding:12px">
+              <div style="font-size:9px;color:#b4b4b2;margin-bottom:4px">Emerging</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:18px;margin-bottom:2px">£20 / month</div>
+              <div style="font-size:10px;font-weight:300;color:#b4b4b2">7-day free trial</div>
+            </div>
+            <div style="flex:1;border:1px solid #dcdcda;padding:12px">
+              <div style="font-size:9px;color:#b4b4b2;margin-bottom:4px">Professional</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:18px;margin-bottom:2px">£50 / month</div>
+              <div style="font-size:10px;font-weight:300;color:#b4b4b2">Most Popular</div>
+            </div>
+            <div style="flex:1;border:1px solid #dcdcda;padding:12px">
+              <div style="font-size:9px;color:#b4b4b2;margin-bottom:4px">Elite</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:18px;margin-bottom:2px">£100 / month</div>
+              <div style="font-size:10px;font-weight:300;color:#b4b4b2">Art directors</div>
+            </div>
+          </div>
+          <p class="ba-note after">Three equal cards — border only, no fills. "Most Popular" as a quiet label only. User decides their tier.</p>
+        </div>
+      </div>
+
+      <!-- Hero complexity -->
+      <div class="ba-row" style="border-top:none">
+        <div class="ba-half">
+          <p class="ba-change-label">Hero content</p>
+          <div class="ba-content" style="border:1px solid #dcdcda;padding:20px;display:flex;flex-direction:column;gap:8px;background:#f9f9f7">
+            <div style="font-size:24px;font-weight:400;line-height:1.1;color:#a06060">Where Fashion Trusts Talent</div>
+            <div style="font-size:12px;font-weight:300;color:#b4b4b2">Join the private network for fashion creatives.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span style="font-size:10px;color:#787876;border:1px solid #dcdcda;padding:3px 8px">✓ Verified members</span>
+              <span style="font-size:10px;color:#787876;border:1px solid #dcdcda;padding:3px 8px">✓ Private briefs</span>
+              <span style="font-size:10px;color:#787876;border:1px solid #dcdcda;padding:3px 8px">✓ Vetted creatives</span>
+            </div>
+            <div style="background:#0e0e0e;color:#fff;font-size:11px;font-weight:500;padding:10px 18px;letter-spacing:0.06em;text-transform:uppercase;display:inline-block;opacity:0.5">APPLY FOR ACCESS</div>
+          </div>
+          <p class="ba-note">Subheading + bullets + filled button — too much. The eye doesn't know where to go.</p>
+        </div>
+        <div class="ba-half">
+          <p class="ba-change-label">Hero content</p>
+          <div class="ba-content" style="border:1px solid #dcdcda;padding:32px;display:flex;flex-direction:column;gap:20px">
+            <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:38px;line-height:1.05">Where Fashion<br>Trusts Talent.</div>
+            <span style="font-size:13px;font-weight:300;border-bottom:1px solid #0e0e0e;display:inline-block;padding-bottom:2px">Apply for access  →</span>
+          </div>
+          <p class="ba-note after">Headline + one CTA. Nothing else. The white space does the work.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- What stayed the same -->
+  <div>
+    <p class="section-eyebrow">What never changed</p>
+    <h2 class="section-heading">Some decisions were made once and held.</h2>
+    <div class="stable-grid">
+      <div class="stable-card">
+        <p class="stable-title">Page structure</p>
+        <p class="stable-body">The homepage section order — Hero, Pillars, Disciplines, Membership, Quote, CTA — was set in the wireframe stage and never moved. The logic was right the first time.</p>
+      </div>
+      <div class="stable-card">
+        <p class="stable-title">No accent colour</p>
+        <p class="stable-body">From the first reference analysis, the decision was monochrome. It was never revisited. Introducing colour at any stage would have changed what the site communicates.</p>
+      </div>
+      <div class="stable-card">
+        <p class="stable-title">Single conversion goal</p>
+        <p class="stable-body">Every page points to the application. There's no newsletter, no download, no secondary CTA. That decision was made at the brief stage and never changed.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

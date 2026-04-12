@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 03 — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --c-bg: #ffffff; --c-ink: #0e0e0e; --c-mid: #787876; --c-muted: #b4b4b2;
+    --c-rule: #dcdcda; --c-elv: #f4f4f2; --c-surf: #fcfcfa;
+    --f-display: 'Cormorant Garamond', serif; --f-body: 'Inter', sans-serif;
+  }
+  body { font-family: var(--f-body); background: #fff; color: var(--c-ink); }
+  .stagebar {
+    background: var(--c-ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .stagebar span { color: #666; font-weight: 300; }
+  .page { padding: 64px 80px; display: flex; flex-direction: column; gap: 64px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: var(--f-display); font-weight: 300; font-size: 36px;
+    line-height: 1.1; margin-bottom: 32px;
+  }
+  .rule { border: none; border-top: 1px solid var(--c-rule); }
+
+  /* ── Colour grid ────────────────────────────── */
+  .colour-system {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  .colour-col-title {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 20px;
+  }
+  .swatch-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--c-rule);
+    overflow: hidden;
+  }
+  .dark-panel .swatch-row { border-color: #333; }
+  .swatch {
+    flex: 1; height: 48px;
+    display: flex; align-items: flex-end;
+    padding: 4px 6px;
+    font-size: 9px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+  }
+  .swatch-list { display: flex; flex-direction: column; gap: 0; }
+  .swatch-item {
+    display: grid;
+    grid-template-columns: 48px 180px 1fr;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--c-rule);
+  }
+  .swatch-item:last-child { border-bottom: none; }
+  .swatch-block { width: 48px; height: 48px; }
+  .swatch-token {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--c-ink);
+    padding: 0 16px;
+  }
+  .swatch-desc { font-size: 11px; font-weight: 300; color: var(--c-mid); }
+
+  .dark-panel {
+    background: #0c0c0c;
+    padding: 28px;
+  }
+  .dark-panel .swatch-item { border-bottom-color: #333; }
+  .dark-panel .swatch-token { color: #f2f1ef; }
+  .dark-panel .swatch-desc { color: #8c8c91; }
+  .dark-panel .colour-col-title { color: #555; }
+
+  /* ── Typography ─────────────────────────────── */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--c-rule);
+  }
+  .type-col {
+    padding: 40px;
+    border-right: 1px solid var(--c-rule);
+  }
+  .type-col:last-child { border-right: none; }
+  .type-col-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 28px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--c-rule);
+  }
+
+  .type-specimen { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--c-rule); }
+  .type-specimen:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .spec-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 10px;
+  }
+  .spec-desc {
+    font-size: 10px; font-weight: 300; color: var(--c-muted);
+    margin-top: 8px; font-family: 'Courier New', monospace;
+  }
+
+  /* ── References strip ──────────────────────── */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--c-rule);
+  }
+  .ref-card {
+    border-right: 1px solid var(--c-rule);
+  }
+  .ref-card:last-child { border-right: none; }
+  .ref-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--c-rule);
+  }
+  .ref-brand {
+    font-family: var(--f-display); font-weight: 300; font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .ref-role {
+    font-size: 10px; font-weight: 300; color: var(--c-muted);
+    letter-spacing: 0.04em;
+  }
+  .ref-lessons {
+    padding: 20px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .ref-lesson {
+    font-size: 11px; font-weight: 300; color: var(--c-mid);
+    padding-left: 14px; position: relative; line-height: 1.5;
+  }
+  .ref-lesson::before {
+    content: '—'; position: absolute; left: 0; color: var(--c-rule);
+  }
+</style>
+</head>
+<body>
+
+<div class="stagebar">
+  Stage 03  /  UI Design
+  <span>Colour · Typography · References</span>
+</div>
+
+<div class="page">
+
+  <!-- COLOUR SYSTEM -->
+  <div>
+    <span class="section-label">Colour</span>
+    <h2 class="section-title">Token-based. Two themes, one stylesheet.</h2>
+
+    <div class="colour-system">
+      <!-- Light -->
+      <div>
+        <p class="colour-col-title">Light theme  —  data-theme="light"</p>
+        <div class="swatch-list" style="border:1px solid var(--c-rule)">
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#ffffff;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-bg</span>
+            <span class="swatch-desc">Page background</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#f4f4f2;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-elevated</span>
+            <span class="swatch-desc">Cards, hover, nested panels</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#dcdcda;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-rule</span>
+            <span class="swatch-desc">Dividers, borders</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#b4b4b2;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-muted</span>
+            <span class="swatch-desc">Ghost / placeholder text</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#787876;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-mid</span>
+            <span class="swatch-desc">Secondary text</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#0e0e0e;border-right:1px solid #dcdcda"></div>
+            <span class="swatch-token">--c-ink</span>
+            <span class="swatch-desc">Primary text, headings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark -->
+      <div class="dark-panel">
+        <p class="colour-col-title">Dark theme  —  data-theme="dark"</p>
+        <div class="swatch-list" style="border:1px solid #333">
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#0c0c0c;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-bg</span>
+            <span class="swatch-desc">Page background</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#282828;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-elevated</span>
+            <span class="swatch-desc">Cards, hover, nested panels</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#404042;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-rule</span>
+            <span class="swatch-desc">Dividers, borders</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#8c8c91;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-muted</span>
+            <span class="swatch-desc">Ghost / placeholder text</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#bebec3;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-mid</span>
+            <span class="swatch-desc">Secondary text</span>
+          </div>
+          <div class="swatch-item">
+            <div class="swatch-block" style="background:#f2f1ef;border-right:1px solid #333"></div>
+            <span class="swatch-token">--c-ink</span>
+            <span class="swatch-desc">Primary text, headings</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div>
+    <span class="section-label">Typography</span>
+    <h2 class="section-title">Two typefaces. One weight each.</h2>
+
+    <div class="type-grid">
+      <div class="type-col">
+        <p class="type-col-label">Cormorant Garamond — display / headings</p>
+
+        <div class="type-specimen">
+          <p class="spec-label">Display — 72px</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:72px;line-height:1.05;letter-spacing:0.01em">
+            Where Fashion<br>Trusts Talent.
+          </div>
+          <p class="spec-desc">font-size: 4.5rem · font-weight: 300 · letter-spacing: 0.01em</p>
+        </div>
+
+        <div class="type-specimen">
+          <p class="spec-label">Section heading — 40px italic</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:40px;line-height:1.15">
+            How It Works
+          </div>
+          <p class="spec-desc">font-size: 2.5rem · italic · only on editorial sections</p>
+        </div>
+
+        <div class="type-specimen">
+          <p class="spec-label">Page heading — 32px</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;line-height:1.2">
+            Membership
+          </div>
+          <p class="spec-desc">font-size: 2rem · used for all major section headings</p>
+        </div>
+      </div>
+
+      <div class="type-col">
+        <p class="type-col-label">Inter — UI / body text</p>
+
+        <div class="type-specimen">
+          <p class="spec-label">Body copy — 16px</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:16px;line-height:1.7;color:#787876;max-width:400px">
+            Coterie is a private network for fashion creatives and the brands that hire them. Access is by application only.
+          </div>
+          <p class="spec-desc">font-size: 1rem · weight 300 · line-height: 1.7</p>
+        </div>
+
+        <div class="type-specimen">
+          <p class="spec-label">UI label — 12px / 500</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.08em;text-transform:uppercase">
+            Apply for Access
+          </div>
+          <p class="spec-desc">font-size: 0.75rem · weight 500 · letter-spacing: 0.08em</p>
+        </div>
+
+        <div class="type-specimen">
+          <p class="spec-label">Stage label — 9px / 500 / spaced</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#b4b4b2">
+            Creative Member
+          </div>
+          <p class="spec-desc">font-size: 0.5625rem · weight 500 · letter-spacing: 0.16em</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENCES -->
+  <div>
+    <span class="section-label">References</span>
+    <h2 class="section-title">What we looked at. What we took.</h2>
+
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-header">
+          <div class="ref-brand">The Row</div>
+          <span class="ref-role">Primary reference — entire aesthetic</span>
+        </div>
+        <div class="ref-lessons">
+          <p class="ref-lesson">Maximum white space</p>
+          <p class="ref-lesson">Serif at weight 200–300 only</p>
+          <p class="ref-lesson">No decorative elements</p>
+          <p class="ref-lesson">No hero images — text is the hero</p>
+          <p class="ref-lesson">Pricing shown plainly, no hype</p>
+        </div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-header">
+          <div class="ref-brand">Lemaire</div>
+          <span class="ref-role">Tone and spacing reference</span>
+        </div>
+        <div class="ref-lessons">
+          <p class="ref-lesson">Generous line height in body</p>
+          <p class="ref-lesson">Understated navigation style</p>
+          <p class="ref-lesson">No accent colour anywhere</p>
+          <p class="ref-lesson">Hierarchy via size, not colour</p>
+          <p class="ref-lesson">Body copy as a luxury signal</p>
+        </div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-header">
+          <div class="ref-brand">Toteme</div>
+          <span class="ref-role">Grid and layout reference</span>
+        </div>
+        <div class="ref-lessons">
+          <p class="ref-lesson">Strict column structure</p>
+          <p class="ref-lesson">Horizontal rules as dividers</p>
+          <p class="ref-lesson">Labels in small caps with tracking</p>
+          <p class="ref-lesson">Consistent section-to-section rhythm</p>
+          <p class="ref-lesson">Photography secondary to type</p>
+        </div>
+      </div>
+      <div class="ref-card" style="border-right:none">
+        <div class="ref-header">
+          <div class="ref-brand">Jil Sander</div>
+          <span class="ref-role">Copywriting register</span>
+        </div>
+        <div class="ref-lessons">
+          <p class="ref-lesson">Short, declarative sentences</p>
+          <p class="ref-lesson">No marketing superlatives</p>
+          <p class="ref-lesson">Trust implied, not stated</p>
+          <p class="ref-lesson">Silence as a design element</p>
+          <p class="ref-lesson">Nothing explained twice</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

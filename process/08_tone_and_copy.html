@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 08 — Tone &amp; Copy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #fff; color: #0e0e0e; }
+.bar {
+  background: #0e0e0e; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 8px; }
+.section-heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.1; margin-bottom: 36px; }
+
+/* ── Voice rules ── */
+.rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.rule-card {
+  border: 1px solid #dcdcda;
+  padding: 28px 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.rule-number { font-family: 'Courier New', monospace; font-size: 10px; color: #b4b4b2; }
+.rule-title { font-size: 15px; font-weight: 500; }
+.rule-body { font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7; }
+
+/* ── Do / Don't ── */
+.dd-block { display: flex; flex-direction: column; gap: 2px; }
+.dd-header {
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.dd-col-label {
+  padding: 10px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.dd-col-label.do { background: #0e0e0e; color: #fff; }
+.dd-col-label.dont { background: #f4f4f2; color: #b4b4b2; }
+.dd-row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.dd-row:first-of-type .dd-cell { border-top: 1px solid #dcdcda; }
+.dd-cell { padding: 16px 20px; font-size: 12px; font-weight: 300; line-height: 1.6; }
+.dd-cell.do { color: #0e0e0e; border-right: 1px solid #dcdcda; }
+.dd-cell.dont { color: #b4b4b2; text-decoration: line-through; font-style: italic; }
+
+/* ── Copy audit table ── */
+.audit-table { border: 1px solid #dcdcda; }
+.at-header {
+  display: grid; grid-template-columns: 160px 1fr 1fr 1fr;
+  background: #0e0e0e;
+}
+.at-hcell {
+  padding: 12px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #555;
+  border-right: 1px solid #333;
+}
+.at-hcell:last-child { border-right: none; }
+.at-row { display: grid; grid-template-columns: 160px 1fr 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.at-row:last-child { border-bottom: none; }
+.at-row:nth-child(even) .at-cell { background: #fcfcfa; }
+.at-cell {
+  padding: 16px 20px;
+  font-size: 12px; font-weight: 300; color: #787876;
+  border-right: 1px solid #dcdcda;
+  line-height: 1.6;
+}
+.at-cell:last-child { border-right: none; }
+.at-cell.location { font-weight: 500; color: #0e0e0e; font-size: 12px; }
+.at-cell.final { color: #0e0e0e; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 300; }
+.at-cell.why { color: #4a8050; }
+
+/* ── CTA evolution ── */
+.cta-evolution { border: 1px solid #dcdcda; }
+.ce-row { display: grid; grid-template-columns: 160px 1fr 1fr 120px; border-bottom: 1px solid #dcdcda; align-items: center; }
+.ce-row:last-child { border-bottom: none; }
+.ce-location { padding: 16px 20px; font-size: 12px; font-weight: 500; border-right: 1px solid #dcdcda; }
+.ce-rejected { padding: 16px 20px; font-size: 12px; font-weight: 300; color: #b4b4b2; text-decoration: line-through; font-style: italic; border-right: 1px solid #dcdcda; line-height: 1.5; }
+.ce-final { padding: 16px 20px; font-size: 12px; font-weight: 300; color: #0e0e0e; border-right: 1px solid #dcdcda; line-height: 1.5; }
+.ce-tag { padding: 16px 20px; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #4a8050; }
+
+/* ── Word bank ── */
+.word-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.word-col { border: 1px solid #dcdcda; }
+.word-col-header { padding: 14px 24px; font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid #dcdcda; }
+.word-col-header.in { background: #0e0e0e; color: #fff; }
+.word-col-header.out { background: #f4f4f2; color: #b4b4b2; }
+.word-list { padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+.word-tag { padding: 6px 14px; font-size: 11px; font-weight: 300; border: 1px solid #dcdcda; }
+.word-tag.in { color: #0e0e0e; }
+.word-tag.out { color: #b4b4b2; text-decoration: line-through; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 08  /  Tone &amp; Copy
+  <em>The language decisions — how the site speaks, and why.</em>
+</div>
+
+<div class="page">
+
+  <!-- Voice principles -->
+  <div>
+    <p class="section-eyebrow">Voice Principles</p>
+    <h2 class="section-heading">The site speaks the way<br>the brand wants to be perceived.</h2>
+
+    <div class="rules-grid">
+      <div class="rule-card">
+        <span class="rule-number">01</span>
+        <p class="rule-title">Confident, not boastful</p>
+        <p class="rule-body">Coterie doesn't shout about being exclusive. It simply is. The copy states things plainly without superlatives or hype. "A private network for fashion creatives" — not "the #1 platform for fashion professionals."</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">02</span>
+        <p class="rule-title">No exclamation marks. Ever.</p>
+        <p class="rule-body">Exclamation marks communicate excitement, which communicates insecurity. Every sentence ends with a full stop or nothing. This was a hard rule set from day one and never broken across any page.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">03</span>
+        <p class="rule-title">Short sentences. Space to breathe.</p>
+        <p class="rule-body">No paragraph longer than three sentences on any hero or intro section. Long copy signals a need to persuade. The site never persuades — it informs. The user decides.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">04</span>
+        <p class="rule-title">Gatekeeping without arrogance</p>
+        <p class="rule-body">"Not everyone is accepted" appears on the site — but only once, and without ceremony. The tone is matter-of-fact, not self-congratulatory. The bar exists for quality, not prestige.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">05</span>
+        <p class="rule-title">Active, not passive</p>
+        <p class="rule-body">Every CTA is a verb. "Apply." "Start free trial." "Discover the disciplines." The user always knows exactly what will happen next. No vague "Learn more" or "Find out more" buttons anywhere.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">06</span>
+        <p class="rule-title">Value before price</p>
+        <p class="rule-body">The homepage never mentions cost. The how it works page never mentions cost. Cost appears only on the pricing page — after the user already understands what they're getting. Price is never introduced before value.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Do / Don't -->
+  <div>
+    <p class="section-eyebrow">Language Do / Don't</p>
+    <h2 class="section-heading">Specific words were either used<br>or deliberately avoided.</h2>
+
+    <div class="dd-block">
+      <div class="dd-header">
+        <div class="dd-col-label do">Used — and why it works</div>
+        <div class="dd-col-label dont">Avoided — and why it was rejected</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"Apply" — implies selection, not sign-up. The user earns access.</div>
+        <div class="dd-cell dont">"Join" / "Sign up" / "Register" — frictionless language that implies anyone can get in.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"Vetted" — factual. It describes a process, not a value judgement.</div>
+        <div class="dd-cell dont">"Elite" / "Exclusive" / "Premium" — self-applied prestige language feels hollow.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"Private network" — accurate. The network is private by design.</div>
+        <div class="dd-cell dont">"Community" / "Tribe" / "Family" — over-familiar, soft, used by every startup.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"Fashion creatives" — broad, inclusive of all disciplines and levels.</div>
+        <div class="dd-cell dont">"Fashion professionals" / "Industry insiders" — either too corporate or too self-important.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"Introductions" — specific. It describes exactly what happens between members.</div>
+        <div class="dd-cell dont">"Connections" / "Networking" — overused in every professional platform context.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"How it works" — clear, functional, no pretence.</div>
+        <div class="dd-cell dont">"Our story" / "Our mission" / "About us" — generic, inward-facing.</div>
+      </div>
+      <div class="dd-row">
+        <div class="dd-cell do">"For brands" — direct, unambiguous. Brands know immediately where to go.</div>
+        <div class="dd-cell dont">"Partners" / "Collaborators" / "Enterprise" — softens the transactional reality.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copy audit by page -->
+  <div>
+    <p class="section-eyebrow">Copy by Location</p>
+    <h2 class="section-heading">Each piece of copy was written<br>with a specific job to do.</h2>
+
+    <div class="audit-table">
+      <div class="at-header">
+        <div class="at-hcell">Location</div>
+        <div class="at-hcell">First draft direction</div>
+        <div class="at-hcell">Final copy</div>
+        <div class="at-hcell">Why it changed</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Homepage hero headline</div>
+        <div class="at-cell">Something aspirational — "Where fashion's best connect."</div>
+        <div class="at-cell final">The private network for fashion creatives and the brands that hire them.</div>
+        <div class="at-cell why">Aspiration is vague. The final version tells you exactly what it is in one sentence.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Homepage subhead</div>
+        <div class="at-cell">A description of features — "Job board, introductions, community."</div>
+        <div class="at-cell final">Access is by application only. Not everyone is accepted.</div>
+        <div class="at-cell why">Features belong on the how-it-works page. The homepage should create intrigue, not explain.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Primary CTA</div>
+        <div class="at-cell">"Get started" / "Join Coterie"</div>
+        <div class="at-cell final">Apply</div>
+        <div class="at-cell why">One word. Implies the process is selective. No softening language.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Nav — brand link</div>
+        <div class="at-cell">"Brands" / "Hire" / "For Employers"</div>
+        <div class="at-cell final">For Brands</div>
+        <div class="at-cell why">"For Brands" signals this is a distinct offering, not a sub-feature. Brands are a co-primary audience.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Pricing page intro</div>
+        <div class="at-cell">"Choose the plan that's right for you."</div>
+        <div class="at-cell final">Simple, transparent pricing. No hidden fees.</div>
+        <div class="at-cell why">No upsell, no pressure framing. The copy matches the visual — plain information, user decides.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Apply page heading</div>
+        <div class="at-cell">"Ready to join?" / "Apply for membership"</div>
+        <div class="at-cell final">Apply to Coterie</div>
+        <div class="at-cell why">"Ready to join?" is a question that implies hesitation. State the action, don't interrogate the user.</div>
+      </div>
+      <div class="at-row">
+        <div class="at-cell location">Footer tagline</div>
+        <div class="at-cell">A brand mission statement or value prop.</div>
+        <div class="at-cell final">(No tagline — just the wordmark and nav)</div>
+        <div class="at-cell why">A tagline in the footer feels like the brand explaining itself again. The site has already done that. Let it end quietly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA evolution -->
+  <div>
+    <p class="section-eyebrow">CTA Language Evolution</p>
+    <h2 class="section-heading">Every button went through<br>multiple versions before it was right.</h2>
+
+    <div class="cta-evolution">
+      <div class="ce-row">
+        <div class="ce-location">Homepage hero</div>
+        <div class="ce-rejected">Get started → / Join now → / Explore →</div>
+        <div class="ce-final">Apply →</div>
+        <div class="ce-tag">Simplified</div>
+      </div>
+      <div class="ce-row">
+        <div class="ce-location">Emerging tier</div>
+        <div class="ce-rejected">Sign up free → / Start your trial → / Try for free →</div>
+        <div class="ce-final">Start free trial →</div>
+        <div class="ce-tag">Clarified</div>
+      </div>
+      <div class="ce-row">
+        <div class="ce-location">Professional tier</div>
+        <div class="ce-rejected">Join Professional → / Upgrade → / Get Professional →</div>
+        <div class="ce-final">Apply — Professional →</div>
+        <div class="ce-tag">Reframed</div>
+      </div>
+      <div class="ce-row">
+        <div class="ce-location">Brand access</div>
+        <div class="ce-rejected">Request demo → / Get in touch → / Learn more →</div>
+        <div class="ce-final">Apply for access →</div>
+        <div class="ce-tag">Consistent</div>
+      </div>
+      <div class="ce-row">
+        <div class="ce-location">Enterprise tier</div>
+        <div class="ce-rejected">Book a call → / Request a quote → / Talk to sales →</div>
+        <div class="ce-final">Contact us →</div>
+        <div class="ce-tag">Direct</div>
+      </div>
+      <div class="ce-row">
+        <div class="ce-location">How It Works — end</div>
+        <div class="ce-rejected">Ready to get started? / See if you qualify →</div>
+        <div class="ce-final">Apply →</div>
+        <div class="ce-tag">No pressure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Word bank -->
+  <div>
+    <p class="section-eyebrow">Vocabulary</p>
+    <h2 class="section-heading">Words that were in scope.<br>Words that were out of scope.</h2>
+
+    <div class="word-grid">
+      <div class="word-col">
+        <div class="word-col-header in">In the vocabulary</div>
+        <div class="word-list">
+          <span class="word-tag in">Apply</span>
+          <span class="word-tag in">Vetted</span>
+          <span class="word-tag in">Private</span>
+          <span class="word-tag in">Introduction</span>
+          <span class="word-tag in">Disciplines</span>
+          <span class="word-tag in">Creative</span>
+          <span class="word-tag in">Access</span>
+          <span class="word-tag in">Network</span>
+          <span class="word-tag in">Membership</span>
+          <span class="word-tag in">Fashion</span>
+          <span class="word-tag in">For Brands</span>
+          <span class="word-tag in">Transparent</span>
+          <span class="word-tag in">Simple</span>
+          <span class="word-tag in">Accepted</span>
+        </div>
+      </div>
+      <div class="word-col">
+        <div class="word-col-header out">Out of scope — never used</div>
+        <div class="word-list">
+          <span class="word-tag out">Join</span>
+          <span class="word-tag out">Community</span>
+          <span class="word-tag out">Exclusive</span>
+          <span class="word-tag out">Elite</span>
+          <span class="word-tag out">Premium</span>
+          <span class="word-tag out">Networking</span>
+          <span class="word-tag out">Sign up</span>
+          <span class="word-tag out">Tribe</span>
+          <span class="word-tag out">Insiders</span>
+          <span class="word-tag out">Partners</span>
+          <span class="word-tag out">Discover more</span>
+          <span class="word-tag out">Learn more</span>
+          <span class="word-tag out">Get started</span>
+          <span class="word-tag out">Professionals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

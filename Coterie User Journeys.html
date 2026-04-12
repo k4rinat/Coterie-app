@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Coterie — User Journey Maps</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ink:#0b0b0b; --mid:#646464; --faint:#aaaaaa;
+    --rule:#d8d8d8; --alt:#f6f5f2; --bg:#ffffff; --page:#eeede9;
+  }
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  body{width:100vw;font-family:'Inter',sans-serif;font-weight:300;
+    -webkit-font-smoothing:antialiased;background:var(--page);overflow-x:hidden}
+
+  /* Each journey = one full viewport */
+  .screen{
+    width:100vw; height:100vh; background:var(--bg);
+    padding:2.2vh 3.5vw 1.8vh;
+    display:flex; flex-direction:column;
+    scroll-snap-align:start; overflow:hidden;
+  }
+
+  /* Header */
+  .hd{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    border-bottom:1.5px solid var(--ink);
+    padding-bottom:1.1vh; margin-bottom:1.4vh; flex-shrink:0;
+  }
+  .hd-left{display:flex;align-items:baseline;gap:.9vw}
+  .wm{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.1vw;letter-spacing:.32em}
+  .jt{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.3vw;letter-spacing:.04em}
+  .hd-right{font-size:.58vw;color:var(--faint);letter-spacing:.04em;line-height:1.8;text-align:right}
+  .hd-right strong{font-weight:500;color:var(--mid)}
+
+  /* Map SVG area */
+  .map-area{flex:1;min-height:0;width:100%}
+  .map-area svg{width:100%;height:100%}
+
+  /* Insights strip */
+  .insights{display:flex;gap:.7vw;flex-shrink:0;height:10.5vh;margin-top:1vh}
+  .ins{flex:1;border:1px solid var(--rule);padding:.9vh 1vw}
+  .ins.hi{border-color:var(--ink)}
+  .ins-tag{font-size:.5vw;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:.35vh;display:block}
+  .ins.hi .ins-tag{color:var(--ink)}
+  .ins-body{font-size:.6vw;font-weight:300;color:var(--ink);line-height:1.65}
+
+  /* Footer */
+  .ft{display:flex;justify-content:space-between;border-top:1px solid var(--rule);
+    padding-top:.7vh;margin-top:.7vh;flex-shrink:0;
+    font-size:.46vw;color:var(--faint);letter-spacing:.08em}
+
+  /* Page indicator dots */
+  .nav{position:fixed;right:2vw;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:8px;z-index:10}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--rule);
+    cursor:pointer;transition:background .2s}
+  .nav-dot.active{background:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- Nav dots -->
+<div class="nav">
+  <div class="nav-dot active" onclick="document.querySelectorAll('.screen')[0].scrollIntoView({behavior:'smooth'})"></div>
+  <div class="nav-dot" onclick="document.querySelectorAll('.screen')[1].scrollIntoView({behavior:'smooth'})"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+  JOURNEY 01  —  CREATIVE MEMBER
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="j1">
+  <div class="hd">
+    <div class="hd-left">
+      <span class="wm">Coterie</span>
+      <span class="jt">Creative Member Journey</span>
+    </div>
+    <div class="hd-right">
+      <strong>Persona</strong>&nbsp; Senior Freelance Creative &nbsp;·&nbsp; Stylist / Photographer / Art Director<br>
+      <strong>Platform</strong>&nbsp; Website → iOS App &nbsp;&nbsp; <strong>Module</strong>&nbsp; Birmingham City University · FA6138
+    </div>
+  </div>
+
+  <div class="map-area">
+  <svg viewBox="0 0 1600 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Ghost / waiting zone background -->
+    <rect x="690" y="0" width="240" height="460" fill="#f7f6f3"/>
+
+    <!-- Phase divider lines -->
+    <line x1="450" y1="28" x2="450" y2="440" stroke="#e8e8e8" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="690" y1="28" x2="690" y2="440" stroke="#dedede" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="930" y1="28" x2="930" y2="440" stroke="#dedede" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="1170" y1="28" x2="1170" y2="440" stroke="#e8e8e8" stroke-width="0.8" stroke-dasharray="3,5"/>
+
+    <!-- Phase labels -->
+    <text x="270" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">AWARENESS</text>
+    <text x="570" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">CONSIDERATION</text>
+    <text x="810" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#cccccc" letter-spacing="2.5">WAITING</text>
+    <text x="1050" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">ONBOARDING</text>
+    <text x="1405" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">EXPERIENCE</text>
+
+    <!-- Axis labels -->
+    <text x="22" y="113" font-family="Inter,sans-serif" font-size="7.5" fill="#cccccc" letter-spacing="1">HIGH</text>
+    <text x="22" y="383" font-family="Inter,sans-serif" font-size="7.5" fill="#cccccc" letter-spacing="1">LOW</text>
+    <line x1="50" y1="103" x2="50" y2="390" stroke="#ebebeb" stroke-width="0.8"/>
+    <line x1="47" y1="103" x2="53" y2="103" stroke="#d0d0d0" stroke-width="0.8"/>
+    <line x1="47" y1="390" x2="53" y2="390" stroke="#d0d0d0" stroke-width="0.8"/>
+
+    <!-- Satisfaction curve fill (shaded area below the path) -->
+    <path d="M 90,290 C 210,290 210,210 330,210 C 450,210 450,255 570,255 C 690,255 690,350 810,350 C 930,350 930,140 1050,140 C 1170,140 1170,120 1290,120 C 1400,120 1450,105 1520,105 L 1520,440 L 90,440 Z"
+      fill="#0b0b0b" opacity="0.038"/>
+
+    <!-- Journey path — normal: Discover → Apply -->
+    <path d="M 90,290 C 210,290 210,210 330,210 C 450,210 450,255 570,255"
+      fill="none" stroke="#0b0b0b" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- Journey path — ghost: Apply → Verify (waiting) -->
+    <path d="M 570,255 C 690,255 690,350 810,350"
+      fill="none" stroke="#c8c8c8" stroke-width="1.8" stroke-dasharray="7,5" stroke-linecap="round"/>
+    <!-- Journey path — normal: Verify → Maintain -->
+    <path d="M 810,350 C 930,350 930,140 1050,140 C 1170,140 1170,120 1290,120 C 1400,120 1450,105 1520,105"
+      fill="none" stroke="#0b0b0b" stroke-width="2.4" stroke-linecap="round"/>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 01 — Discover  (90, 290)  → ABOVE
+    ───────────────────────────────────────────── -->
+    <!-- Connector dotted line up -->
+    <line x1="90" y1="262" x2="90" y2="240" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="90" y="236" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Referral &amp; social media</text>
+    <text x="90" y="220" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Trade press</text>
+    <!-- Quote -->
+    <text x="90" y="200" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"Is this legitimate?"</text>
+    <!-- Feeling -->
+    <text x="90" y="180" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Curious</text>
+    <!-- Node circle -->
+    <circle cx="90" cy="290" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="90" y="294" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">01</text>
+    <!-- Stage name below node -->
+    <text x="90" y="334" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Discover</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 02 — Evaluate  (330, 210)  → BELOW
+    ───────────────────────────────────────────── -->
+    <!-- Stage name above node -->
+    <text x="330" y="166" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Evaluate</text>
+    <!-- Node circle -->
+    <circle cx="330" cy="210" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="330" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">02</text>
+    <!-- Connector dotted line down -->
+    <line x1="330" y1="238" x2="330" y2="258" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="330" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Website · How It Works</text>
+    <text x="330" y="288" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Pricing &amp; FAQ</text>
+    <!-- Quote -->
+    <text x="330" y="312" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"Different from LinkedIn."</text>
+    <!-- Feeling -->
+    <text x="330" y="332" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Interested</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 03 — Apply  (570, 255)  → BELOW
+    ───────────────────────────────────────────── -->
+    <!-- Stage name above node -->
+    <text x="570" y="211" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Apply</text>
+    <!-- Node circle -->
+    <circle cx="570" cy="255" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="570" y="259" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">03</text>
+    <!-- Connector -->
+    <line x1="570" y1="283" x2="570" y2="303" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="570" y="317" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">/apply form &amp; credentials</text>
+    <text x="570" y="333" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Email confirmation</text>
+    <!-- Quote -->
+    <text x="570" y="357" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"I hope my portfolio is strong."</text>
+    <!-- Feeling -->
+    <text x="570" y="377" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Committed</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 04 — Verify  (810, 350)  → ABOVE  [GHOST]
+    ───────────────────────────────────────────── -->
+    <!-- Connector up -->
+    <line x1="810" y1="322" x2="810" y2="300" stroke="#d8d8d8" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="810" y="296" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#b0b0b0">Coterie review team</text>
+    <text x="810" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#b0b0b0">Email updates</text>
+    <!-- Quote -->
+    <text x="810" y="260" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#c8c8c8" font-style="italic">"When will I hear back?"</text>
+    <!-- Feeling -->
+    <text x="810" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#b8b8b8">Uncertain</text>
+    <!-- Ghost node circle (dashed) -->
+    <circle cx="810" cy="350" r="28" fill="#f7f6f3" stroke="#c0c0c0" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="810" y="354" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#c0c0c0">04</text>
+    <!-- Stage name below -->
+    <text x="810" y="396" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#b0b0b0">Verify</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 05 — Activate  (1050, 140)  → BELOW  [FILLED = peak moment]
+    ───────────────────────────────────────────── -->
+    <!-- Stage name above node -->
+    <text x="1050" y="96" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Activate</text>
+    <!-- Filled node = peak / validated -->
+    <circle cx="1050" cy="140" r="28" fill="#0b0b0b" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="1050" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#ffffff">05</text>
+    <!-- Connector down -->
+    <line x1="1050" y1="168" x2="1050" y2="188" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="1050" y="202" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Approval email · App download</text>
+    <text x="1050" y="218" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Onboarding flow</text>
+    <!-- Quote -->
+    <text x="1050" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"This feels exclusive."</text>
+    <!-- Feeling -->
+    <text x="1050" y="262" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Validated ✓</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 06 — Engage  (1290, 120)  → BELOW
+    ───────────────────────────────────────────── -->
+    <!-- Stage name above node -->
+    <text x="1290" y="76" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Engage</text>
+    <!-- Node circle -->
+    <circle cx="1290" cy="120" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="1290" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">06</text>
+    <!-- Connector down -->
+    <line x1="1290" y1="148" x2="1290" y2="168" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="1290" y="182" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Opportunities · Events</text>
+    <text x="1290" y="198" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Introductions tab</text>
+    <!-- Quote -->
+    <text x="1290" y="222" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"These briefs are relevant."</text>
+    <!-- Feeling -->
+    <text x="1290" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Empowered</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 07 — Maintain  (1520, 105)  → BELOW
+    ───────────────────────────────────────────── -->
+    <!-- Stage name above node -->
+    <text x="1520" y="61" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Maintain</text>
+    <!-- Node circle -->
+    <circle cx="1520" cy="105" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="1520" y="109" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">07</text>
+    <!-- Connector down -->
+    <line x1="1520" y1="133" x2="1520" y2="153" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <!-- Touchpoints -->
+    <text x="1520" y="167" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Profile · Renewal email</text>
+    <text x="1520" y="183" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">New briefs</text>
+    <!-- Quote -->
+    <text x="1520" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"This is worth maintaining."</text>
+    <!-- Feeling -->
+    <text x="1520" y="227" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Loyal</text>
+
+  </svg>
+  </div><!-- /map-area -->
+
+  <div class="insights">
+    <div class="ins hi">
+      <span class="ins-tag">Primary friction</span>
+      <div class="ins-body">Stage 04 Verify — 10-day manual review creates uncertainty. Mitigate with proactive status emails at day 3, 7, and 10.</div>
+    </div>
+    <div class="ins">
+      <span class="ins-tag">Moment of delight</span>
+      <div class="ins-body">Stage 05 Activate — Approval is the peak emotional moment. Onboarding should feel warm and editorial, not clinical.</div>
+    </div>
+    <div class="ins">
+      <span class="ins-tag">Retention lever</span>
+      <div class="ins-body">Stage 07 Maintain — Members who receive an introduction within 60 days renew at a significantly higher rate.</div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <span>Coterie &nbsp;—&nbsp; Confidential &nbsp;·&nbsp; Karina Tam &nbsp;·&nbsp; Birmingham City University &nbsp;·&nbsp; FA6138</span>
+    <span>1 / 2 &nbsp;&nbsp; ↓ scroll</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+  JOURNEY 02  —  BRAND
+══════════════════════════════════════════════════════ -->
+<div class="screen" id="j2">
+  <div class="hd">
+    <div class="hd-left">
+      <span class="wm">Coterie</span>
+      <span class="jt">Brand Journey</span>
+    </div>
+    <div class="hd-right">
+      <strong>Persona</strong>&nbsp; Luxury Fashion House · Creative Agency · PR Firm &nbsp;·&nbsp; Brand Strategy Team<br>
+      <strong>Platform</strong>&nbsp; Website → Brand Portal (Web App) &nbsp;&nbsp; <strong>Module</strong>&nbsp; Birmingham City University · FA6138
+    </div>
+  </div>
+
+  <div class="map-area">
+  <svg viewBox="0 0 1600 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Ghost / mediation zone background -->
+    <rect x="1170" y="0" width="240" height="460" fill="#f7f6f3"/>
+
+    <!-- Phase divider lines -->
+    <line x1="450" y1="28" x2="450" y2="440" stroke="#e8e8e8" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="690" y1="28" x2="690" y2="440" stroke="#e8e8e8" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="930" y1="28" x2="930" y2="440" stroke="#e8e8e8" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="1170" y1="28" x2="1170" y2="440" stroke="#dedede" stroke-width="0.8" stroke-dasharray="3,5"/>
+    <line x1="1410" y1="28" x2="1410" y2="440" stroke="#dedede" stroke-width="0.8" stroke-dasharray="3,5"/>
+
+    <!-- Phase labels -->
+    <text x="270" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">AWARENESS</text>
+    <text x="570" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">EVALUATION</text>
+    <text x="810" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">ONBOARDING</text>
+    <text x="1050" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">SEARCH</text>
+    <text x="1290" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#cccccc" letter-spacing="2.5">MEDIATION</text>
+    <text x="1510" y="18" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="500" fill="#c0c0c0" letter-spacing="2.5">HIRE</text>
+
+    <!-- Axis labels -->
+    <text x="22" y="113" font-family="Inter,sans-serif" font-size="7.5" fill="#cccccc" letter-spacing="1">HIGH</text>
+    <text x="22" y="383" font-family="Inter,sans-serif" font-size="7.5" fill="#cccccc" letter-spacing="1">LOW</text>
+    <line x1="50" y1="103" x2="50" y2="390" stroke="#ebebeb" stroke-width="0.8"/>
+    <line x1="47" y1="103" x2="53" y2="103" stroke="#d0d0d0" stroke-width="0.8"/>
+    <line x1="47" y1="390" x2="53" y2="390" stroke="#d0d0d0" stroke-width="0.8"/>
+
+    <!-- Satisfaction curve fill -->
+    <path d="M 90,305 C 210,305 210,225 330,225 C 450,225 450,150 570,150 C 690,150 690,140 810,140 C 930,140 930,170 1050,170 C 1170,170 1170,310 1290,310 C 1380,310 1430,120 1520,120 L 1520,440 L 90,440 Z"
+      fill="#0b0b0b" opacity="0.038"/>
+
+    <!-- Journey path — normal: Discover → Search -->
+    <path d="M 90,305 C 210,305 210,225 330,225 C 450,225 450,150 570,150 C 690,150 690,140 810,140 C 930,140 930,170 1050,170"
+      fill="none" stroke="#0b0b0b" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- Journey path — ghost: Search → Introduce (mediation friction) -->
+    <path d="M 1050,170 C 1170,170 1170,310 1290,310"
+      fill="none" stroke="#c8c8c8" stroke-width="1.8" stroke-dasharray="7,5" stroke-linecap="round"/>
+    <!-- Journey path — normal: Introduce → Hire -->
+    <path d="M 1290,310 C 1380,310 1430,120 1520,120"
+      fill="none" stroke="#0b0b0b" stroke-width="2.4" stroke-linecap="round"/>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 01 — Discover  (90, 305)  → ABOVE
+    ───────────────────────────────────────────── -->
+    <line x1="90" y1="277" x2="90" y2="255" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="90" y="251" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Industry referral</text>
+    <text x="90" y="235" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Trade press</text>
+    <text x="90" y="215" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"Can this replace our usual routes?"</text>
+    <text x="90" y="195" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Sceptical</text>
+    <circle cx="90" cy="305" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="90" y="309" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">01</text>
+    <text x="90" y="349" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Discover</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 02 — Research  (330, 225)  → ABOVE
+    ───────────────────────────────────────────── -->
+    <line x1="330" y1="197" x2="330" y2="175" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="330" y="171" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">/brands · /pricing</text>
+    <text x="330" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">How It Works page</text>
+    <text x="330" y="135" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"The verification angle is compelling."</text>
+    <text x="330" y="115" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Evaluating</text>
+    <circle cx="330" cy="225" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="330" y="229" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">02</text>
+    <text x="330" y="269" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Research</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 03 — Demo  (570, 150)  → BELOW
+    ───────────────────────────────────────────── -->
+    <text x="570" y="106" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Demo</text>
+    <circle cx="570" cy="150" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="570" y="154" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">03</text>
+    <line x1="570" y1="178" x2="570" y2="198" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="570" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">/book-demo form</text>
+    <text x="570" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Demo call · Coterie team</text>
+    <text x="570" y="252" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"The calibre of members seems right."</text>
+    <text x="570" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Reassured</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 04 — Onboard  (810, 140)  → BELOW  [FILLED = committed]
+    ───────────────────────────────────────────── -->
+    <text x="810" y="96" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Onboard</text>
+    <circle cx="810" cy="140" r="28" fill="#0b0b0b" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="810" y="144" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#ffffff">04</text>
+    <line x1="810" y1="168" x2="810" y2="188" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="810" y="202" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Approval · Brand portal</text>
+    <text x="810" y="218" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Company profile setup</text>
+    <text x="810" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"We're in. Let's see the directory."</text>
+    <text x="810" y="262" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Committed ✓</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 05 — Search  (1050, 170)  → BELOW
+    ───────────────────────────────────────────── -->
+    <text x="1050" y="126" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Search</text>
+    <circle cx="1050" cy="170" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="1050" y="174" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">05</text>
+    <line x1="1050" y1="198" x2="1050" y2="218" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="1050" y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Member directory</text>
+    <text x="1050" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Discipline filters · Brief form</text>
+    <text x="1050" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"These profiles are genuinely credible."</text>
+    <text x="1050" y="292" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Focused</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 06 — Introduce  (1290, 310)  → ABOVE  [GHOST]
+    ───────────────────────────────────────────── -->
+    <line x1="1290" y1="282" x2="1290" y2="260" stroke="#d8d8d8" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="1290" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#b0b0b0">Introduction request</text>
+    <text x="1290" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#b0b0b0">Coterie mediation</text>
+    <text x="1290" y="220" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#c8c8c8" font-style="italic">"Why does the creative need to accept us?"</text>
+    <text x="1290" y="200" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#b8b8b8">Uncertain</text>
+    <circle cx="1290" cy="310" r="28" fill="#f7f6f3" stroke="#c0c0c0" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="1290" y="314" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#c0c0c0">06</text>
+    <text x="1290" y="356" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#b0b0b0">Introduce</text>
+
+    <!-- ─────────────────────────────────────────────
+      NODE 07 — Hire  (1520, 120)  → BELOW
+    ───────────────────────────────────────────── -->
+    <text x="1520" y="76" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="16" font-weight="300" fill="#0b0b0b">Hire</text>
+    <circle cx="1520" cy="120" r="28" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.8"/>
+    <text x="1520" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="500" fill="#0b0b0b">07</text>
+    <line x1="1520" y1="148" x2="1520" y2="168" stroke="#d0d0d0" stroke-width="0.8" stroke-dasharray="2,3"/>
+    <text x="1520" y="182" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Creative contact</text>
+    <text x="1520" y="198" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="300" fill="#646464">Project thread · Renewal</text>
+    <text x="1520" y="222" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="300" fill="#aaaaaa" font-style="italic">"Faster than using a recruiter."</text>
+    <text x="1520" y="242" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="500" fill="#0b0b0b">Satisfied</text>
+
+  </svg>
+  </div><!-- /map-area -->
+
+  <div class="insights">
+    <div class="ins">
+      <span class="ins-tag">Conversion lever</span>
+      <div class="ins-body">Stage 03 Demo — The demo call is the highest-converting touchpoint. Every brand that attends a demo converts at a significantly higher rate than those who don't.</div>
+    </div>
+    <div class="ins hi">
+      <span class="ins-tag">Primary friction</span>
+      <div class="ins-body">Stage 06 Introduce — Brands expect instant access. The mediated model requires clear upfront explanation to prevent drop-off.</div>
+    </div>
+    <div class="ins">
+      <span class="ins-tag">Retention lever</span>
+      <div class="ins-body">Stage 07 Hire — A successful first hire within 30 days is the strongest predictor of brand renewal and repeat use.</div>
+    </div>
+  </div>
+
+  <div class="ft">
+    <span>Coterie &nbsp;—&nbsp; Confidential &nbsp;·&nbsp; Karina Tam &nbsp;·&nbsp; Birmingham City University &nbsp;·&nbsp; FA6138</span>
+    <span>2 / 2</span>
+  </div>
+</div>
+
+<script>
+  // Update nav dots on scroll
+  const screens = document.querySelectorAll('.screen');
+  const dots = document.querySelectorAll('.nav-dot');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        dots.forEach(d => d.classList.remove('active'));
+        const idx = Array.from(screens).indexOf(e.target);
+        if (idx >= 0) dots[idx].classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
+  screens.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

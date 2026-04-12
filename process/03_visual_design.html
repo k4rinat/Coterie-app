@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 03 — Visual Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0e; --mid: #787876; --muted: #b4b4b2;
+  --rule: #dcdcda; --elv: #f4f4f2; --surf: #fcfcfa;
+  --display: 'Cormorant Garamond', serif; --body: 'Inter', sans-serif;
+}
+body { font-family: var(--body); background: #fff; color: var(--ink); }
+.bar {
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--display); font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 36px;
+}
+
+/* ── Colour palette ── */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.swatch-col {
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--rule);
+}
+.swatch-col:last-child { border-right: none; }
+.swatch-block { height: 120px; }
+.swatch-info { padding: 16px; border-top: 1px solid var(--rule); }
+.swatch-token { font-family: 'Courier New', monospace; font-size: 10px; color: var(--ink); margin-bottom: 4px; }
+.swatch-hex { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+.swatch-use { font-size: 10px; font-weight: 300; color: var(--mid); line-height: 1.5; }
+
+.palette-note {
+  border: 1px solid var(--rule); border-top: none;
+  padding: 20px 24px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+.pal-note-item {}
+.pal-note-key { font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.pal-note-val { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+/* ── Typography ── */
+.type-system {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+}
+.type-half {
+  padding: 40px;
+  border-right: 1px solid var(--rule);
+}
+.type-half:last-child { border-right: none; }
+.type-half-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+  padding-bottom: 20px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--rule);
+}
+.type-row { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
+.type-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.type-size-label { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.type-spec { font-size: 10px; font-weight: 300; color: var(--muted); margin-top: 6px; font-family: 'Courier New', monospace; }
+
+/* ── Spacing system ── */
+.spacing-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.sp-col {
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding: 20px 20px 24px;
+}
+.sp-col:last-child { border-right: none; }
+.sp-block { background: var(--elv); width: 100%; margin-bottom: 16px; }
+.sp-val { font-family: 'Courier New', monospace; font-size: 12px; color: var(--ink); margin-bottom: 4px; }
+.sp-px { font-family: 'Courier New', monospace; font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+.sp-use { font-size: 11px; font-weight: 300; color: var(--mid); line-height: 1.5; }
+
+.spacing-note {
+  border: 1px solid var(--rule); border-top: none;
+  padding: 16px 24px;
+  font-size: 11px; font-weight: 300; color: var(--muted);
+}
+
+/* ── Visual rules ── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.rule-card { border: 1px solid var(--rule); padding: 32px; }
+.rule-title { font-size: 14px; font-weight: 500; margin-bottom: 12px; }
+.rule-body { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; margin-bottom: 20px; }
+.rule-visual {
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 03  /  Visual Design
+  <em>Colour, type, spacing — every decision and why.</em>
+</div>
+
+<div class="page">
+
+  <!-- Palette -->
+  <div>
+    <p class="section-eyebrow">Colour</p>
+    <h2 class="section-heading">One palette. No accent colour. Everything is intentional.</h2>
+
+    <div class="palette-grid">
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#ffffff;border-bottom:1px solid #dcdcda"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-bg</p>
+          <p class="swatch-hex">#ffffff</p>
+          <p class="swatch-use">Page background — pure white, nothing tinted</p>
+        </div>
+      </div>
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#f4f4f2"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-elevated</p>
+          <p class="swatch-hex">#f4f4f2</p>
+          <p class="swatch-use">Cards, hover states, nav background</p>
+        </div>
+      </div>
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#dcdcda"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-rule</p>
+          <p class="swatch-hex">#dcdcda</p>
+          <p class="swatch-use">All dividers and borders — replaces box shadows</p>
+        </div>
+      </div>
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#b4b4b2"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-muted</p>
+          <p class="swatch-hex">#b4b4b2</p>
+          <p class="swatch-use">Placeholder, ghost labels, tertiary info</p>
+        </div>
+      </div>
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#787876"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-mid</p>
+          <p class="swatch-hex">#787876</p>
+          <p class="swatch-use">Body copy, descriptions, secondary text</p>
+        </div>
+      </div>
+      <div class="swatch-col">
+        <div class="swatch-block" style="background:#0e0e0e"></div>
+        <div class="swatch-info">
+          <p class="swatch-token">--c-ink</p>
+          <p class="swatch-hex">#0e0e0e</p>
+          <p class="swatch-use">Headings, nav bar, footer, borders on emphasis</p>
+        </div>
+      </div>
+      <div class="swatch-col" style="background:#0c0c0c">
+        <div class="swatch-block" style="background:linear-gradient(180deg,#0c0c0c 0%,#282828 50%,#f2f1ef 100%)"></div>
+        <div class="swatch-info" style="background:#0c0c0c;border-top:1px solid #333">
+          <p class="swatch-token" style="color:#f2f1ef">Dark mode</p>
+          <p class="swatch-hex" style="color:#555">full invert</p>
+          <p class="swatch-use" style="color:#666">Same tokens, new values — one attribute switches everything</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="palette-note">
+      <div class="pal-note-item">
+        <p class="pal-note-key">Why no accent colour</p>
+        <p class="pal-note-val">Every site in the luxury fashion space uses a monochrome palette. Colour is a signal of mass-market. For Coterie, the restraint is the brand.</p>
+      </div>
+      <div class="pal-note-item">
+        <p class="pal-note-key">Warm neutrals not cold</p>
+        <p class="pal-note-val">Each grey has a very slight warm undertone. Compared to pure #f4f4f4, the warmth reads as considered — not just default grey.</p>
+      </div>
+      <div class="pal-note-item">
+        <p class="pal-note-key">Token system</p>
+        <p class="pal-note-val">Every colour is a CSS variable. Nothing is hardcoded anywhere. Changing the palette means changing one file — every component updates automatically.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div>
+    <p class="section-eyebrow">Typography</p>
+    <h2 class="section-heading">Two typefaces. One weight each. Every choice deliberate.</h2>
+
+    <div class="type-system">
+      <div class="type-half">
+        <p class="type-half-label">Cormorant Garamond — display only · weight 300 · serif</p>
+
+        <div class="type-row">
+          <p class="type-size-label">Hero / Display — 72px</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:72px;line-height:1.05;letter-spacing:0.01em">
+            Where Fashion<br>Trusts Talent.
+          </div>
+          <p class="type-spec">font-size: 4.5rem · weight 300 · letter-spacing: 0.01em · optical-sizing: auto</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Section heading — 36px italic</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:36px;line-height:1.15">
+            How It Works
+          </div>
+          <p class="type-spec">font-size: 2.25rem · italic · used on editorial sections only</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Pull quote — 28px italic centred</p>
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:28px;line-height:1.3;text-align:center;color:#787876">
+            Fashion works on trust.<br>Coterie makes the trust visible.
+          </div>
+          <p class="type-spec">font-size: 1.75rem · centred · only in editorial quote section</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Why Cormorant</p>
+          <p style="font-size:13px;font-weight:300;color:var(--mid);line-height:1.7">The Row and Lemaire both use a similar weight of editorial serif. Cormorant at weight 300 reads as designed — not defaulted. It also has genuine optical sizing support, which makes large display text feel crisp.</p>
+        </div>
+      </div>
+
+      <div class="type-half">
+        <p class="type-half-label">Inter — UI and body only · weight 300 + 500 · sans-serif</p>
+
+        <div class="type-row">
+          <p class="type-size-label">Body copy — 16px</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:16px;line-height:1.75;color:#787876;max-width:420px">
+            Coterie is a private network for fashion creatives and the brands that hire them. Access is by application only. Not everyone is accepted.
+          </div>
+          <p class="type-spec">font-size: 1rem · weight 300 · line-height: 1.75 · color: --c-mid</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Navigation link — 13px</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:13px;letter-spacing:0.01em;color:#787876">
+            How It Works  ·  Pricing  ·  FAQ  ·  For Brands
+          </div>
+          <p class="type-spec">font-size: 0.8125rem · weight 300 · color: --c-mid</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">CTA link — 13px with arrow</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:14px;border-bottom:1px solid #0e0e0e;display:inline-block;padding-bottom:2px;letter-spacing:0.02em">
+            Apply for access  →
+          </div>
+          <p class="type-spec">font-size: 0.875rem · weight 300 · border-bottom only · no button</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Stage label — 9px uppercase</p>
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#b4b4b2">
+            Creative Member
+          </div>
+          <p class="type-spec">font-size: 0.5625rem · weight 500 · letter-spacing: 0.16em · only for category labels</p>
+        </div>
+
+        <div class="type-row">
+          <p class="type-size-label">Why Inter</p>
+          <p style="font-size:13px;font-weight:300;color:var(--mid);line-height:1.7">Inter at weight 300 sits quiet next to Cormorant. It never competes. Weight 500 is only used for small-caps labels where readability matters more than elegance. Nothing heavier, anywhere.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div>
+    <p class="section-eyebrow">Spacing</p>
+    <h2 class="section-heading">Spacing is what makes the restraint visible.</h2>
+
+    <div class="spacing-grid">
+      <div class="sp-col">
+        <div class="sp-block" style="height:4px"></div>
+        <span class="sp-val">1</span>
+        <span class="sp-px">4px</span>
+        <span class="sp-use">Between inline elements, icon and label</span>
+      </div>
+      <div class="sp-col">
+        <div class="sp-block" style="height:8px"></div>
+        <span class="sp-val">2</span>
+        <span class="sp-px">8px</span>
+        <span class="sp-use">Label to content beneath it</span>
+      </div>
+      <div class="sp-col">
+        <div class="sp-block" style="height:16px"></div>
+        <span class="sp-val">4</span>
+        <span class="sp-px">16px</span>
+        <span class="sp-use">Gap between list items and table rows</span>
+      </div>
+      <div class="sp-col">
+        <div class="sp-block" style="height:24px"></div>
+        <span class="sp-val">6</span>
+        <span class="sp-px">24px</span>
+        <span class="sp-use">Card padding, inline group gap</span>
+      </div>
+      <div class="sp-col">
+        <div class="sp-block" style="height:48px"></div>
+        <span class="sp-val">12</span>
+        <span class="sp-px">48px</span>
+        <span class="sp-use">Between content blocks within a section</span>
+      </div>
+      <div class="sp-col">
+        <div class="sp-block" style="height:96px"></div>
+        <span class="sp-val">24</span>
+        <span class="sp-px">96px</span>
+        <span class="sp-use">Section vertical padding — py-24 on every section</span>
+      </div>
+    </div>
+    <div class="spacing-note">
+      py-24 (96px) on every section is the single most important spacing decision. It creates the consistent rhythm that makes the page feel considered rather than packed.
+    </div>
+  </div>
+
+  <!-- Visual rules -->
+  <div>
+    <p class="section-eyebrow">Visual Rules</p>
+    <h2 class="section-heading">What we decided to always do. And never do.</h2>
+
+    <div class="rules-grid">
+      <div class="rule-card">
+        <p class="rule-title">No box shadows</p>
+        <p class="rule-body">Box shadows make things look like they're floating. Everything on Coterie sits flat on the page. Elevation is communicated through background colour difference, not shadows.</p>
+        <div class="rule-visual">
+          <div style="display:flex;gap:16px;align-items:center">
+            <div style="width:80px;height:48px;background:#fff;border:1px solid #dcdcda;display:flex;align-items:center;justify-content:center;font-size:10px;color:#b4b4b2">Used</div>
+            <div style="width:80px;height:48px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;font-size:10px;color:#b4b4b2">Not used</div>
+          </div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <p class="rule-title">No filled buttons</p>
+        <p class="rule-body">Every call to action is a hairline text link. The underline is the only indicator. Filled buttons read as product-app, not fashion-platform. The restraint is part of the brand.</p>
+        <div class="rule-visual">
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <div style="font-size:13px;font-weight:300;border-bottom:1px solid #0e0e0e;padding-bottom:2px;display:inline-block">Apply →</div>
+            <div style="background:#0e0e0e;color:#fff;font-size:12px;font-weight:500;padding:10px 20px;letter-spacing:0.06em;text-transform:uppercase;text-decoration:line-through;opacity:0.3">APPLY</div>
+          </div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <p class="rule-title">Dividers not cards</p>
+        <p class="rule-body">Content is separated by horizontal rules, not card containers. Cards add visual weight and imply clickability. For content that isn't interactive, rules are cleaner and quieter.</p>
+        <div class="rule-visual">
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid #dcdcda">
+            <div style="padding:10px 0;border-bottom:1px solid #dcdcda;font-size:11px;font-weight:300;color:#787876">Stylist</div>
+            <div style="padding:10px 0;border-bottom:1px solid #dcdcda;font-size:11px;font-weight:300;color:#787876">Photographer</div>
+            <div style="padding:10px 0;font-size:11px;font-weight:300;color:#787876">Art Director</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

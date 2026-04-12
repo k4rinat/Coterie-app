@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 02 — Information Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0e; --mid: #787876; --muted: #b4b4b2;
+  --rule: #dcdcda; --elv: #f4f4f2; --surf: #fcfcfa;
+  --display: 'Cormorant Garamond', serif; --body: 'Inter', sans-serif;
+}
+body { font-family: var(--body); background: #fff; color: var(--ink); }
+.bar {
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--display); font-size: 38px; font-weight: 300;
+  line-height: 1.1; margin-bottom: 36px;
+}
+
+/* ── Page list ── */
+.page-list { border: 1px solid var(--rule); }
+.page-row {
+  display: grid;
+  grid-template-columns: 52px 200px 1fr 200px;
+  border-bottom: 1px solid var(--rule);
+  align-items: stretch;
+}
+.page-row:last-child { border-bottom: none; }
+.page-row.header-row {
+  background: var(--ink);
+}
+.header-cell {
+  padding: 12px 20px;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #666;
+  border-right: 1px solid #333;
+}
+.header-cell:last-child { border-right: none; }
+
+.page-row.home { background: var(--elv); }
+.cell {
+  padding: 18px 20px;
+  font-size: 12px; font-weight: 300;
+  border-right: 1px solid var(--rule);
+  line-height: 1.5;
+  display: flex; align-items: center;
+}
+.cell:last-child { border-right: none; }
+.cell.num { font-size: 11px; color: var(--muted); justify-content: center; padding: 0; }
+.cell.name { font-weight: 500; font-size: 13px; }
+.cell.purpose { color: var(--mid); }
+.cell.sections { color: var(--muted); font-size: 11px; }
+
+/* ── Navigation planning ── */
+.nav-plan {
+  border: 1px solid var(--rule);
+}
+.nav-mock {
+  background: var(--elv);
+  display: flex; align-items: center; gap: 0;
+  height: 56px;
+  border-bottom: 1px solid var(--rule);
+}
+.nav-wordmark {
+  font-family: var(--display); font-weight: 300; font-size: 22px;
+  padding: 0 32px; border-right: 1px solid var(--rule);
+  height: 100%; display: flex; align-items: center;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 0; flex: 1;
+  height: 100%;
+}
+.nav-link {
+  font-size: 12px; font-weight: 300; color: var(--mid);
+  padding: 0 24px; height: 100%;
+  display: flex; align-items: center;
+  border-right: 1px solid var(--rule);
+}
+.nav-link.cta {
+  color: var(--ink); font-weight: 400;
+  margin-left: auto; border-left: 1px solid var(--rule); border-right: none;
+}
+.nav-spacer { flex: 1; }
+.nav-decisions { display: flex; flex-direction: column; gap: 0; }
+.nav-dec {
+  display: grid; grid-template-columns: 180px 1fr;
+  border-bottom: 1px solid var(--rule); padding: 16px 24px; gap: 24px;
+  align-items: baseline;
+}
+.nav-dec:last-child { border-bottom: none; }
+.nav-dec-key {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.nav-dec-val { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+/* ── Homepage layout planning ── */
+.layout-plan {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  border: 1px solid var(--rule);
+  align-items: start;
+}
+.wireframe-col { border-right: 1px solid var(--rule); }
+.wf-section {
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  position: relative; overflow: hidden;
+}
+.wf-section:last-child { border-bottom: none; }
+.wf-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.wf-height { font-size: 10px; font-weight: 300; color: var(--rule); font-family: 'Courier New', monospace; }
+
+/* Placeholder content */
+.ph { background: var(--rule); border-radius: 1px; }
+
+.wf-nav    { height: 48px;  background: var(--elv); }
+.wf-hero   { height: 200px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; padding: 28px; }
+.wf-pillars     { height: 88px; }
+.wf-disciplines { height: 88px; }
+.wf-membership  { height: 120px; }
+.wf-quote       { height: 72px;  background: var(--surf); }
+.wf-cta         { height: 72px; }
+.wf-footer      { height: 48px;  background: var(--elv); }
+
+.ann-col { display: flex; flex-direction: column; }
+.ann-item {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ann-item:last-child { border-bottom: none; }
+.ann-section-name {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.ann-text { font-size: 11px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+.ann-decision {
+  font-size: 10px; font-weight: 300; color: var(--muted);
+  border-left: 1px solid var(--rule); padding-left: 10px; margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ── User flow ── */
+.flow-section {}
+.flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.flow-step {
+  padding: 28px 24px;
+  border-right: 1px solid var(--rule);
+  position: relative;
+}
+.flow-step:last-child { border-right: none; }
+.flow-step::after {
+  content: '→';
+  position: absolute; right: -10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--rule); font-size: 14px; z-index: 1;
+}
+.flow-step:last-child::after { display: none; }
+.flow-num {
+  font-size: 10px; font-weight: 300; color: var(--muted);
+  margin-bottom: 12px; font-family: 'Courier New', monospace;
+}
+.flow-title { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.flow-desc { font-size: 11px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+.flow-page { font-size: 10px; font-weight: 300; color: var(--rule); margin-top: 12px; font-family: 'Courier New', monospace; }
+
+.flow-note {
+  border: 1px solid var(--rule); border-top: none;
+  padding: 16px 24px;
+  font-size: 11px; font-weight: 300; color: var(--muted);
+  display: flex; align-items: center; gap: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 02  /  Information Architecture
+  <em>Pages, structure, and the user journey — planned before any design.</em>
+</div>
+
+<div class="page">
+
+  <!-- Page inventory -->
+  <div>
+    <p class="section-eyebrow">Pages</p>
+    <h2 class="section-heading">Every page planned upfront.<br>Each one with a single job.</h2>
+
+    <div class="page-list">
+      <div class="page-row header-row">
+        <div class="header-cell">#</div>
+        <div class="header-cell">Page</div>
+        <div class="header-cell">Purpose</div>
+        <div class="header-cell">Key sections</div>
+      </div>
+      <div class="page-row home">
+        <div class="cell num">01</div>
+        <div class="cell name">Home  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/</span></div>
+        <div class="cell purpose">First impression. Communicate the concept. Push to apply.</div>
+        <div class="cell sections">Hero · Pillars · Disciplines · Membership · Quote · CTA</div>
+      </div>
+      <div class="page-row">
+        <div class="cell num">02</div>
+        <div class="cell name">How It Works  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/how-it-works</span></div>
+        <div class="cell purpose">Explain the platform model step by step. Remove uncertainty.</div>
+        <div class="cell sections">3-step process for creatives · 3-step for brands</div>
+      </div>
+      <div class="page-row">
+        <div class="cell num">03</div>
+        <div class="cell name">Pricing  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/pricing</span></div>
+        <div class="cell purpose">Show tiers clearly. No upsell, no pressure. Just the facts.</div>
+        <div class="cell sections">Creative member tier · Brand tier · FAQ on pricing</div>
+      </div>
+      <div class="page-row">
+        <div class="cell num">04</div>
+        <div class="cell name">FAQ  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/faq</span></div>
+        <div class="cell purpose">Answer the real questions people have before they apply.</div>
+        <div class="cell sections">Accordion · Searchable by topic</div>
+      </div>
+      <div class="page-row">
+        <div class="cell num">05</div>
+        <div class="cell name">For Brands  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/brands</span></div>
+        <div class="cell purpose">Separate entry point for the brand audience. Different journey.</div>
+        <div class="cell sections">Brand benefits · How it works · Book a demo form</div>
+      </div>
+      <div class="page-row">
+        <div class="cell num">06</div>
+        <div class="cell name">Apply  <span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:8px;font-family:monospace">/apply</span></div>
+        <div class="cell purpose">The one conversion goal. Minimum friction. Four fields only.</div>
+        <div class="cell sections">Name · Email · Discipline · Portfolio link</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nav planning -->
+  <div>
+    <p class="section-eyebrow">Navigation</p>
+    <h2 class="section-heading">Navigation decisions made before any layout.</h2>
+    <div class="nav-plan">
+      <div class="nav-mock">
+        <span class="nav-wordmark">Coterie</span>
+        <div class="nav-links">
+          <span class="nav-link">How It Works</span>
+          <span class="nav-link">Pricing</span>
+          <span class="nav-link">FAQ</span>
+          <span class="nav-link">For Brands</span>
+          <div class="nav-spacer"></div>
+          <span class="nav-link cta">Apply for access  →</span>
+        </div>
+      </div>
+      <div class="nav-decisions">
+        <div class="nav-dec">
+          <span class="nav-dec-key">Wordmark placement</span>
+          <span class="nav-dec-val">Left-aligned. Not centred. Centred logos read as fashion editorial — this is a product, not a magazine.</span>
+        </div>
+        <div class="nav-dec">
+          <span class="nav-dec-key">Link style</span>
+          <span class="nav-dec-val">Inter 300 Light, no underline, no hover colour change. The restraint is intentional — the nav shouldn't compete with the page.</span>
+        </div>
+        <div class="nav-dec">
+          <span class="nav-dec-key">CTA in nav</span>
+          <span class="nav-dec-val">Right-aligned. Always visible. Not a button — a hairline text link with an arrow. Same as every other CTA on the site.</span>
+        </div>
+        <div class="nav-dec">
+          <span class="nav-dec-key">Home not in nav</span>
+          <span class="nav-dec-val">Wordmark is the home link. Adding a separate "Home" item wastes a slot and adds no value.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Homepage layout planning -->
+  <div>
+    <p class="section-eyebrow">Homepage Layout</p>
+    <h2 class="section-heading">Section by section — each one with a single job.</h2>
+
+    <div class="layout-plan">
+      <div class="wireframe-col">
+        <div class="wf-section wf-nav">
+          <span class="wf-label">Nav</span>
+          <span class="wf-height">fixed height</span>
+        </div>
+        <div class="wf-section wf-hero">
+          <span class="wf-label" style="position:absolute;top:16px;left:28px">Hero — 100vh</span>
+          <div style="width:68%;height:3px;background:var(--rule);margin-top:16px"></div>
+          <div style="width:55%;height:3px;background:var(--rule)"></div>
+          <div style="width:22%;height:2px;background:var(--rule);margin-top:8px"></div>
+        </div>
+        <div class="wf-section wf-pillars">
+          <span class="wf-label">Pillars — 3 col</span>
+        </div>
+        <div class="wf-section wf-disciplines">
+          <span class="wf-label">Disciplines — 2 col list</span>
+        </div>
+        <div class="wf-section wf-membership">
+          <span class="wf-label">Membership — tier cards</span>
+        </div>
+        <div class="wf-section wf-quote">
+          <span class="wf-label">Editorial quote</span>
+        </div>
+        <div class="wf-section wf-cta">
+          <span class="wf-label">Final CTA</span>
+        </div>
+        <div class="wf-section wf-footer">
+          <span class="wf-label">Footer</span>
+        </div>
+      </div>
+
+      <div class="ann-col">
+        <div class="ann-item">
+          <span class="ann-section-name">Hero</span>
+          <p class="ann-text">Full viewport height. The only content is a headline and one CTA. No image, no subheading, no bullets.</p>
+          <p class="ann-decision">Decision: If the headline is strong enough, it doesn't need support. Make the headline strong enough.</p>
+        </div>
+        <div class="ann-item">
+          <span class="ann-section-name">Pillars</span>
+          <p class="ann-text">Three value propositions in a horizontal row. No heading above them — they speak for themselves.</p>
+          <p class="ann-decision">Decision: No background change between hero and pillars. One continuous page.</p>
+        </div>
+        <div class="ann-item">
+          <span class="ann-section-name">Disciplines</span>
+          <p class="ann-text">All the creative roles on the platform listed out. Two columns. Ruled rows. No icons.</p>
+          <p class="ann-decision">Decision: This section is a signal — seeing your job title in the list tells you immediately this is for you.</p>
+        </div>
+        <div class="ann-item">
+          <span class="ann-section-name">Membership</span>
+          <p class="ann-text">Two tier cards side by side. Border only — no fills, no highlighted "recommended" tier.</p>
+          <p class="ann-decision">Decision: Coterie doesn't push. Both tiers presented as equals. The user decides.</p>
+        </div>
+        <div class="ann-item">
+          <span class="ann-section-name">Editorial Quote</span>
+          <p class="ann-text">One line. Cormorant italic. Centred. No attribution needed.</p>
+          <p class="ann-decision">Decision: A moment of pause before the final push. Like a pull quote in a magazine.</p>
+        </div>
+        <div class="ann-item">
+          <span class="ann-section-name">Final CTA</span>
+          <p class="ann-text">Identical to the hero CTA. Same words, same style. The page is a loop.</p>
+          <p class="ann-decision">Decision: If someone scrolls the whole page and still wants to apply, they shouldn't have to scroll back up.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User flow -->
+  <div class="flow-section">
+    <p class="section-eyebrow">User Journey</p>
+    <h2 class="section-heading">How a creative member finds their way to applying.</h2>
+
+    <div class="flow">
+      <div class="flow-step">
+        <p class="flow-num">01</p>
+        <p class="flow-title">Land on homepage</p>
+        <p class="flow-desc">Headline immediately communicates what Coterie is and isn't. Tone does the filtering.</p>
+        <p class="flow-page">/</p>
+      </div>
+      <div class="flow-step">
+        <p class="flow-num">02</p>
+        <p class="flow-title">See their discipline</p>
+        <p class="flow-desc">The Disciplines section lists their role. This confirms the platform is for them specifically.</p>
+        <p class="flow-page">/ — Disciplines section</p>
+      </div>
+      <div class="flow-step">
+        <p class="flow-num">03</p>
+        <p class="flow-title">Understand the model</p>
+        <p class="flow-desc">How It Works removes uncertainty. They understand what applying means before they commit.</p>
+        <p class="flow-page">/how-it-works</p>
+      </div>
+      <div class="flow-step">
+        <p class="flow-num">04</p>
+        <p class="flow-title">Check the cost</p>
+        <p class="flow-desc">Pricing is presented plainly. No pressure. They can make an informed decision.</p>
+        <p class="flow-page">/pricing</p>
+      </div>
+      <div class="flow-step">
+        <p class="flow-num">05</p>
+        <p class="flow-title">Apply</p>
+        <p class="flow-desc">Four fields. No friction. Name, email, discipline, portfolio link. Done in two minutes.</p>
+        <p class="flow-page">/apply</p>
+      </div>
+    </div>
+    <div class="flow-note">
+      The entire site is designed around this single journey. Every page either moves the user forward or answers a question that was blocking them.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

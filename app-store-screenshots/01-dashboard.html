@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=430">
+<title>Coterie – Screenshot 1 – Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width: 430px; height: 932px; overflow: hidden;
+    background: #080808;
+    font-family: 'Inter', sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative;
+  }
+
+  /* ── Background gradient ── */
+  body::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 500px 400px at 50% -80px, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events:none;
+  }
+
+  /* ── Top copy ── */
+  .copy {
+    padding: 72px 40px 0;
+    text-align: center;
+    z-index:2;
+  }
+  .eyebrow {
+    font-family:'Inter'; font-weight:500; font-size:11px;
+    letter-spacing:3px; text-transform:uppercase;
+    color: rgba(255,255,255,0.38);
+    margin-bottom: 16px;
+  }
+  .headline {
+    font-family:'Cormorant Garamond'; font-weight:300; font-size:52px;
+    line-height:1.08; letter-spacing:0.5px;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .headline em { font-style:italic; }
+  .sub {
+    font-family:'Inter'; font-weight:300; font-size:13px;
+    line-height:1.7; letter-spacing:0.2px;
+    color: rgba(255,255,255,0.45);
+    max-width:300px; margin:0 auto;
+  }
+
+  /* ── Phone frame ── */
+  .phone-wrap {
+    position: absolute;
+    top: 272px;
+    left: 50%; transform: translateX(-50%);
+    width: 262px;
+  }
+  .phone {
+    width: 262px; height: 567px;
+    background: #1c1c1e;
+    border-radius: 42px;
+    padding: 3px;
+    box-shadow:
+      0 0 0 0.5px rgba(255,255,255,0.12),
+      0 60px 120px rgba(0,0,0,0.9),
+      0 20px 40px rgba(0,0,0,0.7),
+      inset 0 1.5px 0 rgba(255,255,255,0.18),
+      inset 0 -1.5px 0 rgba(0,0,0,0.9),
+      inset 2px 0 4px rgba(255,255,255,0.05),
+      inset -2px 0 4px rgba(0,0,0,0.5);
+  }
+  .glass {
+    width:100%; height:100%;
+    background:#0d0d0f;
+    border-radius:40px;
+    overflow:hidden;
+    position:relative;
+  }
+  .screen {
+    position:absolute; top:8px; left:8px; right:8px; bottom:8px;
+    border-radius:34px; overflow:hidden;
+    background:#0d0d0f;
+  }
+  /* Dynamic Island */
+  .di {
+    position:absolute; top:8px; left:50%; transform:translateX(-50%);
+    width:82px; height:24px; border-radius:12px;
+    background:#000; z-index:10;
+  }
+  /* Buttons */
+  .btn-vol1 { position:absolute; left:-5px; top:80px; width:3.5px; height:18px; background:#2a2a2a; border-radius:2px; }
+  .btn-vol2 { position:absolute; left:-5px; top:104px; width:3.5px; height:42px; background:#2a2a2a; border-radius:2px; }
+  .btn-vol3 { position:absolute; left:-5px; top:152px; width:3.5px; height:42px; background:#2a2a2a; border-radius:2px; }
+  .btn-pow  { position:absolute; right:-5px; top:112px; width:3.5px; height:56px; background:#2a2a2a; border-radius:2px; }
+  .btn-cam  { position:absolute; right:-5px; top:310px; width:3.5px; height:24px; background:#2a2a2a; border-radius:2px; }
+
+  /* ── App screen content ── */
+  .app { width:100%; height:100%; background:#0a0a0a; font-family:'Inter',sans-serif; }
+
+  /* Status bar */
+  .status-bar {
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 12px 16px 0; height:40px;
+  }
+  .time { font-size:10px; font-weight:600; color:#fff; letter-spacing:0.2px; }
+  .icons { display:flex; gap:4px; align-items:center; }
+  .icons svg { fill:#fff; }
+
+  /* Header */
+  .app-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 8px 16px 12px;
+  }
+  .logo-text { font-family:'Cormorant Garamond'; font-weight:300; font-size:22px; letter-spacing:1px; color:#fff; }
+  .header-right { display:flex; gap:8px; }
+  .icon-btn {
+    width:28px; height:28px; border-radius:14px;
+    background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* Section label */
+  .section-label {
+    padding: 0 16px; margin-bottom:8px;
+    font-size:8px; font-weight:500; letter-spacing:2px; text-transform:uppercase;
+    color:rgba(255,255,255,0.3);
+  }
+
+  /* Role card */
+  .role-card {
+    margin: 0 16px 8px;
+    background:#141414;
+    border-radius:12px;
+    padding:12px 14px;
+    border:0.5px solid rgba(255,255,255,0.07);
+  }
+  .role-tag { font-size:7px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:5px; }
+  .role-title { font-family:'Cormorant Garamond'; font-weight:300; font-size:16px; color:#fff; margin-bottom:3px; line-height:1.2; }
+  .role-brand { font-size:9px; color:rgba(255,255,255,0.45); }
+  .role-footer { display:flex; justify-content:space-between; margin-top:8px; align-items:center; }
+  .role-loc { font-size:8px; color:rgba(255,255,255,0.3); }
+  .role-pill {
+    background:rgba(255,255,255,0.07); border-radius:20px;
+    padding:3px 8px; font-size:7px; font-weight:500;
+    letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.4);
+  }
+
+  /* Intro row */
+  .intro-card {
+    margin:0 16px 6px;
+    background:#141414;
+    border-radius:10px;
+    padding:10px 12px;
+    display:flex; align-items:center; gap:10px;
+    border:0.5px solid rgba(255,255,255,0.06);
+  }
+  .avatar {
+    width:30px; height:30px; border-radius:15px;
+    background:rgba(255,255,255,0.1);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; color:rgba(255,255,255,0.4); flex-shrink:0;
+  }
+  .intro-info { flex:1; }
+  .intro-name { font-size:11px; font-weight:500; color:#fff; margin-bottom:2px; }
+  .intro-role { font-size:9px; color:rgba(255,255,255,0.4); }
+  .intro-badge {
+    font-size:7px; font-weight:500; letter-spacing:1px; text-transform:uppercase;
+    color:rgba(255,255,255,0.25);
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    position:absolute; bottom:0; left:0; right:0;
+    background:rgba(18,18,18,0.95);
+    border-top:0.5px solid rgba(255,255,255,0.1);
+    padding:8px 0 16px;
+    display:flex;
+  }
+  .tab {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; gap:2px;
+  }
+  .tab-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
+  .tab-label { font-size:8px; color:rgba(255,255,255,0.3); letter-spacing:0.2px; }
+  .tab.active .tab-label { color:rgba(255,255,255,0.9); }
+  .tab.active svg path, .tab.active svg rect, .tab.active svg line { stroke:rgba(255,255,255,0.9) !important; }
+
+  /* Bottom branding */
+  .bottom-brand {
+    position:absolute; bottom:0; left:0; right:0; height:90px;
+    display:flex; align-items:flex-end; justify-content:center;
+    padding-bottom:28px;
+    background: linear-gradient(to top, rgba(8,8,8,1) 50%, transparent);
+    z-index:3;
+  }
+  .bottom-text {
+    font-family:'Inter'; font-weight:300; font-size:10px;
+    letter-spacing:3px; text-transform:uppercase;
+    color:rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<!-- Top marketing copy -->
+<div class="copy">
+  <div class="eyebrow">Coterie · Members Only</div>
+  <div class="headline">Your Network,<br><em>Curated.</em></div>
+  <div class="sub">Every role, introduction, and event — handpicked for fashion's most discerning professionals.</div>
+</div>
+
+<!-- iPhone frame -->
+<div class="phone-wrap">
+  <div class="phone">
+    <!-- Side buttons -->
+    <div class="btn-vol1"></div><div class="btn-vol2"></div><div class="btn-vol3"></div>
+    <div class="btn-pow"></div><div class="btn-cam"></div>
+
+    <div class="glass">
+      <div class="di"></div>
+      <div class="screen">
+        <div class="app">
+
+          <!-- Status bar -->
+          <div class="status-bar">
+            <span class="time">09:41</span>
+            <div class="icons">
+              <svg width="12" height="9" viewBox="0 0 12 9"><rect x="0" y="5" width="2.2" height="4" rx="0.5" fill="white"/><rect x="3.2" y="3" width="2.2" height="6" rx="0.5" fill="white"/><rect x="6.4" y="1" width="2.2" height="8" rx="0.5" fill="white"/><rect x="9.6" y="0" width="2.2" height="9" rx="0.5" fill="white" opacity="0.3"/></svg>
+              <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M0.5 3.5 Q3 0.5 6 0.5 Q9 0.5 11.5 3.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M2.2 5.5 Q4 3.5 6 3.5 Q8 3.5 9.8 5.5" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M4 7.2 Q5 6 6 6 Q7 6 8 7.2" stroke="white" stroke-width="1.3" stroke-linecap="round"/><circle cx="6" cy="8.2" r="0.9" fill="white"/></svg>
+              <svg width="20" height="9" viewBox="0 0 20 9" fill="none"><rect x="0.5" y="0.5" width="16" height="8" rx="2" stroke="white" stroke-opacity="0.5" stroke-width="1"/><rect x="17" y="2.8" width="2" height="3.4" rx="0.8" fill="white" fill-opacity="0.4"/><rect x="1.8" y="1.8" width="11" height="5.4" rx="1.2" fill="white"/></svg>
+            </div>
+          </div>
+
+          <!-- Header -->
+          <div class="app-header">
+            <span class="logo-text">Coterie</span>
+            <div class="header-right">
+              <div class="icon-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Roles section -->
+          <div class="section-label">Private Opportunities</div>
+
+          <div class="role-card">
+            <div class="role-tag">Editorial · Full-Time</div>
+            <div class="role-title">Fashion Director</div>
+            <div class="role-brand">Vogue UK</div>
+            <div class="role-footer">
+              <span class="role-loc">London, UK</span>
+              <span class="role-pill">14 applicants</span>
+            </div>
+          </div>
+
+          <div class="role-card">
+            <div class="role-tag">Creative · Consultancy</div>
+            <div class="role-title">Creative Director</div>
+            <div class="role-brand">Hermès</div>
+            <div class="role-footer">
+              <span class="role-loc">Paris, FR</span>
+              <span class="role-pill">6 applicants</span>
+            </div>
+          </div>
+
+          <!-- Introductions -->
+          <div class="section-label" style="margin-top:10px;">Introductions</div>
+
+          <div class="intro-card">
+            <div class="avatar">M</div>
+            <div class="intro-info">
+              <div class="intro-name">Margot Allard</div>
+              <div class="intro-role">Styling Director · Paris</div>
+            </div>
+            <div class="intro-badge">New ✦</div>
+          </div>
+
+          <div class="intro-card">
+            <div class="avatar">J</div>
+            <div class="intro-info">
+              <div class="intro-name">James Okonkwo</div>
+              <div class="intro-role">Art Director · London</div>
+            </div>
+            <div class="intro-badge">Today</div>
+          </div>
+
+          <!-- Tab bar -->
+          <div class="tab-bar">
+            <div class="tab active">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+              <span class="tab-label">Home</span>
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+              <span class="tab-label">Roles</span>
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+              <span class="tab-label">Intros</span>
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+              <span class="tab-label">Events</span>
+            </div>
+            <div class="tab">
+              <div class="tab-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="tab-label">Me</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom brand -->
+<div class="bottom-brand">
+  <span class="bottom-text">Available on the App Store</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 01 — Research & Vision</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0e; --mid: #787876; --muted: #b4b4b2;
+  --rule: #dcdcda; --elv: #f4f4f2; --surf: #fcfcfa;
+  --display: 'Cormorant Garamond', serif;
+  --body: 'Inter', sans-serif;
+}
+body { font-family: var(--body); background: #fff; color: var(--ink); line-height: 1; }
+
+.bar {
+  background: var(--ink); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+
+.page { padding: 72px 80px 80px; }
+
+/* ── Opening statement ── */
+.opening {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 64px;
+}
+.opening-left h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 60px;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  margin-bottom: 24px;
+}
+.opening-left .brief {
+  font-size: 14px; font-weight: 300; color: var(--mid);
+  line-height: 1.8; max-width: 480px;
+}
+.opening-right {
+  display: flex; flex-direction: column; gap: 24px;
+  padding-top: 8px;
+}
+.constraint {
+  border-left: 2px solid var(--rule);
+  padding: 0 0 0 20px;
+}
+.constraint-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.constraint-text { font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+/* ── Two users ── */
+.who-section { margin-bottom: 64px; }
+.section-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--display);
+  font-size: 38px; font-weight: 300;
+  margin-bottom: 40px; line-height: 1.1;
+}
+.user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.user-card {
+  border: 1px solid var(--rule);
+  padding: 36px;
+}
+.user-card + .user-card { border-left: none; }
+.user-tag {
+  display: inline-block;
+  font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid var(--rule); padding: 5px 12px; color: var(--mid);
+  margin-bottom: 20px;
+}
+.user-name {
+  font-family: var(--display);
+  font-size: 48px; font-weight: 300; line-height: 1.05;
+  margin-bottom: 6px;
+}
+.user-role { font-size: 13px; font-weight: 300; color: var(--muted); margin-bottom: 28px; }
+
+.attr-list { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--rule); }
+.attr-row {
+  display: grid; grid-template-columns: 110px 1fr;
+  border-bottom: 1px solid var(--rule);
+  padding: 12px 0; align-items: baseline; gap: 16px;
+}
+.attr-key {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.attr-val { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.6; }
+
+/* ── What the site needs to do ── */
+.needs-section { margin-bottom: 64px; }
+.needs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.need-card {
+  padding: 32px; border: 1px solid var(--rule);
+}
+.need-card + .need-card { border-left: none; }
+.need-num {
+  font-size: 32px; font-weight: 300; color: var(--rule);
+  font-family: var(--display); margin-bottom: 16px;
+}
+.need-title {
+  font-size: 14px; font-weight: 500; margin-bottom: 10px;
+}
+.need-body { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; }
+
+/* ── Aesthetic brief ── */
+.aesthetic-section {}
+.ref-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin-bottom: 2px;
+}
+.ref-block {
+  padding: 28px 28px 24px;
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 0;
+}
+.ref-block:last-child { border-right: none; }
+.ref-name {
+  font-family: var(--display);
+  font-size: 28px; font-weight: 300;
+  margin-bottom: 4px;
+}
+.ref-role-text { font-size: 10px; font-weight: 300; color: var(--muted); margin-bottom: 20px; letter-spacing: 0.02em; }
+.ref-takeaway { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.7; }
+
+.aesthetic-decision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-top: none;
+}
+.adec-col { padding: 28px 32px; }
+.adec-col:first-child { border-right: 1px solid var(--rule); }
+.adec-title {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.adec-item {
+  font-size: 13px; font-weight: 300; color: var(--mid);
+  padding: 8px 0; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: 12px; line-height: 1.5;
+}
+.adec-item:last-child { border-bottom: none; }
+.adec-item .marker { font-size: 10px; color: var(--muted); flex-shrink: 0; }
+.adec-item.kept .marker { color: #4a8050; }
+.adec-item.dropped .marker { color: #a06060; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 01  /  Research & Vision
+  <em>Who is this for. What does it need to feel like.</em>
+</div>
+
+<div class="page">
+
+  <!-- Opening -->
+  <div class="opening">
+    <div class="opening-left">
+      <h1>Coterie is not a marketplace.<br>It is a membership.</h1>
+      <p class="brief">
+        The starting point wasn't a list of features. It was a question: what does a platform look like when the people on it are already established? No portfolio-building. No public profiles. No cold outreach. The website had to communicate exclusivity before anyone read a single word.
+      </p>
+    </div>
+    <div class="opening-right">
+      <div class="constraint">
+        <p class="constraint-label">The brief</p>
+        <p class="constraint-text">Build a website for a private fashion industry network. Two audiences — creative freelancers, and the luxury brands that hire them. Access by application only.</p>
+      </div>
+      <div class="constraint">
+        <p class="constraint-label">The tone</p>
+        <p class="constraint-text">Not a startup. Not a job board. Closer to a members' club. The website should feel like receiving an invitation, not downloading an app.</p>
+      </div>
+      <div class="constraint">
+        <p class="constraint-label">The constraint</p>
+        <p class="constraint-text">Nothing on the site should feel loud. No bold claims. No hero images. No bright buttons. The restraint is the signal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Who this is for -->
+  <div class="who-section">
+    <p class="section-eyebrow">Users</p>
+    <h2 class="section-heading">Two very different people.<br>One website.</h2>
+
+    <div class="user-grid">
+      <div class="user-card">
+        <span class="user-tag">Persona A</span>
+        <div class="user-name">The Creative</div>
+        <p class="user-role">Creative Freelancer — Stylist, Photographer, Art Director</p>
+        <div class="attr-list">
+          <div class="attr-row">
+            <span class="attr-key">Experience</span>
+            <span class="attr-val">8–15 years. Already established. Not looking to build a portfolio.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Problem</span>
+            <span class="attr-val">No platform speaks to their level. Everything feels junior or too public.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Fear</span>
+            <span class="attr-val">Being seen on a platform that cheapens what they do.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Need from site</span>
+            <span class="attr-val">To feel like this is built for them. Private. Serious. Not mass-market.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-card">
+        <span class="user-tag">Persona B</span>
+        <div class="user-name">The Brand</div>
+        <p class="user-role">Fashion House, Luxury Agency, PR Firm — Creative Director or Head of Production</p>
+        <div class="attr-list">
+          <div class="attr-row">
+            <span class="attr-key">Context</span>
+            <span class="attr-val">Hires creative talent frequently. Needs discretion. No public casting.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Problem</span>
+            <span class="attr-val">Agencies are slow and expensive. Word-of-mouth only goes so far.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Fear</span>
+            <span class="attr-val">Wrong person attached to the brand. Risk to reputation.</span>
+          </div>
+          <div class="attr-row">
+            <span class="attr-key">Need from site</span>
+            <span class="attr-val">Confidence that every person here has been vetted. No noise.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What the site needs to do -->
+  <div class="needs-section">
+    <p class="section-eyebrow">Goals</p>
+    <h2 class="section-heading">What the website must achieve.</h2>
+    <div class="needs-grid">
+      <div class="need-card">
+        <div class="need-num">01</div>
+        <p class="need-title">Communicate exclusivity immediately</p>
+        <p class="need-body">Before the user reads anything, the design itself — the whitespace, the typeface, the restraint — has to signal that this is not for everyone.</p>
+      </div>
+      <div class="need-card">
+        <div class="need-num">02</div>
+        <p class="need-title">Explain the model clearly</p>
+        <p class="need-body">Two different audiences need to understand how it works. Not through long copy. Through structure — a logical flow from landing to application.</p>
+      </div>
+      <div class="need-card">
+        <div class="need-num">03</div>
+        <p class="need-title">Drive a single action</p>
+        <p class="need-body">The only goal is the application. Every section, every heading, every CTA points to one place. Nothing competes with it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aesthetic references -->
+  <div class="aesthetic-section">
+    <p class="section-eyebrow">References</p>
+    <h2 class="section-heading">What we looked at before designing anything.</h2>
+
+    <div class="ref-row">
+      <div class="ref-block">
+        <div class="ref-name">The Row</div>
+        <p class="ref-role-text">Primary reference — full aesthetic</p>
+        <p class="ref-takeaway">The most important reference. Total restraint. No images on the homepage. Typography as the only design element. Every spacing decision communicates quality without saying a word.</p>
+      </div>
+      <div class="ref-block">
+        <div class="ref-name">Lemaire</div>
+        <p class="ref-role-text">Tone and spacing</p>
+        <p class="ref-takeaway">Generous line height. Body copy treated as a luxury signal — not a footnote. The navigation is so understated you almost miss it. Taught us how to use silence.</p>
+      </div>
+      <div class="ref-block">
+        <div class="ref-name">Toteme</div>
+        <p class="ref-role-text">Grid and layout rhythm</p>
+        <p class="ref-takeaway">Strict column structure. Horizontal rules used as the only visual dividers. Consistent section-to-section rhythm. No section tries to be more important than any other.</p>
+      </div>
+      <div class="ref-block">
+        <div class="ref-name">Jil Sander</div>
+        <p class="ref-role-text">Copywriting register</p>
+        <p class="ref-takeaway">Short, declarative sentences. Nothing explained twice. Trust implied, never stated. The copy doesn't convince — it informs. That's the register we aimed for.</p>
+      </div>
+    </div>
+
+    <div class="aesthetic-decision">
+      <div class="adec-col">
+        <p class="adec-title">Design directions adopted</p>
+        <div class="adec-item kept"><span class="marker">✓</span><span>Maximum white space — the layout breathes</span></div>
+        <div class="adec-item kept"><span class="marker">✓</span><span>Serif at weight 300 — quiet, not authoritative</span></div>
+        <div class="adec-item kept"><span class="marker">✓</span><span>No hero images — the headline is the visual</span></div>
+        <div class="adec-item kept"><span class="marker">✓</span><span>Horizontal rules as the only dividers</span></div>
+        <div class="adec-item kept"><span class="marker">✓</span><span>No accent colour — everything is black, white, grey</span></div>
+        <div class="adec-item kept"><span class="marker">✓</span><span>Short copy — nothing over two sentences per section</span></div>
+      </div>
+      <div class="adec-col">
+        <p class="adec-title">Design directions rejected</p>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Photography-led hero — wrong for a service platform</span></div>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Filled CTA buttons — too loud, too product-app</span></div>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Gradient backgrounds — decorative, adds no meaning</span></div>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Icon sets — visual noise, doesn't fit the register</span></div>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Social proof carousels — undermines the exclusivity</span></div>
+        <div class="adec-item dropped"><span class="marker">✗</span><span>Showing pricing upfront — premature, wrong order</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

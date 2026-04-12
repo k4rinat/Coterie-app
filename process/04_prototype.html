@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 04 — Prototype Development</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --c-bg: #ffffff; --c-ink: #0e0e0e; --c-mid: #787876; --c-muted: #b4b4b2;
+    --c-rule: #dcdcda; --c-elv: #f4f4f2; --c-surf: #fcfcfa;
+    --f-display: 'Cormorant Garamond', serif; --f-body: 'Inter', sans-serif;
+  }
+  body { font-family: var(--f-body); background: #fff; color: var(--c-ink); }
+  .stagebar {
+    background: var(--c-ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .stagebar span { color: #666; font-weight: 300; }
+  .page { padding: 64px 80px; display: flex; flex-direction: column; gap: 72px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--c-muted); margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: var(--f-display); font-weight: 300; font-size: 36px;
+    line-height: 1.1; margin-bottom: 32px;
+  }
+  .rule { border: none; border-top: 1px solid var(--c-rule); }
+
+  /* ── Tokens section ─────────────────────────── */
+  .tokens-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .code-block {
+    background: #141416;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  .code-toolbar {
+    background: #202022;
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid #333;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #c4534f; }
+  .dot-y { background: #e8c057; }
+  .dot-g { background: #72af64; }
+  .code-filename { font-size: 11px; color: #666; margin-left: 8px; font-family: 'Courier New', monospace; }
+  .code-body { padding: 20px 24px; }
+  .code-line { display: block; white-space: pre; color: #d4d4d4; }
+  .code-comment { color: #6a7e8c; }
+  .code-prop { color: #b4c8e8; }
+  .code-val { color: #c8d8b0; }
+  .code-selector { color: #e8c880; }
+
+  .token-notes { display: flex; flex-direction: column; gap: 28px; padding-top: 4px; }
+  .token-note { border-left: 1px solid var(--c-rule); padding: 0 0 0 20px; }
+  .tn-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .tn-body { font-size: 12px; font-weight: 300; color: var(--c-mid); line-height: 1.7; }
+
+  /* ── Section component ──────────────────────── */
+  .component-anatomy {
+    border: 1px solid var(--c-rule);
+    overflow: hidden;
+  }
+  .layer {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--c-rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .layer:last-child { border-bottom: none; }
+  .layer-1 { background: var(--c-elv); padding-left: 24px; }
+  .layer-2 { background: var(--c-surf); padding-left: 44px; }
+  .layer-3 { background: #fff; padding-left: 64px; }
+  .layer-4 { background: #f9fcf9; padding-left: 84px; min-height: 80px; }
+  .layer-tag { font-family: 'Courier New', monospace; font-size: 12px; color: var(--c-mid); }
+  .layer-note { font-size: 11px; font-weight: 300; color: var(--c-mid); max-width: 420px; text-align: right; line-height: 1.5; }
+
+  /* ── Dark/light toggle ──────────────────────── */
+  .toggle-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--c-rule);
+  }
+  .demo-panel { padding: 0; }
+  .demo-panel-label {
+    padding: 14px 24px;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid var(--c-rule);
+    color: var(--c-muted);
+  }
+  .demo-panel.dark { background: #0c0c0c; border-left: 1px solid #333; }
+  .demo-panel.dark .demo-panel-label { color: #555; border-bottom-color: #333; }
+
+  /* Tiny page mock */
+  .mini-page { padding: 20px 24px; display: flex; flex-direction: column; gap: 0; }
+  .mini-nav {
+    background: var(--c-elv); padding: 10px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid var(--c-rule); margin-bottom: 2px;
+    font-size: 11px;
+  }
+  .mini-nav-wm { font-family: var(--f-display); font-size: 16px; font-weight: 300; }
+  .mini-nav-cta { font-size: 10px; font-weight: 300; }
+
+  .mini-hero {
+    padding: 28px 16px; border: 1px solid var(--c-rule); margin-bottom: 2px;
+  }
+  .mini-hero h2 { font-family: var(--f-display); font-weight: 300; font-size: 26px; line-height: 1.15; margin-bottom: 10px; }
+  .mini-hero p { font-size: 10px; font-weight: 300; color: var(--c-mid); }
+
+  .mini-pillars {
+    background: var(--c-elv); border: 1px solid var(--c-rule);
+    padding: 14px 16px; display: flex; justify-content: space-around;
+    font-size: 11px; font-weight: 500; margin-bottom: 2px;
+  }
+
+  .mini-cards {
+    border: 1px solid var(--c-rule); padding: 14px 16px;
+    display: flex; gap: 8px; margin-bottom: 2px;
+  }
+  .mini-card {
+    flex: 1; border: 1px solid var(--c-rule);
+    padding: 12px; font-size: 10px; font-weight: 300; color: var(--c-mid);
+    text-align: center;
+  }
+
+  .mini-footer {
+    background: #0e0e0e; padding: 10px 16px;
+    font-size: 9px; font-weight: 300; color: #666; text-align: center;
+  }
+
+  /* Dark versions */
+  .dark .mini-nav { background: #1a1a1c; border-color: #333; color: #f2f1ef; }
+  .dark .mini-nav-cta { color: #f2f1ef; }
+  .dark .mini-hero { background: #181818; border-color: #333; }
+  .dark .mini-hero h2 { color: #f2f1ef; }
+  .dark .mini-hero p { color: #8c8c91; }
+  .dark .mini-pillars { background: #282828; border-color: #333; color: #f2f1ef; }
+  .dark .mini-cards { background: #181818; border-color: #333; }
+  .dark .mini-card { border-color: #404042; color: #8c8c91; }
+  .dark .mini-footer { background: #0a0a0a; color: #444; }
+
+  .toggle-note {
+    padding: 16px 24px;
+    font-size: 11px; font-weight: 300; color: var(--c-mid);
+    border-top: 1px solid var(--c-rule);
+    grid-column: 1 / -1;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+</style>
+</head>
+<body>
+
+<div class="stagebar">
+  Stage 04  /  Prototype Development
+  <span>Tokens · Components · Dark Mode</span>
+</div>
+
+<div class="page">
+
+  <!-- TOKENS -->
+  <div>
+    <span class="section-label">Design Tokens</span>
+    <h2 class="section-title">globals.css — all decisions in one place.</h2>
+
+    <div class="tokens-layout">
+      <div class="code-block">
+        <div class="code-toolbar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="code-filename">globals.css</span>
+        </div>
+        <div class="code-body">
+<span class="code-line code-comment">/* Single source of truth for all colour */</span>
+<span class="code-line"></span>
+<span class="code-line code-selector">:root {</span>
+<span class="code-line code-comment">  /* backgrounds */</span>
+<span class="code-line"><span class="code-prop">  --c-bg</span>:       <span class="code-val">#ffffff</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-surface</span>:  <span class="code-val">#fcfcfa</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-elevated</span>: <span class="code-val">#f4f4f2</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-rule</span>:     <span class="code-val">#dcdcda</span>;</span>
+<span class="code-line"></span>
+<span class="code-line code-comment">  /* text */</span>
+<span class="code-line"><span class="code-prop">  --c-muted</span>:    <span class="code-val">#b4b4b2</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-mid</span>:      <span class="code-val">#787876</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-ink</span>:      <span class="code-val">#0e0e0e</span>;</span>
+<span class="code-line"></span>
+<span class="code-line code-comment">  /* typography */</span>
+<span class="code-line"><span class="code-prop">  --f-display</span>:  <span class="code-val">'Cormorant Garamond'</span>, serif;</span>
+<span class="code-line"><span class="code-prop">  --f-body</span>:     <span class="code-val">'Inter'</span>, sans-serif;</span>
+<span class="code-line"><span class="code-prop">  --fw-light</span>:   <span class="code-val">300</span>;</span>
+<span class="code-line"><span class="code-prop">  --fw-mid</span>:     <span class="code-val">500</span>;</span>
+<span class="code-line code-selector">}</span>
+<span class="code-line"></span>
+<span class="code-selector"><span class="code-line">[data-theme='dark'] {</span></span>
+<span class="code-line"><span class="code-prop">  --c-bg</span>:       <span class="code-val">#0c0c0c</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-surface</span>:  <span class="code-val">#181818</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-elevated</span>: <span class="code-val">#282828</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-rule</span>:     <span class="code-val">#404042</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-muted</span>:    <span class="code-val">#8c8c91</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-mid</span>:      <span class="code-val">#bebec3</span>;</span>
+<span class="code-line"><span class="code-prop">  --c-ink</span>:      <span class="code-val">#f2f1ef</span>;</span>
+<span class="code-line code-selector">}</span>
+        </div>
+      </div>
+
+      <div class="token-notes">
+        <div class="token-note">
+          <p class="tn-title">Named by purpose, not colour</p>
+          <p class="tn-body">--c-ink instead of --black. When dark mode flips it to near-white, the token name still makes sense. No confusion, no rewrites.</p>
+        </div>
+        <div class="token-note">
+          <p class="tn-title">Dark mode = one override block</p>
+          <p class="tn-body">data-theme="dark" just redefines the same variables. Every component updates automatically — no duplicate CSS, no JavaScript required.</p>
+        </div>
+        <div class="token-note">
+          <p class="tn-title">Tailwind maps to the tokens</p>
+          <p class="tn-body">tailwind.config.js points text-ink, bg-surface, border-rule etc. at these CSS variables — so utility classes always match the active theme.</p>
+        </div>
+        <div class="token-note">
+          <p class="tn-title">One file to change the whole site</p>
+          <p class="tn-body">Every colour decision lives here. Nothing hardcoded in any component. Change --c-ink and every heading, button, and rule updates instantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION COMPONENT -->
+  <div>
+    <span class="section-label">Component Architecture</span>
+    <h2 class="section-title">Section component — one building block for every page.</h2>
+
+    <div class="component-anatomy">
+      <div class="layer layer-1">
+        <span class="layer-tag">&lt;section className="py-24 w-full"&gt;</span>
+        <span class="layer-note">Full page width · vertical padding from design token</span>
+      </div>
+      <div class="layer layer-2">
+        <span class="layer-tag">&lt;div className="max-w-4xl mx-auto px-6"&gt;</span>
+        <span class="layer-note">Max-width 896px · horizontally centred · consistent side padding</span>
+      </div>
+      <div class="layer layer-3">
+        <span class="layer-tag">&lt;header&gt; (optional)</span>
+        <span class="layer-note">Stage label in small caps + section heading in Cormorant — only when needed</span>
+      </div>
+      <div class="layer layer-4">
+        <span class="layer-tag">{children}</span>
+        <span class="layer-note">Any content — grids, cards, text, lists. Section never dictates this.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DARK / LIGHT -->
+  <div>
+    <span class="section-label">Theme System</span>
+    <h2 class="section-title">Same HTML. Same components. One attribute switches everything.</h2>
+
+    <div class="toggle-demo">
+      <div class="demo-panel light">
+        <div class="demo-panel-label">Light — data-theme="light"</div>
+        <div class="mini-page">
+          <div class="mini-nav">
+            <span class="mini-nav-wm">Coterie</span>
+            <span class="mini-nav-cta">Apply →</span>
+          </div>
+          <div class="mini-hero">
+            <h2>Where Fashion<br>Trusts Talent.</h2>
+            <p>Apply for access</p>
+          </div>
+          <div class="mini-pillars">
+            <span>Verified</span>
+            <span>Private</span>
+            <span>Curated</span>
+          </div>
+          <div class="mini-cards">
+            <div class="mini-card">Creative Member</div>
+            <div class="mini-card">Brand Access</div>
+          </div>
+          <div class="mini-footer">© Coterie 2024</div>
+        </div>
+      </div>
+
+      <div class="demo-panel dark">
+        <div class="demo-panel-label">Dark — data-theme="dark"</div>
+        <div class="mini-page">
+          <div class="mini-nav">
+            <span class="mini-nav-wm">Coterie</span>
+            <span class="mini-nav-cta">Apply →</span>
+          </div>
+          <div class="mini-hero">
+            <h2>Where Fashion<br>Trusts Talent.</h2>
+            <p>Apply for access</p>
+          </div>
+          <div class="mini-pillars">
+            <span>Verified</span>
+            <span>Private</span>
+            <span>Curated</span>
+          </div>
+          <div class="mini-cards">
+            <div class="mini-card">Creative Member</div>
+            <div class="mini-card">Brand Access</div>
+          </div>
+          <div class="mini-footer">© Coterie 2024</div>
+        </div>
+      </div>
+
+      <div class="toggle-note">
+        Zero JavaScript required to switch · No duplicate stylesheets · The entire site responds to one attribute on &lt;html&gt;
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

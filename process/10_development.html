@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 10 — Development</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #fff; color: #0e0e0e; }
+.bar {
+  background: #0e0e0e; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 52px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bar em { color: #555; font-style: normal; font-weight: 300; }
+.page { padding: 72px 80px 80px; display: flex; flex-direction: column; gap: 72px; }
+.section-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 8px; }
+.section-heading { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1.1; margin-bottom: 36px; }
+.section-note { font-size: 13px; font-weight: 300; color: #787876; line-height: 1.7; max-width: 600px; margin-bottom: 36px; margin-top: -24px; }
+
+/* ── Tech stack ── */
+.stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.stack-card { border: 1px solid #dcdcda; padding: 24px 28px; display: flex; flex-direction: column; gap: 8px; }
+.stack-layer { font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; }
+.stack-name { font-size: 16px; font-weight: 500; }
+.stack-version { font-family: 'Courier New', monospace; font-size: 10px; color: #b4b4b2; }
+.stack-reason { font-size: 11px; font-weight: 300; color: #787876; line-height: 1.6; margin-top: 4px; }
+
+/* ── Folder structure ── */
+.folder-tree { border: 1px solid #dcdcda; background: #f9f9f7; padding: 32px 36px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 2; }
+.ft-dir { color: #0e0e0e; font-weight: normal; }
+.ft-file { color: #787876; }
+.ft-note { color: #b4b4b2; font-style: normal; margin-left: 16px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; }
+.ft-indent-1 { padding-left: 20px; }
+.ft-indent-2 { padding-left: 40px; }
+.ft-indent-3 { padding-left: 60px; }
+.ft-indent-4 { padding-left: 80px; }
+
+/* ── Route table ── */
+.route-table { border: 1px solid #dcdcda; }
+.rt-header { display: grid; grid-template-columns: 220px 1fr 1fr; background: #0e0e0e; }
+.rt-hcell { padding: 12px 20px; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #555; border-right: 1px solid #333; }
+.rt-hcell:last-child { border-right: none; }
+.rt-row { display: grid; grid-template-columns: 220px 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.rt-row:last-child { border-bottom: none; }
+.rt-row:nth-child(even) .rt-cell { background: #fcfcfa; }
+.rt-cell { padding: 16px 20px; font-size: 12px; font-weight: 300; color: #787876; border-right: 1px solid #dcdcda; line-height: 1.6; }
+.rt-cell:last-child { border-right: none; }
+.rt-cell.route { font-family: 'Courier New', monospace; font-size: 11px; font-weight: normal; color: #0e0e0e; }
+.rt-cell.audience { font-weight: 500; color: #0e0e0e; font-size: 12px; }
+
+/* ── Component table ── */
+.comp-table { border: 1px solid #dcdcda; }
+.ct-header { display: grid; grid-template-columns: 200px 1fr 1fr; background: #0e0e0e; }
+.ct-hcell { padding: 12px 20px; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #555; border-right: 1px solid #333; }
+.ct-hcell:last-child { border-right: none; }
+.ct-row { display: grid; grid-template-columns: 200px 1fr 1fr; border-bottom: 1px solid #dcdcda; }
+.ct-row:last-child { border-bottom: none; }
+.ct-row:nth-child(even) .ct-cell { background: #fcfcfa; }
+.ct-cell { padding: 16px 20px; font-size: 12px; font-weight: 300; color: #787876; border-right: 1px solid #dcdcda; line-height: 1.6; }
+.ct-cell:last-child { border-right: none; }
+.ct-cell.name { font-family: 'Courier New', monospace; font-size: 11px; font-weight: normal; color: #0e0e0e; }
+
+/* ── CSS token system ── */
+.token-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.token-col { border: 1px solid #dcdcda; }
+.token-col-header { padding: 14px 24px; border-bottom: 1px solid #dcdcda; font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+.token-col-header.dark { background: #0e0e0e; color: #555; }
+.token-col-header.light { background: #f4f4f2; color: #b4b4b2; }
+.token-list { padding: 0; }
+.token-row { display: grid; grid-template-columns: 140px 1fr 40px; border-bottom: 1px solid #dcdcda; align-items: center; }
+.token-row:last-child { border-bottom: none; }
+.token-name { padding: 12px 20px; font-family: 'Courier New', monospace; font-size: 10px; color: #787876; border-right: 1px solid #dcdcda; }
+.token-val { padding: 12px 20px; font-size: 11px; font-weight: 300; color: #b4b4b2; font-family: 'Courier New', monospace; border-right: 1px solid #dcdcda; }
+.token-swatch { width: 20px; height: 20px; border-radius: 2px; margin: auto; }
+
+/* ── Architecture decisions ── */
+.arch-list { display: flex; flex-direction: column; gap: 2px; }
+.arch-item { display: grid; grid-template-columns: 220px 1fr 1fr; border: 1px solid #dcdcda; }
+.ai-decision { padding: 24px 28px; border-right: 1px solid #dcdcda; }
+.ai-decision-label { font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 6px; }
+.ai-decision-name { font-size: 14px; font-weight: 500; }
+.ai-what { padding: 24px 28px; border-right: 1px solid #dcdcda; font-size: 12px; font-weight: 300; color: #787876; line-height: 1.7; }
+.ai-why { padding: 24px 28px; font-size: 12px; font-weight: 300; color: #4a8050; line-height: 1.7; }
+
+/* ── Dual audience layout ── */
+.audience-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.aud-card { border: 1px solid #dcdcda; padding: 32px; }
+.aud-label { font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: #b4b4b2; margin-bottom: 12px; }
+.aud-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; margin-bottom: 16px; }
+.aud-routes { display: flex; flex-direction: column; gap: 0; }
+.aud-route { padding: 8px 0; border-bottom: 1px solid #dcdcda; font-family: 'Courier New', monospace; font-size: 11px; color: #787876; display: flex; justify-content: space-between; }
+.aud-route:last-child { border-bottom: none; }
+.aud-route-note { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 300; color: #b4b4b2; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  Stage 10  /  Development
+  <em>How the design was built — structure, stack, and system.</em>
+</div>
+
+<div class="page">
+
+  <!-- Tech stack -->
+  <div>
+    <p class="section-eyebrow">Technology Stack</p>
+    <h2 class="section-heading">Every tool chosen for a reason,<br>not out of habit.</h2>
+
+    <div class="stack-grid">
+      <div class="stack-card">
+        <span class="stack-layer">Framework</span>
+        <span class="stack-name">Next.js</span>
+        <span class="stack-version">v14.2.21</span>
+        <p class="stack-reason">App Router for clean, nested routing. Server components where content is static. The route group structure /(public) and /app separates the marketing site from the member platform cleanly.</p>
+      </div>
+      <div class="stack-card">
+        <span class="stack-layer">Language</span>
+        <span class="stack-name">TypeScript</span>
+        <span class="stack-version">v5</span>
+        <p class="stack-reason">Type safety across props and data structures. Catches errors at build time rather than runtime — important for a membership-gated app where component props are complex.</p>
+      </div>
+      <div class="stack-card">
+        <span class="stack-layer">Styling</span>
+        <span class="stack-name">Tailwind CSS</span>
+        <span class="stack-version">v3</span>
+        <p class="stack-reason">Utility classes for layout and spacing. The custom design system (colours, typography) lives in globals.css as CSS custom properties — not in Tailwind config — keeping tokens framework-agnostic.</p>
+      </div>
+      <div class="stack-card">
+        <span class="stack-layer">Runtime</span>
+        <span class="stack-name">React</span>
+        <span class="stack-version">v18</span>
+        <p class="stack-reason">Used for interactive client components — the theme toggle (ThemeContext), auth state (AuthContext), the custom cursor (CustomCursor), and the FAQ accordion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder structure -->
+  <div>
+    <p class="section-eyebrow">Project Structure</p>
+    <h2 class="section-heading">The folder structure mirrors<br>the two audiences of the site.</h2>
+
+    <div class="folder-tree">
+      <div class="ft-dir">src/</div>
+      <div class="ft-indent-1 ft-dir">app/</div>
+      <div class="ft-indent-2 ft-dir">(public)/  <span class="ft-note">— marketing site, no auth required</span></div>
+      <div class="ft-indent-3 ft-file">home/page.tsx  <span class="ft-note">— homepage</span></div>
+      <div class="ft-indent-3 ft-file">how-it-works/page.tsx</div>
+      <div class="ft-indent-3 ft-file">pricing/page.tsx</div>
+      <div class="ft-indent-3 ft-file">apply/page.tsx</div>
+      <div class="ft-indent-3 ft-file">brands/page.tsx</div>
+      <div class="ft-indent-3 ft-file">faq/page.tsx</div>
+      <div class="ft-indent-3 ft-file">sign-in/page.tsx</div>
+      <div class="ft-indent-3 ft-file">contact/page.tsx</div>
+      <div class="ft-indent-3 ft-file">privacy/page.tsx  <span class="ft-note">— legal pages</span></div>
+      <div class="ft-indent-3 ft-file">terms/page.tsx</div>
+      <div class="ft-indent-3 ft-file">cookies/page.tsx</div>
+      <div class="ft-indent-3 ft-file">accessibility/page.tsx</div>
+      <div class="ft-indent-3 ft-file">layout.tsx  <span class="ft-note">— shared nav + footer for public pages</span></div>
+      <div class="ft-indent-2 ft-dir">app/  <span class="ft-note">— member platform, auth-gated</span></div>
+      <div class="ft-indent-3 ft-file">page.tsx  <span class="ft-note">— member dashboard</span></div>
+      <div class="ft-indent-3 ft-file">profile/page.tsx</div>
+      <div class="ft-indent-3 ft-file">opportunities/page.tsx</div>
+      <div class="ft-indent-3 ft-file">introductions/page.tsx</div>
+      <div class="ft-indent-3 ft-file">events/page.tsx</div>
+      <div class="ft-indent-3 ft-file">subscription/page.tsx</div>
+      <div class="ft-indent-3 ft-file">AuthGuard.tsx  <span class="ft-note">— protects all /app routes</span></div>
+      <div class="ft-indent-3 ft-file">layout.tsx  <span class="ft-note">— sidebar layout for the platform</span></div>
+      <div class="ft-indent-2 ft-file">globals.css  <span class="ft-note">— design tokens, font registration, base styles</span></div>
+      <div class="ft-indent-2 ft-file">layout.tsx  <span class="ft-note">— root layout, font loading, theme init</span></div>
+      <div class="ft-indent-2 ft-file">page.tsx  <span class="ft-note">— root redirect → /home</span></div>
+      <div class="ft-indent-1 ft-dir">components/  <span class="ft-note">— shared UI components</span></div>
+      <div class="ft-indent-2 ft-file">Navbar.tsx</div>
+      <div class="ft-indent-2 ft-file">Footer.tsx</div>
+      <div class="ft-indent-2 ft-file">AppSidebar.tsx  <span class="ft-note">— platform sidebar nav</span></div>
+      <div class="ft-indent-2 ft-file">FAQ.tsx</div>
+      <div class="ft-indent-2 ft-file">Card.tsx</div>
+      <div class="ft-indent-2 ft-file">FormField.tsx</div>
+      <div class="ft-indent-2 ft-file">Section.tsx</div>
+      <div class="ft-indent-2 ft-file">Stepper.tsx</div>
+      <div class="ft-indent-2 ft-file">CustomCursor.tsx  <span class="ft-note">— custom cursor replacing system default</span></div>
+      <div class="ft-indent-2 ft-file">OpportunityDrawer.tsx</div>
+      <div class="ft-indent-1 ft-dir">contexts/  <span class="ft-note">— React context providers</span></div>
+      <div class="ft-indent-2 ft-file">AuthContext.tsx  <span class="ft-note">— user auth state across the app</span></div>
+      <div class="ft-indent-2 ft-file">ThemeContext.tsx  <span class="ft-note">— light/dark mode toggle state</span></div>
+    </div>
+  </div>
+
+  <!-- Dual audience architecture -->
+  <div>
+    <p class="section-eyebrow">Dual Audience Architecture</p>
+    <h2 class="section-heading">Two separate route trees.<br>One codebase.</h2>
+
+    <div class="audience-split">
+      <div class="aud-card">
+        <p class="aud-label">Marketing Site — (public)</p>
+        <p class="aud-title">What the world sees</p>
+        <div class="aud-routes">
+          <div class="aud-route"><span>/home</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/how-it-works</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/pricing</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/apply</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/brands</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/faq</span><span class="aud-route-note">No auth</span></div>
+          <div class="aud-route"><span>/sign-in</span><span class="aud-route-note">No auth</span></div>
+        </div>
+      </div>
+      <div class="aud-card">
+        <p class="aud-label">Member Platform — /app</p>
+        <p class="aud-title">What members see inside</p>
+        <div class="aud-routes">
+          <div class="aud-route"><span>/app</span><span class="aud-route-note">Auth required</span></div>
+          <div class="aud-route"><span>/app/profile</span><span class="aud-route-note">Auth required</span></div>
+          <div class="aud-route"><span>/app/opportunities</span><span class="aud-route-note">Auth required</span></div>
+          <div class="aud-route"><span>/app/introductions</span><span class="aud-route-note">Auth required</span></div>
+          <div class="aud-route"><span>/app/events</span><span class="aud-route-note">Auth required</span></div>
+          <div class="aud-route"><span>/app/subscription</span><span class="aud-route-note">Auth required</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSS token system -->
+  <div>
+    <p class="section-eyebrow">CSS Token System</p>
+    <h2 class="section-heading">One set of tokens.<br>Two complete themes.</h2>
+    <p class="section-note">All colours are defined as CSS custom properties in globals.css and consumed as rgb() values. Switching themes is a single data-theme attribute on the html element — no JavaScript repaints, no class toggling per component.</p>
+
+    <div class="token-grid">
+      <div class="token-col">
+        <div class="token-col-header dark">Dark theme (default)</div>
+        <div class="token-list">
+          <div class="token-row">
+            <span class="token-name">--c-bg</span>
+            <span class="token-val">10 10 10</span>
+            <div class="token-swatch" style="background:rgb(10,10,10);border:1px solid #333"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-surface</span>
+            <span class="token-val">28 28 30</span>
+            <div class="token-swatch" style="background:rgb(28,28,30);border:1px solid #333"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-elevated</span>
+            <span class="token-val">44 44 46</span>
+            <div class="token-swatch" style="background:rgb(44,44,46);border:1px solid #333"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-border</span>
+            <span class="token-val">48 48 50</span>
+            <div class="token-swatch" style="background:rgb(48,48,50);border:1px solid #333"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-text</span>
+            <span class="token-val">242 242 242</span>
+            <div class="token-swatch" style="background:rgb(242,242,242);border:1px solid #333"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-muted</span>
+            <span class="token-val">142 142 147</span>
+            <div class="token-swatch" style="background:rgb(142,142,147);border:1px solid #333"></div>
+          </div>
+        </div>
+      </div>
+      <div class="token-col">
+        <div class="token-col-header light">Light theme</div>
+        <div class="token-list">
+          <div class="token-row">
+            <span class="token-name">--c-bg</span>
+            <span class="token-val">250 250 248</span>
+            <div class="token-swatch" style="background:rgb(250,250,248);border:1px solid #dcdcda"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-surface</span>
+            <span class="token-val">255 255 255</span>
+            <div class="token-swatch" style="background:rgb(255,255,255);border:1px solid #dcdcda"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-elevated</span>
+            <span class="token-val">237 237 235</span>
+            <div class="token-swatch" style="background:rgb(237,237,235);border:1px solid #dcdcda"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-border</span>
+            <span class="token-val">220 218 212</span>
+            <div class="token-swatch" style="background:rgb(220,218,212);border:1px solid #dcdcda"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-text</span>
+            <span class="token-val">11 11 11</span>
+            <div class="token-swatch" style="background:rgb(11,11,11);border:1px solid #dcdcda"></div>
+          </div>
+          <div class="token-row">
+            <span class="token-name">--c-muted</span>
+            <span class="token-val">148 146 140</span>
+            <div class="token-swatch" style="background:rgb(148,146,140);border:1px solid #dcdcda"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared components -->
+  <div>
+    <p class="section-eyebrow">Shared Components</p>
+    <h2 class="section-heading">Components built once,<br>used across both site and platform.</h2>
+
+    <div class="comp-table">
+      <div class="ct-header">
+        <div class="ct-hcell">Component</div>
+        <div class="ct-hcell">What it does</div>
+        <div class="ct-hcell">Where it's used</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">Navbar.tsx</div>
+        <div class="ct-cell">Top navigation bar with wordmark, links, theme toggle, and CTA. Responds to scroll position — gains a background on scroll.</div>
+        <div class="ct-cell">All (public) marketing pages via the public layout</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">Footer.tsx</div>
+        <div class="ct-cell">Full-width dark footer. Wordmark left, nav links centre, copyright right. No social links, no newsletter.</div>
+        <div class="ct-cell">All (public) marketing pages</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">AppSidebar.tsx</div>
+        <div class="ct-cell">Left-side navigation for the member platform. Collapsible. Shows member name, avatar, and platform links.</div>
+        <div class="ct-cell">All /app platform pages</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">FAQ.tsx</div>
+        <div class="ct-cell">Accordion component — question row expands to show answer. Only one open at a time.</div>
+        <div class="ct-cell">/faq page, /pricing page</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">FormField.tsx</div>
+        <div class="ct-cell">Labelled input wrapper. Handles text inputs and textareas with consistent styling and error state.</div>
+        <div class="ct-cell">/apply, /contact, /book-demo</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">CustomCursor.tsx</div>
+        <div class="ct-cell">Replaces the system cursor with a minimal dot that scales on hover. Implemented as a client component tracking mouse position.</div>
+        <div class="ct-cell">Root layout — active across all pages</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">ThemeContext.tsx</div>
+        <div class="ct-cell">Manages light/dark mode state. Persists preference. Sets data-theme on the html element to trigger CSS token switching.</div>
+        <div class="ct-cell">Root layout — wraps entire app</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">AuthContext.tsx</div>
+        <div class="ct-cell">Holds user authentication state. Provides login/logout methods. Used by AuthGuard to protect platform routes.</div>
+        <div class="ct-cell">Root layout — wraps entire app</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">OpportunityDrawer.tsx</div>
+        <div class="ct-cell">Slide-in panel showing full job opportunity detail. Opens from the opportunities list without navigating away.</div>
+        <div class="ct-cell">/app/opportunities</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell name">Stepper.tsx</div>
+        <div class="ct-cell">Multi-step progress indicator for the application flow. Shows current step and total steps.</div>
+        <div class="ct-cell">/apply</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Architecture decisions -->
+  <div>
+    <p class="section-eyebrow">Architecture Decisions</p>
+    <h2 class="section-heading">Key structural choices made<br>during the build.</h2>
+
+    <div class="arch-list">
+      <div class="arch-item">
+        <div class="ai-decision">
+          <p class="ai-decision-label">Routing</p>
+          <p class="ai-decision-name">Route groups for separation</p>
+        </div>
+        <div class="ai-what">Next.js route groups — (public) and app — separate the marketing site from the member platform at the folder level. Each has its own layout.tsx defining a completely different shell: Navbar + Footer for marketing, AppSidebar for the platform.</div>
+        <div class="ai-why">A member inside the platform should never see the marketing nav. A visitor should never see the platform sidebar. The separation is structural, not conditional — no logic needed to show or hide navigation.</div>
+      </div>
+      <div class="arch-item">
+        <div class="ai-decision">
+          <p class="ai-decision-label">Theming</p>
+          <p class="ai-decision-name">CSS tokens via data-theme</p>
+        </div>
+        <div class="ai-what">Colours are CSS custom properties defined as raw RGB values (e.g. 10 10 10). Consumed as rgb(var(--c-bg)). Switching themes changes a single data-theme attribute on the html element, which remaps all tokens instantly via CSS cascade.</div>
+        <div class="ai-why">No component needs to know which theme is active. Every element automatically re-renders in the correct palette. Adding a third theme (e.g. a high-contrast mode) would require only a new CSS block in globals.css — nothing else changes.</div>
+      </div>
+      <div class="arch-item">
+        <div class="ai-decision">
+          <p class="ai-decision-label">Auth</p>
+          <p class="ai-decision-name">AuthGuard component</p>
+        </div>
+        <div class="ai-what">A single AuthGuard.tsx component wraps the /app layout. It checks auth state from AuthContext and redirects unauthenticated users to /sign-in. All platform pages are protected automatically without adding auth logic to each page.</div>
+        <div class="ai-why">Centralising auth at the layout level means no individual page can accidentally be left unprotected. New platform pages added under /app are automatically gated — no extra step required.</div>
+      </div>
+      <div class="arch-item">
+        <div class="ai-decision">
+          <p class="ai-decision-label">Cursor</p>
+          <p class="ai-decision-name">Custom cursor as client component</p>
+        </div>
+        <div class="ai-what">The system cursor is hidden via CSS (cursor: none) in globals.css. A client component CustomCursor.tsx tracks mouse position with a mousemove event listener and renders a small dot that follows the cursor. It scales up on interactive element hover.</div>
+        <div class="ai-why">A custom cursor is a detail that aligns with the brand's attention to craft. It's implemented as an isolated client component so it doesn't force the rest of the app into client rendering.</div>
+      </div>
+      <div class="arch-item">
+        <div class="ai-decision">
+          <p class="ai-decision-label">Fonts</p>
+          <p class="ai-decision-name">Next.js font optimisation</p>
+        </div>
+        <div class="ai-what">Cormorant Garamond and Inter are loaded via next/font with display: swap. Fonts are self-hosted and inlined into the page — no external request to Google Fonts at runtime. Defined as CSS custom properties (--font-cormorant, --font-inter) for use across the token system.</div>
+        <div class="ai-why">Self-hosting fonts removes a third-party network dependency and eliminates layout shift. Typography loads instantly with the page rather than after it.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
