@@ -327,7 +327,14 @@ export default function RootLayout() {
           <LanguageProvider>
             <AuthProvider>
               <OnboardingProvider>
-                <RootStack />
+                {/* ModalPortalProvider inside ThemeProvider so portals inherit correct theme */}
+                <ModalPortalProvider>
+                  <View style={{ flex: 1 }}>
+                    <RootStack />
+                    {/* Host placed after RootStack → renders above tab bar in DOM order */}
+                    <ModalPortalHost />
+                  </View>
+                </ModalPortalProvider>
               </OnboardingProvider>
             </AuthProvider>
           </LanguageProvider>
@@ -337,18 +344,7 @@ export default function RootLayout() {
   );
 
   if (Platform.OS === "web") {
-    return (
-      <IPhoneFrame>
-        {/* Provider wraps everything so any screen can mount portals.
-            Host is placed AFTER app content → renders above tab bar in DOM order. */}
-        <ModalPortalProvider>
-          <View style={{ flex: 1 }}>
-            {app}
-            <ModalPortalHost />
-          </View>
-        </ModalPortalProvider>
-      </IPhoneFrame>
-    );
+    return <IPhoneFrame>{app}</IPhoneFrame>;
   }
 
   return app;
