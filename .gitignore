@@ -4,3 +4,9 @@
 
 expo-env.d.ts
 # @end expo-cli
+
+node_modules/
+dist/
+.expo/
+*.log
+.DS_Store
