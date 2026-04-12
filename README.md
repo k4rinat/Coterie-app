@@ -59,3 +59,4 @@ All design tokens live in `constants/Colors.ts`:
 - **RSVP confirmation flow** in Events with multi-step modal
 - **Swipe card stack** for pending introductions with visual accept/decline overlays
 # Coterie-app
+# Coterie.app
