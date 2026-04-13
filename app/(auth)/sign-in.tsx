@@ -57,7 +57,7 @@ function ForgotModal({ visible, onClose }: { visible: boolean; onClose: () => vo
                 </Text>
                 <TouchableOpacity
                   onPress={handleClose}
-                  style={[fm.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16 }]}
+                  style={[fm.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16, alignSelf: "stretch" }]}
                   activeOpacity={0.8}
                 >
                   <Text style={[fm.btnText, { color: theme.invertText }]}>Done</Text>
@@ -172,7 +172,7 @@ function DemoModal({ visible, onClose }: { visible: boolean; onClose: () => void
                   </Text>
                   <TouchableOpacity
                     onPress={handleClose}
-                    style={[dm.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16 }]}
+                    style={[dm.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16, alignSelf: "stretch" }]}
                     activeOpacity={0.8}
                   >
                     <Text style={[dm.btnText, { color: theme.invertText }]}>Done</Text>
@@ -482,7 +482,7 @@ function ApplyModal({ visible, onClose }: { visible: boolean; onClose: () => voi
             </Text>
             <TouchableOpacity
               onPress={handleClose}
-              style={[am.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16, paddingHorizontal: 40 }]}
+              style={[am.btn, { backgroundColor: theme.invertBg, borderRadius: RADIUS.md, marginTop: 16, alignSelf: "stretch" }]}
               activeOpacity={0.8}
             >
               <Text style={[am.btnText, { color: theme.invertText }]}>Close</Text>
